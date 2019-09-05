@@ -1,4 +1,11 @@
 resources:
+
+  - name: myOriginalWebhook
+    type: Webhook
+    configuration:
+      webhookName: trriplejay_ext_hook
+      payload: blah
+
   - name: tr_ext_hook_2
     type: ExternalWebhook
     configuration:
