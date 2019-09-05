@@ -38,6 +38,8 @@ pipelines:
       - name: tr_start_by_hook
         type: Bash
         configuration:
+          environmentVariables:
+            test: $step_name
           inputResources:
             - name: tr_int_hook
           outputResources:
@@ -46,6 +48,7 @@ pipelines:
 
         execution:
           onExecute:
+            - echo "is test stepname? $test"
             - apt-get install -y tree
             - echo "Hello world"
             - echo "payload is $res_tr_int_hook_payload"
