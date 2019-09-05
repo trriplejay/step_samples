@@ -5,10 +5,10 @@ resources:
       webhookName: trriplejay_ext_hook
       method: "PUT"
       path: "/api/v2/test"
-      parameters: "name=$step_name"
+      parameters: "name=pipelinesHook"
       headers:
         content-type: application/json
-        accept: $res_tr_ext_hook_webhookName_webhookURL
+        accept: test-header
 
   - name: tr_int_hook
     type: InternalWebhook
