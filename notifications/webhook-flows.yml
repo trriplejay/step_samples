@@ -1,10 +1,10 @@
 resources:
 
-  # - name: myOriginalWebhook
-  #   type: Webhook
-  #   configuration:
-  #     webhookName: trriplejay_ext_hook
-  #     payload: blah
+  - name: myOriginalWebhook
+    type: Webhook
+    configuration:
+      webhookName: trriplejay_ext_hook
+      payload: blah
 
   - name: tr_ext_hook_2
     type: ExternalWebhook
@@ -32,12 +32,12 @@ pipelines:
     steps:
       - name: tr_original_hook
         type: Bash
-        # configuration:
-          # outputResources:
-          #   - name: myOriginalWebhook
+        configuration:
+          outputResources:
+            - name: myOriginalWebhook
         execution:
           onExecute:
-            # - write_output myOriginalWebhook "example=$run_number"
+            - write_output myOriginalWebhook "example=$run_number"
             - echo "hdsjfklsdjflks"
 
   - name: tr_test_skipWebhook
