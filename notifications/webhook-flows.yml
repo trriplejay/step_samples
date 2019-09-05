@@ -21,6 +21,18 @@ resources:
       webhookName: trriplejay_int_hook_connector
 
 pipelines:
+  - name: tr_test_skipWebhook
+    steps:
+      - name: tr_skipWebhook
+        type: Bash
+        configuration:
+          outputResources:
+            - name: tr_ext_hook_2
+        execution:
+          onExecute:
+            - set_payload tr_ext_hook_2 "{\"test\":\"payload\"}"
+            - export tr_ext_hook_2_skipWebhook="true"
+
   - name: tr_hooks_aplenty
     steps:
       - name: tr_start_by_hook
