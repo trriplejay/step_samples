@@ -28,6 +28,18 @@ resources:
       webhookName: trriplejay_int_hook_connector
 
 pipelines:
+  - name: tr_test_original_hook
+    steps:
+     - name: tr_original_hook
+       type: Bash
+        configuration:
+          outputResources:
+            - name: myOriginalWebhook
+        execution:
+          onExecute:
+            - write_output myOriginalWebhook "example=$run_number"
+            - echo "hdsjfklsdjflks"
+
   - name: tr_test_skipWebhook
     steps:
       - name: tr_skipWebhook
