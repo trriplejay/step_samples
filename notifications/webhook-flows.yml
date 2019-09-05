@@ -30,8 +30,8 @@ resources:
 pipelines:
   - name: tr_test_original_hook
     steps:
-     - name: tr_original_hook
-       type: Bash
+      - name: tr_original_hook
+        type: Bash
         configuration:
           outputResources:
             - name: myOriginalWebhook
