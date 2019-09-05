@@ -61,7 +61,7 @@ pipelines:
             - printenv | grep payload
             - cat $tr_ext_hook_payload_file
             - export tr_ext_hook_2_skipWebhook="true"
-            - set_payload tr_int_hook_connector "{\"test\":\"payload\"}"
+            - set_payload tr_int_hook_connector "{\"test\":\"$run_number\"}"
             # - set_payload tr_ext_hook "$step_json_path" --file
             # - printenv | grep payload
             # - cat $tr_ext_hook_payload_file
