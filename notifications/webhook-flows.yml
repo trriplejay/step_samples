@@ -75,8 +75,8 @@ pipelines:
             - tree /jfrog
             # - set_payload tr_ext_hook  blahblah badthirdargument
             # - set_payload badresource blahblah
-
-            - set_payload tr_ext_hook_2 "{\"test\":\"payload\"}"
+            - echo "{\"test\":\"payload\"}" > testpayload.json
+            - set_payload tr_ext_hook_2 testpayload.json --file
             - printenv | grep payload
             - cat $tr_ext_hook_payload_file
             - export tr_ext_hook_2_skipWebhook="true"
