@@ -10,7 +10,6 @@ resources:
     type: ExternalWebhook
     configuration:
       webhookName: trriplejay_ext_hook
-      method: "PUT"
       path: "/api/v2/test"
       parameters: "name=pipelinesHook"
       headers:
