@@ -75,12 +75,12 @@ pipelines:
             - tree /jfrog
             # - set_payload tr_ext_hook  blahblah badthirdargument
             # - set_payload badresource blahblah
-            - echo "{\"test\":\"payload\"}" > testpayload.json
+            - echo "{\"test\":\"$run_number\"}" > testpayload.json
             - set_payload tr_ext_hook_2 testpayload.json --file
-            - printenv | grep payload
-            - cat $tr_ext_hook_payload_file
-            - export tr_ext_hook_2_skipWebhook="true"
-            - set_payload tr_int_hook_connector "{\"test\":\"$run_number\"}"
+            # - printenv | grep payload
+            # - cat $tr_ext_hook_payload_file
+            # - export tr_ext_hook_2_skipWebhook="true"
+            # - set_payload tr_int_hook_connector "{\"test\":\"$run_number\"}"
             # - set_payload tr_ext_hook "$step_json_path" --file
             # - printenv | grep payload
             # - cat $tr_ext_hook_payload_file
