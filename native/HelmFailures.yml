@@ -16,12 +16,12 @@ resources:
   - name: tr_simple_git
     type: GitRepo
     configuration:
-      integration: tr_github
+      gitProvider: tr_github
       path: trriplejay/simpleserver
   - name: tr_simple_git_extra
     type: GitRepo
     configuration:
-      integration: tr_github
+      gitProvider: tr_github
       path: trriplejay/simpleserver
   - name: tr_helmChart_buildInfo
     type: buildInfo
@@ -93,7 +93,6 @@ pipelines:
           autoPublishBuildInfo: true
   - name: tr_test_HelmDeploy_validation
     steps:
-      - name:
       - name: no_chart_no_repo
         type: HelmDeploy
         configuration:
