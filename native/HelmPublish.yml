@@ -1,16 +1,16 @@
 resources:
-  - name: tr_helmChart
+  - name: tr_publish_helmChart
     type: HelmChart
     configuration:
       sourceArtifactory: tr_artifactory
       chart: simpleserver
       version: 1.0.0
-  - name: tr_simple_git
+  - name: tr_publish_simple_git
     type: GitRepo
     configuration:
       integration: tr_github
       path: trriplejay/simpleserver
-  - name: tr_helmChart_buildInfo
+  - name: tr_publish_helmChart_buildInfo
     type: buildInfo
     configuration:
       sourceArtifactory: tr_artifactory
@@ -25,10 +25,10 @@ pipelines:
         type: HelmPublish
         configuration:
           inputResources:
-            - name: tr_simple_git
+            - name: tr_publish_simple_git
           outputResources:
-            - name: tr_helmChart
-            - name: tr_helmChart_buildInfo
+            - name: tr_publish_helmChart
+            - name: tr_publish_helmChart_buildInfo
           autoPublishBuildInfo: true
           forceXrayScan: true
           chartPath: ./simpleserver
