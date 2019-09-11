@@ -62,7 +62,7 @@ pipelines:
         type: HelmPublish
         configuration:
           inputResources:
-            - tr_HelmAdvanced_git
+            - name: tr_HelmAdvanced_git
           outputResources:
             - name: tr_HelmAdvanced_chart
           chartPath: ./simpleserver
