@@ -24,7 +24,7 @@ resources:
       gitProvider: tr_github
       path: trriplejay/simpleserver
   - name: tr_helmChart_buildInfo
-    type: buildInfo
+    type: BuildInfo
     configuration:
       sourceArtifactory: tr_artifactory
       buildName: simplehelm
@@ -41,12 +41,19 @@ resources:
     configuration:
       sourceArtifactory: tr_artifactory
       repository: test
+      version: 1.0.0
   - name: tr_helmChart_no_repo
     type: HelmChart
     configuration:
-      sourceArtifactory: tr_github
+      sourceArtifactory: tr_artifactory
       chart: simpleserver
       version: 1.0.0
+  - name: tr_helmChart_no_version
+    type: HelmChart
+    configuration:
+      sourceArtifactory: tr_artifactory
+      repository: test
+      chart: simpleserver
 
 pipelines:
   - name: tr_test_HelmPublish_validation

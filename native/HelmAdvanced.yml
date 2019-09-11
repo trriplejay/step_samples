@@ -5,6 +5,7 @@ resources:
       sourceArtifactory: tr_artifactory
       repository: simplecharts
       chart: simpleserver
+      version: 1.0.0
 
   - name: tr_HelmAdvanced_git
     type: GitRepo

@@ -3,6 +3,7 @@ resources:
     type: HelmChart
     configuration:
       sourceArtifactory: tr_artifactory
+      repository: simplecharts
       chart: simpleserver
       version: 1.0.0
   - name: tr_publish_simple_git
