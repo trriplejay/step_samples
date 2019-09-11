@@ -76,7 +76,7 @@ pipelines:
           inputResources:
             - name: tr_HelmAdvanced_chart
             - name: tr_HelmAdvanced_simpleImage
-        releaseName: simplechart
-        dryRun: true
-        lint: true
-        test: true
+          releaseName: simplechart
+          dryRun: true
+          lint: true
+          test: true

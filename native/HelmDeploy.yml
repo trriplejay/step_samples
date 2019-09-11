@@ -25,10 +25,10 @@ pipelines:
             - name: tr_kubernetes
           inputResources:
             - name: tr_HelmDeploy_chart
-        releaseName: simplechart
-        dryRun: true
-        lint: true
-        test: true
+          releaseName: simplechart
+          dryRun: true
+          lint: true
+          test: true
   - name: helm_deploy_basic_git
     steps:
       - name: deploy_git_chart
@@ -39,9 +39,9 @@ pipelines:
           inputResources:
             - name: tr_HelmDeploy_git
           chartPath: ./simpleserver
-        releaseName: simplegit
-        dryRun: true
-        lint: true
-        test: true
+          releaseName: simplegit
+          dryRun: true
+          lint: true
+          test: true
 
 ######## end basic #############
