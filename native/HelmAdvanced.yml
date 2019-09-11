@@ -3,7 +3,7 @@ resources:
     type: HelmChart
     configuration:
       sourceArtifactory: tr_artifactory
-      repository:
+      repository: simplecharts
       chart: simpleserver
 
   - name: tr_HelmAdvanced_git
@@ -16,8 +16,8 @@ resources:
     type: Image
     configuration:
       registry: tr_docker
-      sourceRepository: johns
-      imageName: johns/simpleserver
+      sourceRepository: simpleimages
+      imageName: trriplejay/simpleserver
       imageTag: latest
 
   - name: tr_HelmAdvanced_buildInfo

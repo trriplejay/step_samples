@@ -5,7 +5,7 @@ resources:
     type: HelmChart
     configuration:
       sourceArtifactory: tr_artifactory
-      repository:
+      repository: simplecharts
       chart: simpleserver
 
   - name: tr_HelmDeploy_git
