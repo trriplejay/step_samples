@@ -9,7 +9,7 @@ resources:
   - name: tr_HelmAdvanced_git
     type: GitRepo
     configuration:
-      integration: tr_github
+      gitProvider: tr_github
       path: trriplejay/simpleserver
 
   - name: tr_HelmAdvanced_simpleImage

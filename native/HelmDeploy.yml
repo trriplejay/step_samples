@@ -11,7 +11,7 @@ resources:
   - name: tr_HelmDeploy_git
     type: GitRepo
     configuration:
-      integration: tr_github
+      gitProvider: tr_github
       path: trriplejay/simpleserver
 
 pipelines:

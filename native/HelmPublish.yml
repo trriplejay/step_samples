@@ -8,7 +8,7 @@ resources:
   - name: tr_publish_simple_git
     type: GitRepo
     configuration:
-      integration: tr_github
+      gitProvider: tr_github
       path: trriplejay/simpleserver
   - name: tr_publish_helmChart_buildInfo
     type: buildInfo
