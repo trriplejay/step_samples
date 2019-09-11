@@ -1,0 +1,81 @@
+resources:
+  - name: tr_HelmAdvanced_chart
+    type: HelmChart
+    configuration:
+      sourceArtifactory: tr_artifactory
+      repository:
+      chart: simpleserver
+
+  - name: tr_HelmAdvanced_git
+    type: GitRepo
+    configuration:
+      integration: tr_github
+      path: trriplejay/simpleserver
+
+  - name: tr_HelmAdvanced_simpleImage
+    type: Image
+    configuration:
+      registry: tr_docker
+      sourceRepository: johns
+      imageName: johns/simpleserver
+      imageTag: latest
+
+  - name: tr_HelmAdvanced_buildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: tr_artifactory
+      buildName: HelmAdvanced
+      buildNumber: 0
+
+pipelines:
+  - name: helm_full_flow
+    steps:
+      - name: build
+        type: DockerBuild
+        configuration:
+          integrations:
+            - name: tr_artifactory
+          inputResources:
+            - name: tr_HelmAdvanced_git
+          dockerFileLocation: .
+          dockerFileName: Dockerfile
+          dockerImageName: johns/simpleserver
+          dockerImageTag: $run_number
+      - name: push
+        type: DockerPush
+        configuration:
+          integrations:
+            - name: tr_artifactory
+          targetRepository: johns/simpleserver
+          autoPublishBuildInfo: true
+          forceXrayScan: true
+          inputSteps:
+            - name: build
+          outputResources:
+            - name: tr_HelmAdvanced_buildInfo
+            - name: tr_HelmAdvanced_simpleImage
+        execution:
+          onSuccess:
+            - write_output tr_HelmAdvanced_simpleImage "imageTag=$run_number"
+
+      - name: publish_helm_chart
+        type: HelmPublish
+        configuration:
+          inputResources:
+            - tr_HelmAdvanced_git
+          outputResources:
+            - name: tr_HelmAdvanced_chart
+          chartPath: ./simpleserver
+
+      - name: deploy_helm_chart
+        type: HelmDeploy
+        configuration:
+          integrations:
+            - name: tr_kubernetes
+          inputResources:
+            - name: tr_HelmAdvanced_chart
+            - name: tr_HelmAdvanced_simpleImage
+        releaseName: simplechart
+        dryRun: true
+        lint: true
+        test: true

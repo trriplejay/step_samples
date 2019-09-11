@@ -1,0 +1,46 @@
+######## basic #############
+
+resources:
+  - name: tr_HelmDeploy_chart
+    type: HelmChart
+    configuration:
+      sourceArtifactory: tr_artifactory
+      repository:
+      chart: simpleserver
+
+  - name: tr_HelmDeploy_git
+    type: GitRepo
+    configuration:
+      integration: tr_github
+      path: trriplejay/simpleserver
+
+pipelines:
+  - name: helm_deploy_basic_chart
+    steps:
+      - name: deploy_git_chart
+        type: HelmDeploy
+        configuration:
+          integrations:
+            - name: tr_kubernetes
+          inputResources:
+            - name: tr_HelmDeploy_chart
+        releaseName: simplechart
+        dryRun: true
+        lint: true
+        test: true
+  - name: helm_deploy_basic_git
+    steps:
+      - name: deploy_git_chart
+        type: HelmDeploy
+        configuration:
+          integrations:
+            - name: tr_kubernetes
+          inputResources:
+            - name: tr_HelmDeploy_git
+          chartPath: ./simpleserver
+        releaseName: simplegit
+        dryRun: true
+        lint: true
+        test: true
+
+######## end basic #############
