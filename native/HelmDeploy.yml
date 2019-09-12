@@ -16,7 +16,7 @@ resources:
       path: trriplejay/simpleserver
 
 pipelines:
-  - name: helm_deploy_basic_chart
+  - name: tr_test_HelmDeploy_basic_chart
     steps:
       - name: deploy_git_chart
         type: HelmDeploy
@@ -29,7 +29,7 @@ pipelines:
           dryRun: true
           lint: true
           test: true
-  - name: helm_deploy_basic_git
+  - name: tr_test_HelmDeploy_basic_git
     steps:
       - name: deploy_git_chart
         type: HelmDeploy

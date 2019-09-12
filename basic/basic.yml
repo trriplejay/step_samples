@@ -116,6 +116,7 @@ pipelines:
             - name: tr_github
           inputResources:
             - name: myOtherImage_basic
+              trigger: false
         execution:
           onStart:
             - echo "Prepping build environment"
