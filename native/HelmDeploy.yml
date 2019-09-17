@@ -26,6 +26,7 @@ pipelines:
           inputResources:
             - name: tr_publish_helmChart
           releaseName: simplechart
+          flags: "--namespace dev"
           dryRun: true
           lint: true
           test: true
