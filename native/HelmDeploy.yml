@@ -24,11 +24,12 @@ pipelines:
           integrations:
             - name: tr_kubernetes
           inputResources:
-            - name: tr_HelmDeploy_chart
+            - name: tr_publish_helmChart
           releaseName: simplechart
           dryRun: true
           lint: true
           test: true
+
   - name: tr_test_HelmDeploy_basic_git
     steps:
       - name: deploy_git_chart
