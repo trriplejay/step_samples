@@ -29,7 +29,7 @@ pipelines:
           flags: "--namespace dev"
           dryRun: true
           lint: true
-          test: true
+          # test: true
 
   - name: tr_test_HelmDeploy_basic_git
     steps:
