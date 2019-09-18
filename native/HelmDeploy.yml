@@ -28,14 +28,14 @@ pipelines:
           inputResources:
             - name: tr_publish_helmChart
           releaseName: simplechart
-          valueFilePaths:
-            - override.yaml
+          # valueFilePaths:
+          #   - override.yaml
           flags: "--namespace dev"
-          dryRun: true
-          lint: true
-          lintFlags: "--strict"
-          test: true
-          testFlags: "--cleanup"
+          # dryRun: true
+          # lint: true
+          # lintFlags: "--strict"
+          # test: true
+          # testFlags: "--cleanup"
 
   - name: tr_test_HelmDeploy_basic_git
     steps:
