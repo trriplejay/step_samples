@@ -29,7 +29,7 @@ pipelines:
             - name: tr_publish_helmChart
           releaseName: simplechart
           valueFilePaths:
-            - override.yml
+            - override.yaml
           flags: "--namespace dev"
           dryRun: true
           lint: true
