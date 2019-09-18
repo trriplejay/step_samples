@@ -48,8 +48,10 @@ pipelines:
             - name: tr_HelmDeploy_git
           chartPath: ./simpleserver
           releaseName: simplegit
+          flags: "--namespace dev"
           dryRun: true
           lint: true
           test: true
+          testFlags: "--cleanup"
 
 ######## end basic #############
