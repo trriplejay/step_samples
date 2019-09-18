@@ -22,8 +22,7 @@ pipelines:
         type: HelmDeploy
         configuration:
           environmentVariables:
-            readOnly:
-              REPLICAS: 3
+            REPLICAS: 3
           integrations:
             - name: tr_kubernetes
           inputResources:
