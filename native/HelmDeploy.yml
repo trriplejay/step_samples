@@ -28,7 +28,9 @@ pipelines:
           inputResources:
             - name: tr_publish_helmChart
           releaseName: simplechart
-          flags: "--namespace dev -f override.yaml"
+          valueFilePaths:
+            - override.yml
+          flags: "--namespace dev"
           dryRun: true
           lint: true
           lintFlags: "--strict"
