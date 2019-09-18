@@ -21,12 +21,15 @@ pipelines:
       - name: deploy_git_chart
         type: HelmDeploy
         configuration:
+          environmentVariables:
+            readOnly:
+              REPLICAS: 3
           integrations:
             - name: tr_kubernetes
           inputResources:
             - name: tr_publish_helmChart
           releaseName: simplechart
-          flags: "--namespace dev"
+          flags: "--namespace dev -f override.yaml"
           dryRun: true
           lint: true
           lintFlags: "--strict"
