@@ -1,0 +1,21 @@
+resources:
+  - name: neutral
+    type: GitRepo
+    configuration:
+      gitProvider: tr_github
+      repositoryPath: trriplejay/basic-node
+      
+pipelines:
+  - name: neutral_pipe
+    steps:
+      - name: neutral_step
+        type: Bash
+        configuration:
+          inputResources:
+            - name: neutral
+        execution:
+          onExecute:
+            - echo "hello"
+    
+    
+    
