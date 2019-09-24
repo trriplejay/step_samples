@@ -1,5 +1,5 @@
 resources:
-  - name: myImage_basic_{{branch}}
+  - name: myImage_basic
     type: Image
     configuration:
       registry: tr_docker
