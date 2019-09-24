@@ -3,7 +3,7 @@ resources:
     type: GitRepo
     configuration:
       gitProvider: tr_github
-      repositoryPath: trriplejay/basic-node
+      path: trriplejay/basic-node
       
 pipelines:
   - name: neutral_pipe
