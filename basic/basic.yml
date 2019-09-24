@@ -18,12 +18,6 @@ resources:
     configuration:
       path: trriplejay/basic-node
       gitProvider: tr_github
-      
-  - name: appRepo
-    type: GitRepo
-    configuration:
-      path: trriplejay/basic-node
-      gitProvider: tr_github
 
 pipelines:
   - name: tr_test_pipeline_1
