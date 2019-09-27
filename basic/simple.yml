@@ -17,4 +17,4 @@ pipelines:
             - name: singleRepo_simple
         execution:
           onExecute:
-            - echo "blah {{gitBranch}}"
+            - echo "pipeline source branch {{gitBranch}}"
