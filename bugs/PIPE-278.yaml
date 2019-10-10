@@ -1,0 +1,44 @@
+resources:
+  - name: myImage_1
+    type: Image
+    configuration:
+      registry: tr_docker
+      imageName: trriplejay/simpleserver
+      imageTag: master.49
+
+  - name: myImage_2
+    type: Image
+    configuration:
+      registry: tr_docker
+      imageName: trriplejay/simpleserver
+      imageTag: master.49
+
+  - name: myImage_3
+    type: Image
+    configuration:
+      registry: tr_docker
+      imageName: trriplejay/simpleserver
+      imageTag: master.49
+
+  - name: myImage_4
+    type: Image
+    configuration:
+      registry: tr_docker
+      imageName: trriplejay/simpleserver
+      imageTag: master.49
+
+pipelines:
+  - name: test_pipe_sync
+    steps:
+      - name: test_step_sync
+        type: Bash
+        configuration:
+          inputResources:
+            - name: myImage_1
+            - name: myImage_2
+            - name: myImage_3
+            - name: myImage_4
+
+        execution:
+          onExecute:
+            - echo "here we go!"

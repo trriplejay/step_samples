@@ -1,0 +1,43 @@
+resources:
+  - name: johns_app_repo
+    type: GitRepo
+    configuration:
+      gitProvider: johns_bbs
+      path: ~johns/simpleserver
+
+  - name: johns_docker_image
+    type: Image
+    configuration:
+      registry: johns_art
+      sourceRepository: simpleimages
+      imageName: trriplejay/simpleserver
+      imageTag: latest
+
+pipelines:
+  - name: johns_build_and_push
+    steps:
+      - name: docker_build
+        type: DockerBuild
+        configuration:
+          dockerFileLocation: .
+          dockerFileName: Dockerfile
+          dockerImageName: trriplejay/simpleserver
+          dockerImageTag: native.$run_number
+          integrations:
+            - name: johns_app_repo
+          inputResources:
+            - name: johns_app_repo
+
+      - name: docker_push
+        type: DockerPush
+        configuration:
+          targetRepository: simpleimages
+          forceXrayScan: true
+          integrations:
+            - name: johns_app_repo
+          inputSteps:
+            - name: docker_build
+          outputResources:
+            - name: johns_docker_image
+
+
