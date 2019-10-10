@@ -10,7 +10,7 @@ resources:
   - name: tr_HelmAdvanced_git
     type: GitRepo
     configuration:
-      gitProvider: tr_github
+      gitProvider: johns_bbs
       path: trriplejay/simpleserver
 
   - name: tr_HelmAdvanced_simpleImage

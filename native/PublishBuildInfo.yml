@@ -31,7 +31,7 @@ resources:
     type: GitRepo
     configuration:
       path: trriplejay/simpleserver
-      gitProvider: tr_github
+      gitProvider: johns_bbs
 
 pipelines:
   - name: tr_pbi_validation

@@ -10,14 +10,14 @@ resources:
     type: Image
     configuration:
       registry: tr_docker
-      imageName: trriplejay/simpleserver
+      imageName: ~johns/simpleserver
       imageTag: latest
 
   - name: myRepo_basic
     type: GitRepo
     configuration:
-      path: trriplejay/basic-node
-      gitProvider: tr_github
+      path: ~johns/simpleserver
+      gitProvider: johns_bbs
 
 pipelines:
   - name: tr_test_pipeline_1
@@ -63,7 +63,7 @@ pipelines:
         type: Bash
         configuration:
           integrations:
-            - name: tr_github
+            - name: johns_bbs
           inputSteps:
             - name: basic_step
         execution:
@@ -89,7 +89,7 @@ pipelines:
         type: Bash
         configuration:
           integrations:
-            - name: tr_github
+            - name: johns_bbs
           inputSteps:
             - name: basic_step
         execution:
@@ -114,7 +114,7 @@ pipelines:
         configuration:
           affinityGroup: test_group
           integrations:
-            - name: tr_github
+            - name: johns_bbs
           inputResources:
             - name: myOtherImage_basic
               trigger: false
@@ -139,7 +139,7 @@ pipelines:
         type: Bash
         configuration:
           integrations:
-            - name: tr_github
+            - name: johns_bbs
           inputSteps:
             - name: basic_step
         execution:
@@ -164,7 +164,7 @@ pipelines:
         type: Bash
         configuration:
           integrations:
-            - name: tr_github
+            - name: johns_bbs
           inputSteps:
             - name: basic_step
         execution:

@@ -2,11 +2,11 @@ resources:
   - name: singleRepo_simple
     type: GitRepo
     configuration:
-      gitProvider: tr_github
+      gitProvider: johns_bbs
       path: trriplejay/step_samples
       branches:
         include: master
-        
+
 pipelines:
   - name: simple_pipe_simple
     steps:

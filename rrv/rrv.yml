@@ -10,7 +10,7 @@ resources:
     type: GitRepo
     configuration:
       path: trriplejay/basic-node
-      gitProvider: tr_github
+      gitProvider: johns_bbs
       sha: master
 
 pipelines:

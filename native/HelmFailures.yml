@@ -16,12 +16,12 @@ resources:
   - name: tr_simple_git
     type: GitRepo
     configuration:
-      gitProvider: tr_github
+      gitProvider: johns_bbs
       path: trriplejay/simpleserver
   - name: tr_simple_git_extra
     type: GitRepo
     configuration:
-      gitProvider: tr_github
+      gitProvider: johns_bbs
       path: trriplejay/simpleserver
   - name: tr_helmChart_buildInfo
     type: BuildInfo
@@ -32,7 +32,7 @@ resources:
   - name: tr_helmChart_bad_int
     type: HelmChart
     configuration:
-      sourceArtifactory: tr_github
+      sourceArtifactory: johns_bbs
       repository: test
       chart: simpleserver
       version: 1.0.0

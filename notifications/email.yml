@@ -3,7 +3,7 @@ resources:
     type: GitRepo
     configuration:
       path: trriplejay/step_samples
-      gitProvider: tr_github
+      gitProvider: johns_bbs
       sha: master
 
 pipelines:

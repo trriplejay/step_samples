@@ -2,9 +2,9 @@ resources:
   - name: neutral
     type: GitRepo
     configuration:
-      gitProvider: tr_github
+      gitProvider: johns_bbs
       path: trriplejay/basic-node
-      
+
 pipelines:
   - name: neutral_pipe
     steps:
@@ -17,6 +17,6 @@ pipelines:
         execution:
           onExecute:
             - echo "hello"
-    
-    
-    
+
+
+

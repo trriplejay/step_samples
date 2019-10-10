@@ -16,7 +16,7 @@ resources:
   - name: S4_repo
     type: GitRepo
     configuration:
-      gitProvider: tr_github
+      gitProvider: johns_bbs
       path: trriplejay/basic-node
       sha: master
 
@@ -31,7 +31,7 @@ resources:
     type: GitRepo
     configuration:
       path: trriplejay/basic-node
-      gitProvider: tr_github
+      gitProvider: johns_bbs
       sha: master
 
 pipelines:

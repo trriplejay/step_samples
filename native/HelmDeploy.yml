@@ -12,7 +12,7 @@ resources:
   - name: tr_HelmDeploy_git
     type: GitRepo
     configuration:
-      gitProvider: tr_github
+      gitProvider: johns_bbs
       path: trriplejay/simpleserver
 
 pipelines:
