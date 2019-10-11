@@ -21,7 +21,7 @@ pipelines:
         configuration:
           dockerFileLocation: .
           dockerFileName: Dockerfile
-          dockerImageName: trriplejay/simpleserver
+          dockerImageName: simpleimages/trriplejay/simpleserver
           dockerImageTag: native.$run_number
           inputResources:
             - name: johns_app_repo
