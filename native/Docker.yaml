@@ -23,8 +23,6 @@ pipelines:
           dockerFileName: Dockerfile
           dockerImageName: trriplejay/simpleserver
           dockerImageTag: native.$run_number
-          integrations:
-            - name: johns_app_repo
           inputResources:
             - name: johns_app_repo
 
