@@ -32,7 +32,7 @@ pipelines:
           targetRepository: simpleimages
           forceXrayScan: true
           integrations:
-            - name: johns_app_repo
+            - name: johns_art
           inputSteps:
             - name: docker_build
           outputResources:
