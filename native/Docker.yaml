@@ -17,7 +17,7 @@ resources:
     configuration:
       registry: johns_art
       sourceRepository: simpleimages
-      imageName: trriplejay/simpleserver
+      imageName: trriplejay/fakeimage
       imageTag: latest
 
 pipelines:
