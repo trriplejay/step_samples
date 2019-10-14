@@ -5,11 +5,11 @@ resources:
       gitProvider: johns_bbs
       path: ~johns/simpleserver
 
-  - name:  myRemoteFile
-    type: RemoteFile
-    configuration:
-      source: asdf
-      fileLocation: testchange
+  # - name:  myRemoteFile
+  #   type: RemoteFile
+  #   configuration:
+  #     source: asdf
+  #     fileLocation: testchange
 
   - name: johns_docker_image
     type: Image
