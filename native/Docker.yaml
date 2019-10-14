@@ -5,6 +5,11 @@ resources:
       gitProvider: johns_bbs
       # path: ~johns/step_samples
 
+  - name:  myRemoteFile
+    type: RemoteFile
+    configuration:
+      source: asdf
+
   - name: johns_docker_image
     type: Image
     configuration:
