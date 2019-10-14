@@ -17,7 +17,6 @@ resources:
     configuration:
       registry: johns_art
       sourceRepository: simpleimages
-      imageName: trriplejay/simpleserver
       imageTag: latest
 
 pipelines:
