@@ -5,7 +5,7 @@ resources:
       gitProvider: johns_bbs
       path: ~johns/simpleserver
 
-  - name:  myRemoteFile
+  - name:  myRemoteFile2
     type: RemoteFile
     configuration:
       source: asdf
