@@ -9,7 +9,7 @@ resources:
     type: RemoteFile
     configuration:
       source: asdf
-      fileLocation: blah
+      fileLocation: testchange
 
   - name: johns_docker_image
     type: Image
