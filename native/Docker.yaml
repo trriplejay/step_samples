@@ -3,7 +3,7 @@ resources:
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
-      path: ~johns/simpleserver
+      path: ~johns/step_samples
 
   - name: johns_docker_image
     type: Image
