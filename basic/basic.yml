@@ -30,8 +30,8 @@ pipelines:
         type: Bash
         configuration:
           affinityGroup: test_group
-#           inputResources:
-#             - name: appRepo
+          # inputResources:
+          #   - name: appRepo
           #   - name: myRepo_basic
           #   - name: myImage_basic
           #     trigger: false
