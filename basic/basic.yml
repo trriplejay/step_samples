@@ -45,7 +45,7 @@ pipelines:
             - echo "read only value issssss $testReadOnly"
             - echo "$step_url"
             - docker ps -a
-            - echo "Hello world!"
+            - echo "Hello world!!"
             - echo "step json at $STEP_JSON_PATH"
             - cat $STEP_JSON_PATH |  jq '.'
             - for item in ${!open_group_info[@]}; do echo "$item --- ${open_group_info[$item]}"; done
