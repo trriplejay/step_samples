@@ -21,10 +21,13 @@ pipelines:
         configuration:
           dockerFileLocation: .
           dockerFileName: Dockerfile
-          dockerImageName: simpleimages/trriplejay/simpleserver
+          dockerImageName: trriplejay/simpleserver
           dockerImageTag: native.$run_number
           inputResources:
             - name: johns_app_repo
+        execution:
+          onStart:
+            echo "lets build!"
 
       # - name: docker_push
       #   type: DockerPush
