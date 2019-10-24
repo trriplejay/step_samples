@@ -5,20 +5,13 @@ resources:
       gitProvider: johns_bbs
       path: ~johns/simpleserver
 
-  - name:  myRemoteFile2
-    type: RemoteFile
-    configuration:
-      source: asdf
-      fileLocation: testchange
-      fileName: yay
-
-  - name: johns_docker_image
-    type: Image
-    configuration:
-      registry: johns_art
-      sourceRepository: simpleimages
-      imageName: trriplejay/simpleserver
-      imageTag: latest
+  # - name: johns_docker_image
+  #   type: Image
+  #   configuration:
+  #     registry: johns_art
+  #     sourceRepository: simpleimages
+  #     imageName: trriplejay/simpleserver
+  #     imageTag: latest
 
 pipelines:
   - name: johns_build_and_push
@@ -33,16 +26,16 @@ pipelines:
           inputResources:
             - name: johns_app_repo
 
-      - name: docker_push
-        type: DockerPush
-        configuration:
-          targetRepository: simpleimages
-          forceXrayScan: true
-          integrations:
-            - name: johns_art
-          inputSteps:
-            - name: docker_build
-          outputResources:
-            - name: johns_docker_image
+      # - name: docker_push
+      #   type: DockerPush
+      #   configuration:
+      #     targetRepository: simpleimages
+      #     forceXrayScan: true
+      #     integrations:
+      #       - name: johns_art
+      #     inputSteps:
+      #       - name: docker_build
+      #     outputResources:
+      #       - name: johns_docker_image
 
 
