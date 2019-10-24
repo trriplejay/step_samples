@@ -27,7 +27,7 @@ pipelines:
             - name: johns_app_repo
         execution:
           onStart:
-            echo "lets build!"
+            - echo "lets build!"
 
       # - name: docker_push
       #   type: DockerPush
