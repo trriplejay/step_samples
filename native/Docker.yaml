@@ -23,7 +23,7 @@ pipelines:
           dockerFileName: Dockerfile
           dockerImageName: trriplejay/simpleserver
           dockerImageTag: native.$run_number
-          dockerOptions: --pull --no-cache
+          # dockerOptions: --pull --no-cache
           inputResources:
             - name: johns_app_repo
         execution:
