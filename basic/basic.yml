@@ -18,8 +18,8 @@ resources:
     configuration:
       path: ~johns/simpleserver
       gitProvider: johns_bbs
-      # branches:
-      #   include: ^dev$
+      branches:
+        include: ^dev$
 
 pipelines:
   - name: tr_test_pipeline_1
