@@ -1,0 +1,17 @@
+resources:
+  - name: johns_ExtHook
+    type: ExternalWebhook
+    configuration:
+      webhookName: johns_ext_hook
+
+pipelines:
+  - name: johns_simple_ext_hook
+    steps:
+      - name: johns_send_hook
+        type: Bash
+        configuration:
+          outputResources:
+            - name: johns_ExtHook
+        execution:
+          onExecute:
+            - echo "hello world"
