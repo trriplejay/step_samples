@@ -47,3 +47,17 @@ pipelines:
             - echo "hello world"
             - jsonPayload="{\"runNumber\":\"$run_number\", \"stepName\":\"$step_name\"}"
             - set_payload johns_ExtHook_json "$jsonPayload"
+
+      - name: johns_send_hook_skip
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: johns_get_started
+          outputResources:
+            - name: johns_ExtHook_json
+        execution:
+          onExecute:
+            - echo "hello world"
+            - jsonPayload="{\"runNumber\":\"$run_number\", \"stepName\":\"$step_name\"}"
+            - set_payload johns_ExtHook_json "$jsonPayload"
+            - export johns_ExtHook_json_skipWebhook=true
