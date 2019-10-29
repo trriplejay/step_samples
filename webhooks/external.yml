@@ -18,4 +18,4 @@ pipelines:
             - echo "hello world"
             - easy_payload="{\"hello\":\"world\"}"
             - dynamic_payload="{\"runNumber\":\"$run_number\", \"stepName\":\"$step_name\"}"
-            - set_payload johns_ExtHook $dynamic_payload
+            - set_payload johns_ExtHook "$dynamic_payload"
