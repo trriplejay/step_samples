@@ -3,6 +3,7 @@ resources:
     type: ExternalWebhook
     configuration:
       webhookName: johns_ext_hook
+      path: /my/path
 
 pipelines:
   - name: johns_simple_ext_hook
