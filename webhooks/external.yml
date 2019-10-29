@@ -18,7 +18,7 @@ pipelines:
     steps:
       - name: johns_get_started
         type: Bash
-        execute:
+        execution:
           onExecute:
             - echo "here we go"
 
@@ -34,6 +34,7 @@ pipelines:
             - echo "hello world"
             - formUrlEncodedPayload="foo=bar&runNumber=$run_number&stepName=$step_name"
             - set_payload johns_ExtHook_formurl "$formUrlEncodedPayload"
+
       - name: johns_send_hook_json
         type: Bash
         configuration:
