@@ -1,5 +1,5 @@
 resources:
-  - name: johns_ExtHook
+  - name: johns_ExtHook_formurl
     type: ExternalWebhook
     configuration:
       webhookName: johns_ext_hook
@@ -7,17 +7,42 @@ resources:
       headers:
         content-type: application/x-www-form-urlencoded
 
+  - name: johns_ExtHook_json
+    type: ExternalWebhook
+    configuration:
+      webhookName: johns_ext_hook
+      path: /json
+
 pipelines:
   - name: johns_simple_ext_hook
     steps:
-      - name: johns_send_hook
+      - name: johns_get_started
+        type: Bash
+        execute:
+          onExecute:
+            - echo "here we go"
+
+      - name: johns_send_hook_formurl
         type: Bash
         configuration:
+          inputSteps:
+            - name: johns_get_started
           outputResources:
-            - name: johns_ExtHook
+            - name: johns_ExtHook_json
+        execution:
+          onExecute:
+            - echo "hello world"
+            - formUrlEncodedPayload="foo=bar&runNumber=$run_number&stepName=$step_name"
+            - set_payload johns_ExtHook_formurl "$formUrlEncodedPayload"
+      - name: johns_send_hook_json
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: johns_get_started
+          outputResources:
+            - name: johns_ExtHook_json
         execution:
           onExecute:
             - echo "hello world"
             - jsonPayload="{\"runNumber\":\"$run_number\", \"stepName\":\"$step_name\"}"
-            - formUrlEncodedPayload="foo=bar&runNumber=$run_number&stepName=$step_name"
-            - set_payload johns_ExtHook "$formUrlEncodedPayload"
+            - set_payload johns_ExtHook_json "$jsonPayload"
