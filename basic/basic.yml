@@ -20,7 +20,7 @@ resources:
       gitProvider: johns_bbs
       branches:
         include: ^dev.*$
-        # exclude: ^dev-5$
+        exclude: ^dev-9$
 
 pipelines:
   - name: tr_test_pipeline_1
