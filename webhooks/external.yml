@@ -3,7 +3,9 @@ resources:
     type: ExternalWebhook
     configuration:
       webhookName: johns_ext_hook
-      path: /my/path
+      path: /url
+      headers:
+        content-type: application/x-www-form-urlencoded
 
 pipelines:
   - name: johns_simple_ext_hook
@@ -16,7 +18,6 @@ pipelines:
         execution:
           onExecute:
             - echo "hello world"
-            - easy_payload="{\"hello\":\"world\"}"
-            - dynamic_payload="{\"runNumber\":\"$run_number\", \"stepName\":\"$step_name\"}"
-            - set_payload johns_ExtHook "$dynamic_payload"
-            - johns_ExtHook_skipWebhook=true
+            - jsonPayload="{\"runNumber\":\"$run_number\", \"stepName\":\"$step_name\"}"
+            - formUrlEncodedPayload="foo=bar&runNumber=$run_number&stepName=$step_name"
+            - set_payload johns_ExtHook "$formUrlEncodedPayload"
