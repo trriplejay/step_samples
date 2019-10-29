@@ -28,7 +28,7 @@ pipelines:
           inputSteps:
             - name: johns_get_started
           outputResources:
-            - name: johns_ExtHook_json
+            - name: johns_ExtHook_formurl
         execution:
           onExecute:
             - echo "hello world"
