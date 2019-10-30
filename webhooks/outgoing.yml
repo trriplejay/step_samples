@@ -1,20 +1,20 @@
 resources:
-  - name: johns_ExtHook_formurl
-    type: ExternalWebhook
+  - name: johns_OutHook_formurl
+    type: OutgoingWebhook
     configuration:
-      webhookName: johns_ext_hook
+      webhookName: johns_out_hook
       path: /url
       headers:
         content-type: application/x-www-form-urlencoded
 
-  - name: johns_ExtHook_json
-    type: ExternalWebhook
+  - name: johns_OutHook_json
+    type: OutgoingWebhook
     configuration:
-      webhookName: johns_ext_hook
+      webhookName: johns_out_hook
       path: /json
 
 pipelines:
-  - name: johns_simple_ext_hook
+  - name: johns_simple_out_hook
     steps:
       - name: johns_get_started
         type: Bash
@@ -28,12 +28,12 @@ pipelines:
           inputSteps:
             - name: johns_get_started
           outputResources:
-            - name: johns_ExtHook_formurl
+            - name: johns_OutHook_formurl
         execution:
           onExecute:
             - echo "hello world"
             - formUrlEncodedPayload="foo=bar&runNumber=$run_number&stepName=$step_name"
-            - set_payload johns_ExtHook_formurl "$formUrlEncodedPayload"
+            - set_payload johns_OutHook_formurl "$formUrlEncodedPayload"
 
       - name: johns_send_hook_json
         type: Bash
@@ -41,12 +41,12 @@ pipelines:
           inputSteps:
             - name: johns_get_started
           outputResources:
-            - name: johns_ExtHook_json
+            - name: johns_OutHook_json
         execution:
           onExecute:
             - echo "hello world"
             - jsonPayload="{\"runNumber\":\"$run_number\", \"stepName\":\"$step_name\"}"
-            - set_payload johns_ExtHook_json "$jsonPayload"
+            - set_payload johns_OutHook_json "$jsonPayload"
 
       - name: johns_send_hook_skip
         type: Bash
@@ -54,10 +54,10 @@ pipelines:
           inputSteps:
             - name: johns_get_started
           outputResources:
-            - name: johns_ExtHook_json
+            - name: johns_OutHook_json
         execution:
           onExecute:
             - echo "hello world"
             - jsonPayload="{\"runNumber\":\"$run_number\", \"stepName\":\"$step_name\"}"
-            - set_payload johns_ExtHook_json "$jsonPayload"
-            - export johns_ExtHook_json_skipWebhook=true
+            - set_payload johns_OutHook_json "$jsonPayload"
+            - export johns_OutHook_json_skipWebhook=true
