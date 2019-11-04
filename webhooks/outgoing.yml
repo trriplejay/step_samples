@@ -79,4 +79,4 @@ pipelines:
           onExecute:
             - echo "hello world"
             - jsonPayload="{\"runNumber\":\"$run_number\", \"stepName\":\"$step_name\"}"
-            - set_payload johns_OutHook_json "$jsonPayload"
+            - set_payload johns_OutHook_secret "$jsonPayload"

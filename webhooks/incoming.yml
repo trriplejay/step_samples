@@ -4,10 +4,12 @@ resources:
     type: IncomingWebhook
     configuration:
       webhookName: johns_in_hook_basic
+
   - name: johns_incoming_auth_hook
     type: IncomingWebhook
     configuration:
       webhookName: johns_in_hook_auth
+
   - name: johns_incoming_secret_hook
     type: IncomingWebhook
     configuration:
