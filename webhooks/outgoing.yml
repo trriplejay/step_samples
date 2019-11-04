@@ -13,6 +13,12 @@ resources:
       webhookName: johns_out_hook
       path: /json
 
+  - name: johns_OutHook_secret
+    type: OutgoingWebhook
+    configuration:
+      webhookName: johns_secret_out_hook
+      path: /secret
+
 pipelines:
   - name: johns_simple_out_hook
     steps:
@@ -61,3 +67,16 @@ pipelines:
             - jsonPayload="{\"runNumber\":\"$run_number\", \"stepName\":\"$step_name\"}"
             - set_payload johns_OutHook_json "$jsonPayload"
             - export johns_OutHook_json_skipWebhook=true
+
+      - name: johns_send_hook_secret
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: johns_get_started
+          outputResources:
+            - name: johns_OutHook_secret
+        execution:
+          onExecute:
+            - echo "hello world"
+            - jsonPayload="{\"runNumber\":\"$run_number\", \"stepName\":\"$step_name\"}"
+            - set_payload johns_OutHook_json "$jsonPayload"

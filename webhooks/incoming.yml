@@ -1,0 +1,32 @@
+resources:
+
+  - name: johns_incoming_basic_hook
+    type: IncomingWebhook
+    configuration:
+      webhookName: johns_in_hook_basic
+  - name: johns_incoming_auth_hook
+    type: IncomingWebhook
+    configuration:
+      webhookName: johns_in_hook_auth
+  - name: johns_incoming_secret_hook
+    type: IncomingWebhook
+    configuration:
+      webhookName: johns_in_hook_secret
+
+pipelines:
+  - name: johns_incoming_hook
+    steps:
+      - name: johns_start_by_hook
+        type: Bash
+        configuration:
+          inputResources:
+            - name: johns_incoming_basic_hook
+            - name: johns_incoming_auth_hook
+            - name: johns_incoming_secret_hook
+        execution:
+          onExecute:
+            - echo "job triggered by resource-> $step_triggered_by_resource_name"
+            - resName="$step_triggered_by_resource_name"
+            - export payload=$(eval echo "$"res_"$step_triggered_by_resource_name"_payload)
+            - echo "payload is $payload"
+            - echo "$payload" | jq '.'
