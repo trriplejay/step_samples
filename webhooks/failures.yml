@@ -1,14 +1,14 @@
 resources:
 
   - name: johns_ew_basic
-    type: ExternalWebhook
+    type: OutgoingWebhook
     configuration:
-      webhookName: johns_ext_hook
+      webhookName: johns_out_hook
 
   - name: johns_ew_allsettings
-    type: ExternalWebhook
+    type: OutgoingWebhook
     configuration:
-      webhookName: johns_ext_hook
+      webhookName: johns_out_hook
       method: "POST"
       parameters: "name=$STEP_NAME"
       headers:
@@ -16,45 +16,45 @@ resources:
       path: "/api/v1/steps"
 
   - name: johns_ew_bad_types
-    type: ExternalWebhook
+    type: OutgoingWebhook
     configuration:
-      webhookN: johns_ext_hook
+      webhookN: johns_out_hook
       method:
         hello: world
       parameters: []
       badThing: "test"
       headers: "hello"
 
-  - name: johns_ew_bad_int_type
-    type: ExternalWebhook
+  - name: johns_ew_bad_in_type
+    type: OutgoingWebhook
     configuration:
-      webhookName: johns_int_hook
+      webhookName: johns_in_hook
 
   - name: johns_ew_bad_values
-    type: ExternalWebhook
+    type: OutgoingWebhook
     configuration:
       webhookName: johns_ExtHook
       method: "BLAH"
       parameters: 123
 
-  - name: MyInternalWebhook
-    type: InternalWebhook
+  - name: MyIncomingWebhook
+    type: IncomingWebhook
     configuration:
-      webhookName: johns_int_hook
+      webhookName: johns_in_hook
 
 
   - name: johns_iw_bad_alias
-    type: InternalWebhook
+    type: IncomingWebhook
     configuration:
-      hookName: johns_int_hook
+      hookName: johns_in_hook
 
-  - name: johns_iw_bad_int_type
-    type: InternalWebhook
+  - name: johns_iw_bad_in_type
+    type: IncomingWebhook
     configuration:
-      webhookName: johns_ext_hook
+      webhookName: johns_out_hook
 
   - name: johns_iw_bad_2
-    type: InternalWebhook
+    type: IncomingWebhook
     configuration:
-      webhookName: johns_int_hook
+      webhookName: johns_in_hook
       method: "GET"
