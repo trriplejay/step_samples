@@ -23,7 +23,7 @@ resources:
     type: OutgoingWebhook
     configuration:
       webhookName: johns_secret_out_hook
-      path: /secret
+      path: /secretform
       headers:
         content-type: application/x-www-form-urlencoded
 
