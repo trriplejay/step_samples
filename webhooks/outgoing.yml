@@ -13,11 +13,19 @@ resources:
       webhookName: johns_out_hook
       path: /json
 
-  - name: johns_OutHook_secret
+  - name: johns_OutHook_secret_json
     type: OutgoingWebhook
     configuration:
       webhookName: johns_secret_out_hook
       path: /secret
+
+  - name: johns_OutHook_secret_formurl
+    type: OutgoingWebhook
+    configuration:
+      webhookName: johns_secret_out_hook
+      path: /secret
+      headers:
+        content-type: application/x-www-form-urlencoded
 
 pipelines:
   - name: johns_simple_out_hook
@@ -68,15 +76,28 @@ pipelines:
             - set_payload johns_OutHook_json "$jsonPayload"
             - export johns_OutHook_json_skipWebhook=true
 
-      - name: johns_send_hook_secret
+      - name: johns_send_hook_secret_json
         type: Bash
         configuration:
           inputSteps:
             - name: johns_get_started
           outputResources:
-            - name: johns_OutHook_secret
+            - name: johns_OutHook_secret_json
         execution:
           onExecute:
             - echo "hello world"
             - jsonPayload="{\"runNumber\":\"$run_number\", \"stepName\":\"$step_name\"}"
-            - set_payload johns_OutHook_secret "$jsonPayload"
+            - set_payload johns_OutHook_secret_json "$jsonPayload"
+
+      - name: johns_send_hook_secret_formurl
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: johns_get_started
+          outputResources:
+            - name: johns_OutHook_secret_formurl
+        execution:
+          onExecute:
+            - echo "hello world"
+            - formUrlEncodedPayload="foo=bar&runNumber=$run_number&stepName=$step_name"
+            - set_payload johns_OutHook_secret_formurl "$formUrlEncodedPayload"
