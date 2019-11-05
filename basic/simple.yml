@@ -3,7 +3,7 @@ resources:
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
-      path: ~johns/step_samples
+      path: ~johns/simpleserver
       branches:
         include: master
 
