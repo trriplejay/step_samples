@@ -30,9 +30,8 @@ resources:
   - name: myRepo
     type: GitRepo
     configuration:
-      path: trriplejay/basic-node
+      path: ~johns/simpleserver
       gitProvider: johns_bbs
-      sha: master
 
 pipelines:
   - name: scenario1
@@ -67,8 +66,8 @@ pipelines:
             - echo "here we go!!!"
           onExecute:
             - echo "Hello world!"
-            - echo "stepId is $STEP_ID"
-            - write_output myImage "imageTag=$STEP_ID"
+            - echo "stepId is $step_id"
+            - write_output myImage "imageTag=$step_id"
           onSuccess:
             - echo "yay success"
           onFailure:
@@ -159,7 +158,7 @@ pipelines:
         execution:
           onExecute:
             - echo "scenario 4. now with resources!"
-            - write_output S4_image "step=$STEP_ID"
+            - write_output S4_image "step=$step_id"
             - write_output S4_image "imageTag=latest"
 
       - name: S4_s2
@@ -257,8 +256,8 @@ pipelines:
         execution:
           onExecute:
             - echo "blah"
-            - cat $STEP_JSON_PATH
-            - write_output myImage "stepId=$STEP_ID" "imageTag=latest"
+            - cat $step_json_path
+            - write_output myImage "stepId=$step_id" "imageTag=latest"
 
       - name: S7_s2
         type: Bash
