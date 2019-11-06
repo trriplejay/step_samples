@@ -17,8 +17,7 @@ resources:
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
-      path: trriplejay/basic-node
-      sha: master
+      path: ~johns/simpleserver
 
   - name: myOtherImage
     type: Image
