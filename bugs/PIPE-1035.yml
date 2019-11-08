@@ -1,0 +1,21 @@
+
+resources:
+  - name: johns_inconsistent_repo
+    type: GitRepo
+    configuration:
+      gitRepository: johns_bbs
+      path: ~johns/simpleserver
+
+
+pipelines:
+  - name: johns_inconsistent_pipe
+    steps:
+      - name: johns_inconsistent_step
+        type: Bash
+        configuration:
+          inputResources:
+            - name: johns_inconsistent_repo
+            - name: phantom_resource
+
+
+
