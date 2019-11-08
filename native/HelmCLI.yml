@@ -1,13 +1,13 @@
 resources:
-  - name: tr_testImage
+  - name: johns_testImage
     type: Image
     configuration:
-      registry: tr_docker
+      registry: johns_docker
       imageName: trriplejay/simpleserver
       imageTag: latest
 
 pipelines:
-  - name: tr_basic_helm
+  - name: johns_basic_helm
     steps:
       - name: TryIt
         type: Bash
@@ -15,15 +15,10 @@ pipelines:
           integrations:
             - name: art
           inputResources:
-            - name: tr_testImage
+            - name: johns_testImage
         execution:
           onExecute:
             - echo "Hello world"
-            - pushd /tmp
-            - wget https://get.helm.sh/helm-v2.14.3-linux-amd64.tar.gz
-            - tar -zxvf helm-v2.14.3-linux-amd64.tar.gz
-            - mv linux-amd64/helm /usr/local/bin/helm
-            - popd
             - which helm
             - helm init --client-only
             - helm repo add helm-remote $int_art_url/helm-remote --username $int_art_user --password $int_art_apikey

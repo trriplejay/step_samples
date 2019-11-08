@@ -1,69 +1,69 @@
 resources:
-  - name: tr_helmChart
+  - name: johns_helmChart
     type: HelmChart
     configuration:
-      sourceArtifactory: tr_artifactory
+      sourceArtifactory: johns_artifactory
       repository: test
       chart: simpleserver
       version: 1.0.0
-  - name: tr_helmChart_extra
+  - name: johns_helmChart_extra
     type: HelmChart
     configuration:
-      sourceArtifactory: tr_artifactory
+      sourceArtifactory: johns_artifactory
       repository: test
       chart: simpleserver
       version: 1.0.0
-  - name: tr_simple_git
+  - name: johns_simple_git
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
       path: trriplejay/simpleserver
-  - name: tr_simple_git_extra
+  - name: johns_simple_git_extra
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
       path: trriplejay/simpleserver
-  - name: tr_helmChart_buildInfo
+  - name: johns_helmChart_buildInfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: tr_artifactory
+      sourceArtifactory: johns_artifactory
       buildName: simplehelm
       buildNumber: 0
-  - name: tr_helmChart_bad_int
+  - name: johns_helmChart_bad_int
     type: HelmChart
     configuration:
       sourceArtifactory: johns_bbs
       repository: test
       chart: simpleserver
       version: 1.0.0
-  - name: tr_helmChart_no_chart
+  - name: johns_helmChart_no_chart
     type: HelmChart
     configuration:
-      sourceArtifactory: tr_artifactory
+      sourceArtifactory: johns_artifactory
       repository: test
       version: 1.0.0
-  - name: tr_helmChart_no_repo
+  - name: johns_helmChart_no_repo
     type: HelmChart
     configuration:
-      sourceArtifactory: tr_artifactory
+      sourceArtifactory: johns_artifactory
       chart: simpleserver
       version: 1.0.0
-  - name: tr_helmChart_no_version
+  - name: johns_helmChart_no_version
     type: HelmChart
     configuration:
-      sourceArtifactory: tr_artifactory
+      sourceArtifactory: johns_artifactory
       repository: test
       chart: simpleserver
 
 pipelines:
-  - name: tr_test_HelmPublish_validation
+  - name: johns_test_HelmPublish_validation
     steps:
       - name: no_git_in
         type: HelmPublish
         configuration:
           outputResources:
-            - name: tr_helmChart
-            - name: tr_helmChart_buildInfo
+            - name: johns_helmChart
+            - name: johns_helmChart_buildInfo
           autoPublishBuildInfo: true
           forceXrayScan: true
           chartPath: ./simpleserver
@@ -71,99 +71,99 @@ pipelines:
         type: HelmPublish
         configuration:
           inputResources:
-            - name: tr_helmChart_buildInfo
+            - name: johns_helmChart_buildInfo
           outputResources:
-            - name: tr_helmChart
+            - name: johns_helmChart
           chartPath: ./simpleserver
       - name: no_chart_out
         type: HelmPublish
         configuration:
           inputResources:
-            - name: tr_simple_git
+            - name: johns_simple_git
           outputResources:
-            - name: tr_helmChart_buildInfo
+            - name: johns_helmChart_buildInfo
           chartPath: ./simpleserver
       - name: no_out
         type: HelmPublish
         configuration:
           inputResources:
-            - name: tr_simple_git
+            - name: johns_simple_git
           chartPath: ./simpleserver
       - name: buildInfo_true_no_info_out
         type: HelmPublish
         configuration:
           inputResources:
-            - name: tr_simple_git
+            - name: johns_simple_git
           outputResources:
-            - name: tr_helmChart
+            - name: johns_helmChart
           chartPath: ./simpleserver
           autoPublishBuildInfo: true
-  - name: tr_test_HelmDeploy_validation
+  - name: johns_test_HelmDeploy_validation
     steps:
       - name: no_chart_no_repo
         type: HelmDeploy
         configuration:
           integrations:
-            - name: tr_kubernetes
+            - name: johns_kubernetes
           releaseName: "test"
       - name: two_charts
         type: HelmDeploy
         configuration:
           integrations:
-            - name: tr_kubernetes
+            - name: johns_kubernetes
           inputResources:
-            - name: tr_helmChart
-            - name: tr_helmChart_extra
+            - name: johns_helmChart
+            - name: johns_helmChart_extra
           releaseName: "test"
       - name: two_repos
         type: HelmDeploy
         configuration:
           integrations:
-            - name: tr_kubernetes
+            - name: johns_kubernetes
           inputResources:
-            - name: tr_simple_git
-            - name: tr_simple_git_extra
+            - name: johns_simple_git
+            - name: johns_simple_git_extra
           releaseName: "test"
       - name: repo_no_path
         type: HelmDeploy
         configuration:
           integrations:
-            - name: tr_kubernetes
+            - name: johns_kubernetes
           inputResources:
-            - name: tr_simple_git
+            - name: johns_simple_git
           releaseName: "test"
       - name: path_no_repo
         type: HelmDeploy
         configuration:
           integrations:
-            - name: tr_kubernetes
+            - name: johns_kubernetes
           inputResources:
-            - name: tr_helmChart
+            - name: johns_helmChart
           releaseName: "test"
           chartPath: ./simpleserver
       - name: bad_valuefiles_format
         type: HelmDeploy
         configuration:
           integrations:
-            - name: tr_kubernetes
+            - name: johns_kubernetes
           inputResources:
-            - name: tr_helmChart
+            - name: johns_helmChart
           releaseName: "test"
           valueFileNames: "bad"
       - name: no_integration
         type: HelmDeploy
         configuration:
           inputResources:
-            - name: tr_helmChart
+            - name: johns_helmChart
           releaseName: "test"
           valueFileNames: "bad"
       - name: no_releaseName
         type: HelmDeploy
         configuration:
           integrations:
-            - name: tr_kubernetes
+            - name: johns_kubernetes
           inputResources:
-            - name: tr_helmChart
+            - name: johns_helmChart
 
 
 

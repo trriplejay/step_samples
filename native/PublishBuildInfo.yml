@@ -1,157 +1,157 @@
 resources:
-  - name: tr_image_test
+  - name: johns_image_test
     type: Image
     configuration:
-      registry: tr_docker
+      registry: johns_docker
       imageName: trriplejay/simpleserver
       imageTag: master
 
-  - name: tr_buildinfo_test
+  - name: johns_buildinfo_test
     type: BuildInfo
     configuration:
       sourceArtifactory: trriplejay_art
       buildNumber: 5
       buildName: helloWorld
 
-  - name: tr_buildinfo_test_2
+  - name: johns_buildinfo_test_2
     type: BuildInfo
     configuration:
       sourceArtifactory: trriplejay_art
       buildNumber: 5
       buildName: helloWorld
 
-  - name: tr_buildinfo
+  - name: johns_buildinfo
     type: BuildInfo
     configuration:
       sourceArtifactory: trriplejay_art
       buildNumber: 5
       buildName: helloWorld
 
-  - name: tr_npm_repo
+  - name: johns_npm_repo
     type: GitRepo
     configuration:
       path: trriplejay/simpleserver
       gitProvider: johns_bbs
 
 pipelines:
-  - name: tr_pbi_validation
+  - name: johns_pbi_validation
     steps:
     ## used for setup
-      - name: tr_bash
+      - name: johns_bash
         type: Bash
         execution:
           onExecute:
             - echo "hello"
 
-      - name: tr_mvnBuild
+      - name: johns_mvnBuild
         type: MvnBuild
         configuration:
           integrations:
             - name: trriplejay_art
           inputResources:
-            - name: tr_npm_repo
-          sourceLocation: $res_tr_npm_repo_resourcePath
+            - name: johns_npm_repo
+          sourceLocation: $res_johns_npm_repo_resourcePath
           mvnCommand: mvn --version
-          configFileLocation: $res_tr_npm_repo_resourcePath/config
+          configFileLocation: $res_johns_npm_repo_resourcePath/config
           configFileName: c.config
 
-      - name: tr_mvnBuild_auto
+      - name: johns_mvnBuild_auto
         type: MvnBuild
         configuration:
           autoPublishBuildInfo: true
           integrations:
             - name: trriplejay_art
           inputResources:
-            - name: tr_npm_repo
-          sourceLocation: $res_tr_npm_repo_resourcePath
+            - name: johns_npm_repo
+          sourceLocation: $res_johns_npm_repo_resourcePath
           mvnCommand: mvn --version
-          configFileLocation: $res_tr_npm_repo_resourcePath/config
+          configFileLocation: $res_johns_npm_repo_resourcePath/config
           configFileName: c.config
 
-      - name: tr_nb_test
+      - name: johns_nb_test
         type: NpmBuild
         configuration:
           affinityGroup: npm
           inputResources:
-            - name: tr_npm_repo
-          sourceLocation: $res_tr_npm_repo_resourcePath
+            - name: johns_npm_repo
+          sourceLocation: $res_johns_npm_repo_resourcePath
           repositoryName: simpleserver
           integrations:
             - name: trriplejay_art
 
     ## main test steps
-      - name: tr_pbi_twoThings
+      - name: johns_pbi_twoThings
         type: PublishBuildInfo
         configuration:
           inputSteps:
-            - name: tr_mvnBuild
-            - name: tr_bash
+            - name: johns_mvnBuild
+            - name: johns_bash
           integrations:
             - name: trriplejay_art
           outputResources:
-            - name: tr_buildinfo_test
-            - name: tr_buildinfo_test_2
+            - name: johns_buildinfo_test
+            - name: johns_buildinfo_test_2
 
-      - name: tr_pbi_badTypes
+      - name: johns_pbi_badTypes
         type: PublishBuildInfo
         configuration:
           inputSteps:
-            - name: tr_nb_test
+            - name: johns_nb_test
           integrations:
             - name: trriplejay_art
           outputResources:
-            - name: tr_image_test
+            - name: johns_image_test
 
-      - name: tr_pbi_notification
+      - name: johns_pbi_notification
         type: PublishBuildInfo
         configuration:
           inputSteps:
-            - name: tr_mvnBuild
+            - name: johns_mvnBuild
           integrations:
             - name: trriplejay_slack
           outputResources:
-            - name: tr_buildinfo_test
+            - name: johns_buildinfo_test
 
-      - name: tr_pbi_autoPub
+      - name: johns_pbi_autoPub
         type: PublishBuildInfo
         configuration:
           inputSteps:
-            - name: tr_mvnBuild_auto
+            - name: johns_mvnBuild_auto
           outputResources:
-            - name: tr_buildinfo_test
+            - name: johns_buildinfo_test
 
 
 ############### pipeline split
 
-  - name: tr_pbi_execution
+  - name: johns_pbi_execution
     steps:
-      - name: tr_nb
+      - name: johns_nb
         type: NpmBuild
         configuration:
           affinityGroup: npm
           inputResources:
-            - name: tr_npm_repo
-          sourceLocation: $res_tr_npm_repo_resourcePath
+            - name: johns_npm_repo
+          sourceLocation: $res_johns_npm_repo_resourcePath
           repositoryName: simpleserver
           integrations:
             - name: trriplejay_art
 
-      - name: tr_np
+      - name: johns_np
         type: NpmPublish
         configuration:
           affinityGroup: npm
           inputSteps:
-            - name: tr_nb
+            - name: johns_nb
           integrations:
             - name: trriplejay_art
           repositoryName: simpleserver
 
-      - name: tr_pbi_execute
+      - name: johns_pbi_execute
         type: PublishBuildInfo
         configuration:
           affinityGroup: npm
           inputSteps:
-            - name: tr_np
+            - name: johns_np
           outputResources:
-            - name: tr_buildinfo
+            - name: johns_buildinfo
 

@@ -1,35 +1,44 @@
 resources:
-  - name: tr_publish_helmChart
+  - name: johns_publish_helmChart
     type: HelmChart
     configuration:
-      sourceArtifactory: tr_artifactory
+      sourceArtifactory: johns_artifactory
       repository: simplecharts
       chart: simpleserver
       version: 1.0.0
-  - name: tr_publish_simple_git
+  - name: johns_publish_simple_git
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
       path: trriplejay/simpleserver
-  - name: tr_publish_helmChart_buildInfo
+  - name: johns_publish_helmChart_buildInfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: tr_artifactory
+      sourceArtifactory: johns_artifactory
       buildName: simplehelm
       buildNumber: 0
 
 
 pipelines:
-  - name: tr_test_HelmPublish
+  - name: johns_test_HelmPublish
     steps:
       - name: simple_publish
         type: HelmPublish
         configuration:
+          inputSteps:
+            - name: testInputStep
           inputResources:
-            - name: tr_publish_simple_git
+            - name: johns_publish_simple_git
           outputResources:
-            - name: tr_publish_helmChart
-            - name: tr_publish_helmChart_buildInfo
+            - name: johns_publish_helmChart
+            - name: johns_publish_helmChart_buildInfo
           autoPublishBuildInfo: true
           forceXrayScan: true
           chartPath: ./simpleserver
+
+
+      - name: testInputStep
+        type: Bash
+        execution:
+          onExecute:
+            - echo "hello world"

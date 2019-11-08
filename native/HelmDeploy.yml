@@ -1,22 +1,28 @@
 ######## basic #############
 
 resources:
-  - name: tr_HelmDeploy_chart
+  - name: johns_HelmDeploy_chart
     type: HelmChart
     configuration:
-      sourceArtifactory: tr_artifactory
+      sourceArtifactory: johns_artifactory
       repository: simplecharts
       chart: simpleserver
       version: 1.0.0
 
-  - name: tr_HelmDeploy_git
+  - name: johns_HelmDeploy_git
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
       path: trriplejay/simpleserver
+  - name: testOutImage
+    type: Image
+    configuration:
+      registry: tr_docker
+      imageName: trriplejay/simpleserver
+      imageTag: latest
 
 pipelines:
-  - name: tr_test_HelmDeploy_basic_chart
+  - name: johns_test_HelmDeploy_basic_chart
     steps:
       - name: deploy_git_chart
         type: HelmDeploy
@@ -24,9 +30,13 @@ pipelines:
           environmentVariables:
             REPLICAS: 3
           integrations:
-            - name: tr_kubernetes
+            - name: johns_kubernetes
           inputResources:
-            - name: tr_publish_helmChart
+            - name: johns_publish_helmChart
+          inputSteps:
+            - name: testInputStep
+          outputResources:
+            - name: testOutImage
           releaseName: simplechart
           # valueFilePaths:
           #   - override.yaml
@@ -36,16 +46,21 @@ pipelines:
           # lintFlags: "--strict"
           # test: true
           # testFlags: "--cleanup"
+      - name: testInputStep
+        type: Bash
+        execution:
+          onExecute:
+            - echo "hello world"
 
-  - name: tr_test_HelmDeploy_basic_git
+  - name: johns_test_HelmDeploy_basic_git
     steps:
       - name: deploy_git_chart
         type: HelmDeploy
         configuration:
           integrations:
-            - name: tr_kubernetes
+            - name: johns_kubernetes
           inputResources:
-            - name: tr_HelmDeploy_git
+            - name: johns_HelmDeploy_git
           chartPath: ./simpleserver
           releaseName: simplegit
           flags: "--namespace dev"
@@ -53,5 +68,7 @@ pipelines:
           lint: true
           test: true
           testFlags: "--cleanup"
+
+
 
 ######## end basic #############
