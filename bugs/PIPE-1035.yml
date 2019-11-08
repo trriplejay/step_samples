@@ -3,7 +3,7 @@ resources:
   - name: johns_inconsistent_repo
     type: GitRepo
     configuration:
-      gitRepository: johns_bbs
+      gitProvider: johns_bbs
       path: ~johns/simpleserver
 
 
