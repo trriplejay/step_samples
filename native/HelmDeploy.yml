@@ -14,12 +14,6 @@ resources:
     configuration:
       gitProvider: johns_bbs
       path: ~johns/simpleserver
-  - name: testOutImage
-    type: Image
-    configuration:
-      registry: tr_docker
-      imageName: trriplejay/simpleserver
-      imageTag: latest
 
 pipelines:
   - name: johns_test_HelmDeploy_basic_chart
@@ -33,10 +27,6 @@ pipelines:
             - name: johns_kubernetes
           inputResources:
             - name: johns_publish_helmChart
-          inputSteps:
-            - name: testInputStep
-          outputResources:
-            - name: testOutImage
           releaseName: simplechart
           # valueFilePaths:
           #   - override.yaml
@@ -46,11 +36,6 @@ pipelines:
           # lintFlags: "--strict"
           # test: true
           # testFlags: "--cleanup"
-      - name: testInputStep
-        type: Bash
-        execution:
-          onExecute:
-            - echo "hello world"
 
   - name: johns_test_HelmDeploy_basic_git
     steps:
