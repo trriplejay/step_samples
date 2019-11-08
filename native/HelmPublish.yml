@@ -10,7 +10,7 @@ resources:
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
-      path: trriplejay/simpleserver
+      path: ~johns/simpleserver
   - name: johns_publish_helmChart_buildInfo
     type: BuildInfo
     configuration:

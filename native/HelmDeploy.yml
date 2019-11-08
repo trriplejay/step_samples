@@ -13,7 +13,7 @@ resources:
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
-      path: trriplejay/simpleserver
+      path: ~johns/simpleserver
   - name: testOutImage
     type: Image
     configuration:
