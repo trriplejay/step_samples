@@ -16,6 +16,9 @@ pipelines:
           inputResources:
             - name: johns_inconsistent_repo
             - name: phantom_resource
+        execution:
+          onExecute:
+            - echo "yay"
 
 
 
