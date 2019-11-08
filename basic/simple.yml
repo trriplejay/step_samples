@@ -21,8 +21,8 @@ pipelines:
           onExecute:
             - echo "pipeline source branch {{gitBranch}}"
 
-      - name: extra_step
-        type: Bash
-        execution:
-          onExecute:
-            - echo "blah"
+      # - name: extra_step
+      #   type: Bash
+      #   execution:
+      #     onExecute:
+      #       - echo "blah"
