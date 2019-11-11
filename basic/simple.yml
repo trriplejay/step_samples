@@ -1,11 +1,11 @@
 resources:
-  - name: singleRepo_simple
-    type: GitRepo
-    configuration:
-      gitProvider: johns_bbs
-      path: ~johns/simpleserver
-      branches:
-        include: master
+  # - name: singleRepo_simple
+  #   type: GitRepo
+  #   configuration:
+  #     gitProvider: johns_bbs
+  #     path: ~johns/simpleserver
+  #     branches:
+  #       include: master
 
 pipelines:
   - name: simple_pipe_simple
