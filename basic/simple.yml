@@ -1,11 +1,11 @@
-# resources:
-  # - name: singleRepo_simple
-  #   type: GitRepo
-  #   configuration:
-  #     gitProvider: johns_bbs
-  #     path: ~johns/simpleserver
-  #     branches:
-  #       include: master
+resources:
+  - name: singleRepo_simple
+    type: GitRepo
+    configuration:
+      gitProvider: johns_bbs
+      path: ~johns/simpleserver
+      branches:
+        include: master
 
 pipelines:
   - name: simple_pipe_simple
@@ -21,8 +21,8 @@ pipelines:
           onExecute:
             - echo "pipeline source branch {{gitBranch}}"
 
-      - name: extra_step
-        type: Bash
-        execution:
-          onExecute:
-            - echo "blah"
+      # - name: extra_step
+      #   type: Bash
+      #   execution:
+      #     onExecute:
+      #       - echo "blah"
