@@ -31,4 +31,5 @@ pipelines:
             - resName="$step_triggered_by_resource_name"
             - export payload=$(eval echo "$"res_"$step_triggered_by_resource_name"_payload)
             - echo "payload is $payload"
-            - echo "$payload" | jq '.'
+            - echo "$payload" | jq '.' > payload.json
+            - echo "$(read_json payload.json my.nested.object)"
