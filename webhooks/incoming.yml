@@ -27,9 +27,11 @@ pipelines:
             - name: johns_incoming_secret_hook
         execution:
           onExecute:
+            - apt-get install -y tree
+            - tree /var/opt/jfrog/pipelines/pipelines/johns_incoming_hook
             - echo "job triggered by resource-> $step_triggered_by_resource_name"
             - resName="$step_triggered_by_resource_name"
-            - export payload=$(eval echo "$"res_"$step_triggered_by_resource_name"_payload)
+            - export payload=$(eval echo "$"res_"$resName"_payload)
             - echo "payload is $payload"
             - echo "$payload" | jq '.' > payload.json
             - echo "$(read_json payload.json my.nested.object)"
