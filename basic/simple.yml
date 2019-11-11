@@ -1,4 +1,4 @@
-resources:
+# resources:
   # - name: singleRepo_simple
   #   type: GitRepo
   #   configuration:
