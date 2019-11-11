@@ -15,14 +15,15 @@ pipelines:
         configuration:
           inputResources:
             - name: singleRepo_simple
+            - name: phantom_resource
           inputSteps:
             - name: extra_step
         execution:
           onExecute:
             - echo "pipeline source branch {{gitBranch}}"
 
-      # - name: extra_step
-      #   type: Bash
-      #   execution:
-      #     onExecute:
-      #       - echo "blah"
+      - name: extra_step
+        type: Bash
+        execution:
+          onExecute:
+            - echo "blah"
