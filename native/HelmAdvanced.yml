@@ -2,7 +2,7 @@ resources:
   - name: johns_HelmAdvanced_chart
     type: HelmChart
     configuration:
-      sourceArtifactory: johns_artifactory
+      sourceArtifactory: johns_art
       repository: simplecharts
       chart: simpleserver
       version: 1.0.0
@@ -24,7 +24,7 @@ resources:
   - name: johns_HelmAdvanced_buildInfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: johns_artifactory
+      sourceArtifactory: johns_art
       buildName: HelmAdvanced
       buildNumber: 0
 
@@ -35,7 +35,7 @@ pipelines:
         type: DockerBuild
         configuration:
           integrations:
-            - name: johns_artifactory
+            - name: johns_art
           inputResources:
             - name: johns_HelmAdvanced_git
           dockerFileLocation: .
@@ -46,7 +46,7 @@ pipelines:
         type: DockerPush
         configuration:
           integrations:
-            - name: johns_artifactory
+            - name: johns_art
           targetRepository: johns/simpleserver
           autoPublishBuildInfo: true
           forceXrayScan: true

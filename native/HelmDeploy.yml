@@ -4,7 +4,7 @@ resources:
   - name: johns_HelmDeploy_chart
     type: HelmChart
     configuration:
-      sourceArtifactory: johns_artifactory
+      sourceArtifactory: johns_art
       repository: simplecharts
       chart: simpleserver
       version: 1.0.0

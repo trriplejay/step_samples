@@ -2,7 +2,7 @@ resources:
   - name: johns_publish_helmChart
     type: HelmChart
     configuration:
-      sourceArtifactory: johns_artifactory
+      sourceArtifactory: johns_art
       repository: simplecharts
       chart: simpleserver
       version: 1.0.0
@@ -14,7 +14,7 @@ resources:
   - name: johns_publish_helmChart_buildInfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: johns_artifactory
+      sourceArtifactory: johns_art
       buildName: simplehelm
       buildNumber: 0
 

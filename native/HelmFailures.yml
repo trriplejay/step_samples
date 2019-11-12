@@ -2,14 +2,14 @@ resources:
   - name: johns_helmChart
     type: HelmChart
     configuration:
-      sourceArtifactory: johns_artifactory
+      sourceArtifactory: johns_art
       repository: test
       chart: simpleserver
       version: 1.0.0
   - name: johns_helmChart_extra
     type: HelmChart
     configuration:
-      sourceArtifactory: johns_artifactory
+      sourceArtifactory: johns_art
       repository: test
       chart: simpleserver
       version: 1.0.0
@@ -26,7 +26,7 @@ resources:
   - name: johns_helmChart_buildInfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: johns_artifactory
+      sourceArtifactory: johns_art
       buildName: simplehelm
       buildNumber: 0
   - name: johns_helmChart_bad_int
@@ -39,19 +39,19 @@ resources:
   - name: johns_helmChart_no_chart
     type: HelmChart
     configuration:
-      sourceArtifactory: johns_artifactory
+      sourceArtifactory: johns_art
       repository: test
       version: 1.0.0
   - name: johns_helmChart_no_repo
     type: HelmChart
     configuration:
-      sourceArtifactory: johns_artifactory
+      sourceArtifactory: johns_art
       chart: simpleserver
       version: 1.0.0
   - name: johns_helmChart_no_version
     type: HelmChart
     configuration:
-      sourceArtifactory: johns_artifactory
+      sourceArtifactory: johns_art
       repository: test
       chart: simpleserver
 
