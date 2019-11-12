@@ -70,7 +70,7 @@ pipelines:
         configuration:
           dockerFileLocation: .
           dockerFileName: Dockerfile
-          dockerImageName: ${IP_ADDR}/pipe-master-images/gosvc
+          dockerImageName: ${MASTER_IP}/pipe-master-images/gosvc
           dockerImageTag: ${run_number}
           inputResources:
             - name: goServiceGitRepo
@@ -173,7 +173,7 @@ pipelines:
         type: Bash
         configuration:
           environmentVariables:
-            dockerImageName: ${IP_ADDR}/pipe-master-images/app
+            dockerImageName: ${MASTER_IP}/pipe-master-images/app
             dockerImageTag: ${run_number}
           inputResources:
             - name: javaBackendGitRepo
