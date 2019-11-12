@@ -225,8 +225,6 @@ pipelines:
           releaseBundleVersion: 2.0.2
           dryRun: false
           sign: true
-          integrations:
-            - name: johns_keys
           inputResources:
             - name: goServicePromotedDockerBuildInfo
             - name: javaBackendPromotedDockerBuildInfo
