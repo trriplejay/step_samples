@@ -48,14 +48,14 @@ resources:
   - name: appReleaseBundle
     type: ReleaseBundle
     configuration:
-      sourceDistribution: dist
+      sourceDistribution: johns_dist
       name: demo-app
       version: v2.0.0
 
   - name: appDistributionRuleToAll
     type: DistributionRule
     configuration:
-      sourceDistribution: dist
+      sourceDistribution: johns_dist
       serviceName: "*"
       siteName: "*"
       cityName: "*"
