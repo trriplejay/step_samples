@@ -1,0 +1,237 @@
+resources:
+  - name: goServiceGitRepo
+    type: GitRepo
+    configuration:
+      path: ~johns/app-go-service
+      gitProvider: johns_bbs
+
+  - name: goServiceDockerBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: johns_art
+      buildName: svc_build
+      buildNumber: 1
+
+  - name: goServicePromotedDockerBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: johns_art
+      buildName: svc_build
+      buildNumber: 1
+
+  - name: javaBackendGitRepo
+    type: GitRepo
+    configuration:
+      path: ~johns/app-java-backend-service
+      gitProvider: johns_bbs
+
+  - name: javaBackendDockerBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: johns_art
+      buildName: backend_build
+      buildNumber: 1
+
+  - name: javaBackendPromotedDockerBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: johns_art
+      buildName: backend_build
+      buildNumber: 1
+
+  - name: npmFrontendGitRepo
+    type: GitRepo
+    configuration:
+      path: ~johns/app-vue-frontend
+      gitProvider: johns_bbs
+
+  - name: appReleaseBundle
+    type: ReleaseBundle
+    configuration:
+      sourceDistribution: dist
+      name: demo-app
+      version: v2.0.0
+
+  - name: appDistributionRuleToAll
+    type: DistributionRule
+    configuration:
+      sourceDistribution: dist
+      serviceName: "*"
+      siteName: "*"
+      cityName: "*"
+      countryCodes:
+        - "*"
+
+pipelines:
+  - name: go_service_pipeline
+    steps:
+      - name: go_service_docker_build
+        type: DockerBuild
+        configuration:
+          dockerFileLocation: .
+          dockerFileName: Dockerfile
+          dockerImageName: ${IP_ADDR}/pipe-master-images/gosvc
+          dockerImageTag: ${run_number}
+          inputResources:
+            - name: goServiceGitRepo
+          integrations:
+            - name: johns_art
+
+      - name: go_service_docker_push
+        type: DockerPush
+        configuration:
+          targetRepository: pipe-master-images
+          autoPublishBuildInfo: true
+          integrations:
+            - name: johns_art
+          inputSteps:
+            - name: go_service_docker_build
+          outputResources:
+            - name: goServiceDockerBuildInfo
+
+      - name: go_service_promote_build
+        type: PromoteBuild
+        configuration:
+          targetRepository: pipe-master-images
+          integrations:
+            - name: johns_art
+          inputResources:
+            - name: goServiceDockerBuildInfo
+          outputResources:
+            - name: goServicePromotedDockerBuildInfo
+
+  - name: npm_maven_service_pipeline
+    steps:
+      - name: backend_maven_build
+        type: MvnBuild
+        configuration:
+          runtime:
+            type: image
+            image:
+              custom:
+                name: drydock/u18java
+                tag: master
+          sourceLocation: .
+          mvnCommand: clean install -ntp
+          configFileLocation: .
+          configFileName: mvn-art-config
+          inputResources:
+            - name: javaBackendGitRepo
+          integrations:
+            - name: johns_art
+        execution:
+          onFailure:
+            - jfrog rt config show
+
+
+      - name: frontend_npm_build
+        type: NpmBuild
+        configuration:
+          npmArgs: --no-progress --no-audit
+          sourceLocation: .
+          repositoryName: pipe-master-npm
+          inputResources:
+            - name: npmFrontendGitRepo
+          integrations:
+            - name: johns_art
+
+      - name: frontend_npm_pack
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: frontend_npm_build
+          integrations:
+            - name: johns_art
+        execution:
+          onStart:
+            - export tempStateLocation="$step_tmp_dir/npmSourceState"
+            - restore_run_files npmBuildInputGitRepo $tempStateLocation
+            - pushd $tempStateLocation
+            - npm run build
+            - add_run_files $tempStateLocation/. npmBuildInputGitRepo
+
+      - name: frontend_npm_publish
+        type: NpmPublish
+        configuration:
+          repositoryName: pipe-master-npm
+          inputSteps:
+            - name: frontend_npm_pack
+          integrations:
+            - name: johns_art
+        execution:
+          onStart:
+            - export inputNpmBuildStepName="frontend_npm_build"
+
+      - name: docker_build
+        type: Bash
+        configuration:
+          environmentVariables:
+            dockerImageName: ${IP_ADDR}/pipe-master-images/app
+            dockerImageTag: ${run_number}
+          inputResources:
+            - name: javaBackendGitRepo
+          inputSteps:
+            - name: backend_maven_build
+            - name: frontend_npm_publish
+          integrations:
+            - name: johns_art
+        execution:
+          onStart:
+            - rm -rf $run_dir/workspace/jfrog
+            - retry_command jfrog rt config --url $int_art_url --user $int_art_user --apikey $int_art_apikey --interactive=false
+            - pushd $res_javaBackendGitRepo_resourcePath
+            - echo $int_art_url
+            - echo $run_Number
+            - add_run_variables buildStepName=${step_name} ${step_name}_buildNumber=${run_number} ${step_name}_buildName=${pipeline_name}
+            - docker build --pull --no-cache -t $dockerImageName:$dockerImageTag --build-arg REGISTRY=${int_art_url} --build-arg NPM_REPO_NAME=pipe-master-npm --build-arg MAVEN_REPO_NAME=pipe-master-mvn --build-arg REGISTRY_USERNAME=$int_johns_art_user --build-arg REGISTRY_PASSWORD=$int_johns_art_apikey .
+            - jfrog rt bce $pipeline_name $run_number
+            - jfrog rt docker-push $dockerImageName:$dockerImageTag pipe-master-images --build-name=$pipeline_name --build-number=$run_number
+            - add_run_files /tmp/jfrog/. jfrog
+
+      - name: push_build_info
+        type: PublishBuildInfo
+        configuration:
+          inputSteps:
+            - name: docker_build
+          outputResources:
+            - name: javaBackendDockerBuildInfo
+
+      - name: promote_build_info
+        type: PromoteBuild
+        configuration:
+          targetRepository: pipe-master-images
+          integrations:
+            - name: johns_art
+          inputResources:
+            - name: javaBackendDockerBuildInfo
+          outputResources:
+            - name: javaBackendPromotedDockerBuildInfo
+
+  - name: release_pipeline
+    steps:
+      - name: create_release_bundle
+        type: CreateReleaseBundle
+        configuration:
+          releaseBundleName: demo-app
+          releaseBundleVersion: 2.0.2
+          dryRun: false
+          sign: true
+          inputResources:
+            - name: goServicePromotedDockerBuildInfo
+            - name: javaBackendPromotedDockerBuildInfo
+          outputResources:
+            - name: appReleaseBundle
+        execution:
+          onStart:
+            - echo $outputReleaseBundleResourceName
+            - printenv
+
+      - name: distribute_release_bundle
+        type: DistributeReleaseBundle
+        configuration:
+          dryRun: false
+          inputResources:
+            - name: appReleaseBundle
+            - name: appDistributionRuleToAll
+          integrations:
+            - name: johns_art
