@@ -76,6 +76,9 @@ pipelines:
             - name: goServiceGitRepo
           integrations:
             - name: johns_keys
+        execution:
+          onStart:
+            - echo "master IP is $MASTER_IP"
 
       - name: go_service_docker_push
         type: DockerPush
