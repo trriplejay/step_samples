@@ -70,7 +70,7 @@ pipelines:
         configuration:
           dockerFileLocation: .
           dockerFileName: Dockerfile
-          dockerImageName: ${MASTER_IP}/pipe-master-images/gosvc
+          dockerImageName: ${int_johns_keys_MASTER_IP}/pipe-master-images/gosvc
           dockerImageTag: ${run_number}
           inputResources:
             - name: goServiceGitRepo
@@ -78,7 +78,7 @@ pipelines:
             - name: johns_keys
         execution:
           onStart:
-            - echo "master IP is $MASTER_IP"
+            - echo "master IP is $int_johns_keys_MASTER_IP"
 
       - name: go_service_docker_push
         type: DockerPush
@@ -175,7 +175,7 @@ pipelines:
         type: Bash
         configuration:
           environmentVariables:
-            dockerImageName: ${MASTER_IP}/pipe-master-images/app
+            dockerImageName: ${int_johns_keys_MASTER_IP}/pipe-master-images/app
             dockerImageTag: ${run_number}
           inputResources:
             - name: javaBackendGitRepo
