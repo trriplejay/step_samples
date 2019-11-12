@@ -75,7 +75,6 @@ pipelines:
           inputResources:
             - name: goServiceGitRepo
           integrations:
-            - name: johns_art
             - name: johns_keys
 
       - name: go_service_docker_push
