@@ -46,6 +46,8 @@ pipelines:
           onExecute:
             - echo "hello world. Package arrived from run ${run_number}." > package.txt
             - jfrog rt u --build-name ${pipeline_name} --build-number ${run_number} package.txt johns_stuff/package.txt
+            - jfrog rt bce ${pipeline_name} ${run_number}
+            - jfrog rt bp ${pipeline_name} ${run_number}
           onSuccess:
             - write_output johns_buildinfo "buildName=${pipeline_name} buildNumber=${run_number}"
 
