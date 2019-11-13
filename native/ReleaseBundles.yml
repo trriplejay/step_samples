@@ -1,0 +1,76 @@
+resources:
+  - name: johns_buildinfo
+    type: BuildInfo
+    configuration:
+      buildName: test_bundle
+      buildNumber: 0
+
+  - name: johns_release_bundle
+    type: ReleaseBundle
+    configuration:
+      sourceDistribution: johns_dist
+      name: johns_test_bundle
+      version: 1.0.0
+      isSigned: false
+
+  - name: johns_signed_bundle
+    type: ReleaseBundle
+    configuration:
+      sourceDistribution: johns_dist
+      name: johns_signed_bundle
+      version: 1.0.0
+      isSigned: true
+
+  - name: johns_dist_rule
+    type: DistributionRule
+    configuration:
+      sourceDistribution: johns_dist
+      serviceName: *
+      siteName: *
+      cityName: *
+      countryCodes:
+        - *
+
+pipelines:
+  - name: johns_release_pipe
+    steps:
+      - name: push_package
+        type: Bash
+        configuration:
+          outputResources:
+            - name: johns_buildinfo
+          integrations:
+            - name: johns_art
+        execution:
+          onExecute:
+            - echo "hello world. Package arrived from run ${run_number}." > package.txt
+            - jfrog rt u --buildName ${pipeline_name} --buildNumber ${run_number} package.txt johns_stuff/package.txt
+          onSuccess:
+            - write_output johns_buildinfo "buildName=${pipeline_name} buildNumber=${run_number}"
+      - name: create_bundle
+        type: CreateReleaseBundle
+        configuration:
+          releaseBundleName: johns_test_bundle
+          releaseBundleVersion: ${release_semver}
+          sign: true
+          storeAtSourceArtifactory: true
+          description: "my bundle ready for release"
+          inputResources:
+            - name: johns_buildinfo
+          outputResources:
+            - name: johns_release_bundle
+
+      - name: sign_bundle
+        type: SignReleaseBundle
+        configuration:
+          inputResources:
+            - name: johns_release_bundle
+              trigger: false
+          outputResources:
+            - name: johns_signed_bundle
+      - name: distribute_bundle
+        type: DistributeReleaseBundle
+        configuration:
+          inputResources:
+            - name: johns_signed_bundle
+            - name: johns_dist_rule
