@@ -26,8 +26,8 @@ resources:
     type: DistributionRule
     configuration:
       sourceDistribution: johns_dist
-      serviceName: "*"
-      siteName: "*"
+      serviceName: "rt-edge-sea-1"
+      siteName: "SeattleEdge"
       cityName: "*"
       countryCodes:
         - "*"
@@ -64,6 +64,7 @@ pipelines:
             - name: johns_buildinfo
           outputResources:
             - name: johns_release_bundle
+
       - name: distribute_bundle
         type: DistributeReleaseBundle
         configuration:
