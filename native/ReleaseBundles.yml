@@ -51,7 +51,7 @@ pipelines:
         type: CreateReleaseBundle
         configuration:
           releaseBundleName: johns_test_bundle
-          releaseBundleVersion: ${release_semver}
+          releaseBundleVersion: ${run_number}
           sign: true
           storeAtSourceArtifactory: true
           description: "my bundle ready for release"
