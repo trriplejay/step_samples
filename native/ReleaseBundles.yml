@@ -68,6 +68,7 @@ pipelines:
       - name: distribute_bundle
         type: DistributeReleaseBundle
         configuration:
+          dryRun: false
           inputResources:
             - name: johns_release_bundle
             - name: johns_dist_rule
