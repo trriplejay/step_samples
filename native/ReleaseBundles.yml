@@ -64,18 +64,9 @@ pipelines:
             - name: johns_buildinfo
           outputResources:
             - name: johns_release_bundle
-
-      - name: sign_bundle
-        type: SignReleaseBundle
-        configuration:
-          inputResources:
-            - name: johns_release_bundle
-              trigger: false
-          outputResources:
-            - name: johns_signed_bundle
       - name: distribute_bundle
         type: DistributeReleaseBundle
         configuration:
           inputResources:
-            - name: johns_signed_bundle
+            - name: johns_release_bundle
             - name: johns_dist_rule
