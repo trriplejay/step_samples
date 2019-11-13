@@ -44,8 +44,9 @@ pipelines:
             - name: iot_art
         execution:
           onExecute:
-            - echo "hello world. Package arrived from run ${run_number}." > package_${run_number}.txt
-            - jfrog rt u --build-name ${pipeline_name} --build-number ${run_number} package.txt johns_stuff/package.txt
+            - export package=package_${run_number}.txt
+            - echo "hello world. Package arrived from run ${run_number}." > $package
+            - jfrog rt u --build-name ${pipeline_name} --build-number ${run_number} $package johns_stuff/$package
             - jfrog rt bce ${pipeline_name} ${run_number}
             - jfrog rt bp ${pipeline_name} ${run_number}
           onSuccess:
