@@ -55,7 +55,7 @@ pipelines:
           releaseBundleName: johns_test_bundle
           releaseBundleVersion: ${run_number}
           sign: true
-          storeAtSourceArtifactory: true
+          storeAtSourceArtifactory: "true"
           description: "my bundle ready for release"
           inputResources:
             - name: johns_buildinfo
