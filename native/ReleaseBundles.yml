@@ -49,7 +49,7 @@ pipelines:
             - jfrog rt bce ${pipeline_name} ${run_number}
             - jfrog rt bp ${pipeline_name} ${run_number}
           onSuccess:
-            - write_output johns_buildinfo "buildName=${pipeline_name} buildNumber=${run_number}"
+            - write_output johns_buildinfo "buildName=${pipeline_name}" "buildNumber=${run_number}"
 
       - name: create_bundle
         type: CreateReleaseBundle
