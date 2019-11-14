@@ -58,7 +58,7 @@ pipelines:
           releaseBundleName: johns_test_bundle
           releaseBundleVersion: ${run_number}
           sign: true
-          dryRun: false
+          dryRun: true
           storeAtSourceArtifactory: "true"
           description: "my bundle ready for release"
           inputResources:
