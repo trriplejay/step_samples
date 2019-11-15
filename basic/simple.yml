@@ -6,6 +6,12 @@ resources:
       path: ~johns/simpleserver
       branches:
         include: master
+  - name: testimage
+    type: Image
+    configuration:
+      registry: johns_docker
+      imageName: trriplejay/simpleserver
+      imageTag: latest
 
 pipelines:
   - name: simple_pipe_simple
@@ -18,3 +24,31 @@ pipelines:
         execution:
           onExecute:
             - echo "pipeline source branch {{gitBranch}}"
+
+  - name: three_little_steps
+    steps:
+      - name: parallel_step_1
+        type: Bash
+        configuration:
+          inputResources:
+            - name: testimage
+        execution:
+          onExecute:
+            - echo "hi"
+      - name: parallel_step_2
+        type: Bash
+        configuration:
+          inputResources:
+            - name: testimage
+        execution:
+          onExecute:
+            - echo "bye"
+      - name: final_step
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: parallel_step_1
+            - name: parallel_step_2
+        execution:
+          onExecute:
+            - echo "hi"
