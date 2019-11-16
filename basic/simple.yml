@@ -27,11 +27,18 @@ pipelines:
 
   - name: three_little_steps
     steps:
+      - name: extra_bad_step
+        type: Bash
+        execution:
+          onExecute:
+            - echo "ew"
       - name: parallel_step_1
         type: Bash
         configuration:
           inputResources:
             - name: testimage
+          inputSteps:
+            - name: extra_bad_step
         execution:
           onExecute:
             - echo "hi"
