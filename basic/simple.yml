@@ -23,7 +23,9 @@ resources:
       gitProvider: johns_bbs
       path: ~johns/simpleserver
       branches:
-        include: ^server.js$
+        include: master
+      files:
+        include:  ^server.js$
 
   - name: testimage
     type: Image
