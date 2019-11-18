@@ -6,6 +6,25 @@ resources:
       path: ~johns/simpleserver
       branches:
         include: master
+
+  - name: singleRepo_simple_chart
+    type: GitRepo
+    configuration:
+      gitProvider: johns_bbs
+      path: ~johns/simpleserver
+      branches:
+        include: master
+      files:
+        include: ^simplehelm.*
+
+  - name: singleRepo_simple_server
+    type: GitRepo
+    configuration:
+      gitProvider: johns_bbs
+      path: ~johns/simpleserver
+      branches:
+        include: ^server.js$
+
   - name: testimage
     type: Image
     configuration:
@@ -29,6 +48,9 @@ pipelines:
     steps:
       - name: extra_bad_step
         type: Bash
+        configuration:
+          inputResources:
+            - name: singleRepo_simple_server
         execution:
           onExecute:
             - echo "ew"
@@ -37,6 +59,7 @@ pipelines:
         configuration:
           inputResources:
             - name: testimage
+            - name: singleRepo_simple_server
           inputSteps:
             - name: extra_bad_step
         execution:
@@ -47,6 +70,7 @@ pipelines:
         configuration:
           inputResources:
             - name: testimage
+            - name: singleRepo_simple
         execution:
           onExecute:
             - echo "bye"
