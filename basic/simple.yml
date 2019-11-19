@@ -61,6 +61,7 @@ pipelines:
         configuration:
           inputResources:
             - name: testimage
+            - name: singleRepo_simple_server
             - name: singleRepo_simple_chart
           inputSteps:
             - name: extra_bad_step
