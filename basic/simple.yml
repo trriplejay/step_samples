@@ -42,6 +42,7 @@ pipelines:
         configuration:
           inputResources:
             - name: singleRepo_simple
+            - name: testimage
         execution:
           onExecute:
             - echo "pipeline source branch {{gitBranch}}"
