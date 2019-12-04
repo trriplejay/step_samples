@@ -1,0 +1,67 @@
+resources:
+  - name: artifactory_go_example_gb
+    type: GitRepo
+    configuration:
+      path: myrepo/artifactory-go-example
+      branches:
+        include: GoBuild
+      gitProvider: myGithub
+
+  - name: go_build_info_publish_gb
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: art
+      buildName: go_example_build_publish
+      buildNumber: 1
+
+  - name: promoted_go_build_info_go_publish_gb
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: art
+      buildName: promote_go_build_publish
+      buildNumber: 1
+
+pipelines:
+  name: go_build_pipeline
+  steps:
+    - name: build_go
+      type: GoBuild
+      configuration:
+        sourceLocation: .
+        repository: my-go
+        outputLocation: /tmp/dist
+        outputFile: hello_gb
+        inputResources:
+          - name: artifactory_go_example_gb
+        integrations:
+          - name: art
+      execution:
+        onStart:
+          - 'wget https://dl.google.com/go/go1.12.5.linux-amd64.tar.gz'
+          - sudo tar -C /usr/local -xzf go1.12.5.linux-amd64.tar.gz
+          - 'export PATH=$PATH:/usr/local/go/bin'
+          - go version
+
+    - name: publish_go_binary
+      type: GoPublishBinary
+      configuration:
+        inputSteps:
+          - name: build_go
+        targetRepository: my-go
+        autoPublishBuildInfo: true
+        integrations:
+          - name: art
+        outputResources:
+          - name: go_build_info_publish_gb
+
+    - name: promote_build_go
+      type: PromoteBuild
+      configuration:
+        targetRepository: promoted_go_test
+        integrations:
+          - name: art
+        inputResources:
+          - name: go_build_info_publish_gb
+            trigger: false
+        outputResources:
+          - name: promoted_go_build_info_go_publish_gb
