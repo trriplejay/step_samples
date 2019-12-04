@@ -7,26 +7,6 @@ resources:
       branches:
         include: master
 
-  - name: singleRepo_simple_chart
-    type: GitRepo
-    configuration:
-      gitProvider: johns_bbs
-      path: ~johns/simpleserver
-      branches:
-        include: master
-      files:
-        include: ^simplehelm.*
-
-  - name: singleRepo_simple_server
-    type: GitRepo
-    configuration:
-      gitProvider: johns_bbs
-      path: ~johns/simpleserver
-      branches:
-        include: master
-      files:
-        include:  ^server.js$
-
   - name: testimage
     type: Image
     configuration:
@@ -46,44 +26,6 @@ pipelines:
         execution:
           onExecute:
             - echo "pipeline source branch {{gitBranch}}"
+            - write_output testimage "imageTag={{gitBranch}}.${runNumber}"
 
-  - name: three_little_steps
-    steps:
-      - name: extra_bad_step
-        type: Bash
-        configuration:
-          inputResources:
-            - name: singleRepo_simple_server
-        execution:
-          onExecute:
-            - echo "ew"
-      - name: parallel_step_1
-        type: Bash
-        configuration:
-          inputResources:
-            - name: testimage
-            - name: singleRepo_simple_server
-            - name: singleRepo_simple_chart
-          inputSteps:
-            - name: extra_bad_step
-        execution:
-          onExecute:
-            - echo "hi"
-      - name: parallel_step_2
-        type: Bash
-        configuration:
-          inputResources:
-            - name: testimage
-            - name: singleRepo_simple
-        execution:
-          onExecute:
-            - echo "bye"
-      - name: final_step
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: parallel_step_1
-            - name: parallel_step_2
-        execution:
-          onExecute:
-            - echo "hi"
+
