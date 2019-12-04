@@ -27,6 +27,6 @@ pipelines:
         execution:
           onExecute:
             - echo "pipeline source branch {{gitBranch}}"
-            - write_output testimage "imageTag={{gitBranch}}.${runNumber}"
+            - write_output testimage "imageTag={{gitBranch}}.${run_number}"
 
 
