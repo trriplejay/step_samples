@@ -22,6 +22,7 @@ pipelines:
         configuration:
           inputResources:
             - name: singleRepo_simple
+          outputResources:
             - name: testimage
         execution:
           onExecute:
