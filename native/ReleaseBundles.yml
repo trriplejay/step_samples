@@ -2,14 +2,14 @@ resources:
   - name: johns_buildinfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: iot_art
+      sourceArtifactory: demoArt
       buildName: test_bundle
       buildNumber: 0
 
   - name: johns_release_bundle
     type: ReleaseBundle
     configuration:
-      sourceDistribution: johns_dist
+      sourceDistribution: demoDist
       name: johns_test_bundle
       version: 1.0.0
       isSigned: false
@@ -17,7 +17,7 @@ resources:
   - name: johns_signed_bundle
     type: ReleaseBundle
     configuration:
-      sourceDistribution: johns_dist
+      sourceDistribution: demoDist
       name: johns_signed_bundle
       version: 1.0.0
       isSigned: true
@@ -25,7 +25,7 @@ resources:
   - name: johns_dist_rule
     type: DistributionRule
     configuration:
-      sourceDistribution: johns_dist
+      sourceDistribution: demoDist
       serviceName: "rt-edge-sea-1"
       siteName: "SeattleEdge"
       cityName: "*"
