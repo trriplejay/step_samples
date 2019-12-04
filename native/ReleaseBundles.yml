@@ -41,7 +41,7 @@ pipelines:
           outputResources:
             - name: johns_buildinfo
           integrations:
-            - name: iot_art
+            - name: demoArt
         execution:
           onExecute:
             - export package=package_${run_number}.txt
