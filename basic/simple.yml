@@ -29,4 +29,13 @@ pipelines:
             - echo "pipeline source branch is - {{gitBranch}}"
             - write_output testimage "imageTag={{gitBranch}}.${run_number}"
 
+      - name: second_step_simple
+        type: Bash
+        configuration:
+          inputResources:
+            - name: testimage
+        execution:
+          onExecute:
+            - echo "got image ${res_testimage_imageName} with tag ${res_testimage_imageTag}"
+
 
