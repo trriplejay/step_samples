@@ -7,13 +7,6 @@ resources:
       branches:
         include: master
 
-  - name: testimage
-    type: Image
-    configuration:
-      registry: johns_docker
-      imageName: trriplejay/simpleserver
-      imageTag: latest
-
 pipelines:
   - name: simple_pipe_simple
     steps:
@@ -22,20 +15,17 @@ pipelines:
         configuration:
           inputResources:
             - name: singleRepo_simple
-          outputResources:
-            - name: testimage
         execution:
           onExecute:
             - echo "pipeline source branch is - {{gitBranch}}"
-            - write_output testimage "imageTag={{gitBranch}}.${run_number}"
 
       - name: second_step_simple
         type: Bash
         configuration:
-          inputResources:
-            - name: testimage
+          inputSteps:
+            - name: first_step_simple
         execution:
           onExecute:
-            - echo "got image ${res_testimage_imageName} with tag ${res_testimage_imageTag}"
+            - echo "final step in the pipeline"
 
 
