@@ -2,7 +2,7 @@ resources:
   - name: singleRepo_simple
     type: GitRepo
     configuration:
-      gitProvider: johns_bbs
+      gitProvider: badname
       path: ~johns/simpleserver
       branches:
         include: master
@@ -13,8 +13,8 @@ pipelines:
       - name: first_step_simple
         type: Bash
         configuration:
-          # integrations:
-          #   - name: badname
+          integrations:
+            - name: badname
           inputResources:
             - name: singleRepo_simple
           runtime:
