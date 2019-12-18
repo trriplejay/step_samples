@@ -24,6 +24,7 @@ pipelines:
                 autoPull: false
         execution:
           onExecute:
+            - bash --version
             - echo "pipeline source branch is - {{gitBranch}}"
 
       - name: second_step_simple
