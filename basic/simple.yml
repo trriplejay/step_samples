@@ -16,10 +16,12 @@ pipelines:
           inputResources:
             - name: singleRepo_simple
           runtime:
-            custom:
-              name: docker.bintray.io/jfrog/pipelines-u16node
-              tag: 10.16.3
-              autoPull: false
+            type: image
+            image:
+              custom:
+                name: docker.bintray.io/jfrog/pipelines-u16node
+                tag: 10.16.3
+                autoPull: false
         execution:
           onExecute:
             - echo "pipeline source branch is - {{gitBranch}}"
