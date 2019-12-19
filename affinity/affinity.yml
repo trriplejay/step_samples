@@ -304,6 +304,9 @@ pipelines:
         execution:
           onExecute:
             - echo "$step_name"
+        inputSteps:
+          - name: S8_s1
+
       - name: S8_s2b
         type: Bash
         configuration:
@@ -311,6 +314,8 @@ pipelines:
         execution:
           onExecute:
             - echo "$step_name"
+        inputSteps:
+          - name: S8_s1
       - name: S8_s3
         type: Bash
         configuration:
@@ -318,3 +323,6 @@ pipelines:
         execution:
           onExecute:
             - echo "$step_name"
+        inputSteps:
+          - name: S8_s2a
+          - name: S8_s2b
