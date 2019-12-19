@@ -288,3 +288,32 @@ pipelines:
       #   execution:
       #     onExecute:
       #       - echo "blah"
+
+      - name: S8_s1
+        type: Bash
+        configuration:
+          affinityGroup: g8
+        execution:
+          onExecute:
+            - echo "$step_name"
+      - name: S8_s2a
+        type: Bash
+        configuration:
+          affinityGroup: g8
+        execution:
+          onExecute:
+            - echo "$step_name"
+      - name: S8_s2b
+        type: Bash
+        configuration:
+          affinityGroup: g8
+        execution:
+          onExecute:
+            - echo "$step_name"
+      - name: S8_s3
+        type: Bash
+        configuration:
+          affinityGroup: g8
+        execution:
+          onExecute:
+            - echo "$step_name"
