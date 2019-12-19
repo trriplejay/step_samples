@@ -288,7 +288,8 @@ pipelines:
       #   execution:
       #     onExecute:
       #       - echo "blah"
-
+  - name: scenario8
+    steps:
       - name: S8_s1
         type: Bash
         configuration:
