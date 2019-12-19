@@ -292,7 +292,7 @@ pipelines:
     steps:
       - name: S8_s1
         type: Bash
-        configuration:
+        # configuration:
           # affinityGroup: g8
         execution:
           onExecute:
