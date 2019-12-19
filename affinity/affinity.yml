@@ -293,14 +293,14 @@ pipelines:
       - name: S8_s1
         type: Bash
         configuration:
-          affinityGroup: g8
+          # affinityGroup: g8
         execution:
           onExecute:
             - echo "$step_name"
       - name: S8_s2a
         type: Bash
         configuration:
-          affinityGroup: g8
+          # affinityGroup: g8
           inputSteps:
             - name: S8_s1
         execution:
@@ -310,7 +310,7 @@ pipelines:
       - name: S8_s2b
         type: Bash
         configuration:
-          affinityGroup: g8
+          # affinityGroup: g8
           inputSteps:
             - name: S8_s1
         execution:
@@ -320,7 +320,7 @@ pipelines:
       - name: S8_s3
         type: Bash
         configuration:
-          affinityGroup: g8
+          # affinityGroup: g8
           inputSteps:
             - name: S8_s2a
             - name: S8_s2b
