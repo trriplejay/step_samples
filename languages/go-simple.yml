@@ -1,0 +1,26 @@
+resources:
+  - name: goRepo
+    type: GitRepo
+    configuration:
+      gitProvider: johns_bbs
+      path: ~johns/app-go-service
+
+pipelines:
+
+  - name: johns_simple_gobuild
+    steps:
+      - name: build
+        type: GoBuild
+        configuration:
+          sourceLocation: .
+          repository: goRepo
+          outputLocation: /tmp/dist
+          outputFile: hello_gb
+          integrations:
+            - name: johns_art
+          inputResources:
+            - name: goRepo
+        execution:
+          onStart:
+            - echo 'hello'
+            - go version
