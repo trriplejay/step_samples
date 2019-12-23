@@ -62,7 +62,7 @@ pipelines:
             type: image
             image:
               auto:
-                language: nodejs
+                language: node
                 versions:
                   - "8.16.3"
         execution:
@@ -78,7 +78,7 @@ pipelines:
             type: image
             image:
               auto:
-                language: nodejs
+                language: node
                 versions:
                   - "10.16.3"
         execution:
