@@ -22,6 +22,68 @@ pipelines:
         execution:
           onExecute:
             - java -version
+      - name: java_auto_8
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: lang_kickoff
+          runtime:
+            type: image
+            image:
+              auto:
+                language: java
+                versions:
+                  - "8"
+        execution:
+          onExecute:
+            - java -version
+      - name: java_auto_13
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: lang_kickoff
+          runtime:
+            type: image
+            image:
+              auto:
+                language: java
+                versions:
+                  - "13"
+        execution:
+          onExecute:
+            - java -version
+
+      - name: node_auto_8
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: lang_kickoff
+          runtime:
+            type: image
+            image:
+              auto:
+                language: nodejs
+                versions:
+                  - "8.16.3"
+        execution:
+          onExecute:
+            - node --version
+
+      - name: node_auto_10
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: lang_kickoff
+          runtime:
+            type: image
+            image:
+              auto:
+                language: nodejs
+                versions:
+                  - "10.16.3"
+        execution:
+          onExecute:
+            - node --version
       # - name: c_auto_8
       #   type: Bash
       #   configuration:
