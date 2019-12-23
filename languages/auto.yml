@@ -17,7 +17,8 @@ pipelines:
             image:
               auto:
                 language: java
-                versions: 11
+                versions:
+                  - "11"
         execution:
           onExecute:
             - java -version
