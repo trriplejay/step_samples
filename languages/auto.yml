@@ -8,7 +8,7 @@ pipelines:
             - echo "here we go"
             - switch_env c foooooo
 
-      - name: c_auto_8
+      - name: java_auto_11
         type: Bash
         configuration:
           inputSteps:
@@ -17,25 +17,39 @@ pipelines:
             type: image
             image:
               auto:
-                language: c
-                versions:
-                  - 8.0.0
+                language: java
+                version: 11
         execution:
           onExecute:
-            - gcc --version
-            - clang --version
+            - java -version
+      # - name: c_auto_8
+      #   type: Bash
+      #   configuration:
+      #     inputSteps:
+      #       - name: lang_kickoff
+      #     runtime:
+      #       type: image
+      #       image:
+      #         auto:
+      #           language: c
+      #           versions:
+      #             - 8.0.0
+      #   execution:
+      #     onExecute:
+      #       - gcc --version
+      #       - clang --version
 
-      - name: c_default
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: lang_kickoff
-          runtime:
-            type: image
-            image:
-              auto:
-                language: c
-        execution:
-          onExecute:
-            - gcc --version
-            - clang --version
+      # - name: c_default
+      #   type: Bash
+      #   configuration:
+      #     inputSteps:
+      #       - name: lang_kickoff
+      #     runtime:
+      #       type: image
+      #       image:
+      #         auto:
+      #           language: c
+      #   execution:
+      #     onExecute:
+      #       - gcc --version
+      #       - clang --version
