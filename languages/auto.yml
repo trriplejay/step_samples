@@ -6,7 +6,6 @@ pipelines:
         execution:
           onExecute:
             - echo "here we go"
-            - switch_env c foooooo
 
       - name: java_auto_11
         type: Bash
@@ -18,7 +17,7 @@ pipelines:
             image:
               auto:
                 language: java
-                version: 11
+                versions: 11
         execution:
           onExecute:
             - java -version
