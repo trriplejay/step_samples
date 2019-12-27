@@ -8,14 +8,12 @@ pipelines:
           runtime:
             type: image
             image:
-              auto:
-                language: nodejs
-                versions:
-                  - "8.16"
-              # custom:
-              #   name: pipelines-docker.jfrog.io/jfrog/pipelines-u16node
-              #   tag: master
-              #   autoPull: false
+              custom:
+                name: jfrog/pipelines-router
+                tag: 0.0.0-m000
+                autoPull: true
+                sourceRepository: pipelines-docker
+                registry: johns_art
         execution:
           onExecute:
             - echo "Hello world"
