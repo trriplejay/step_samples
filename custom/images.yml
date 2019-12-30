@@ -13,7 +13,7 @@ pipelines:
                 tag: "16.04"
                 autoPull: true
                 # sourceRepository: pipelines-docker
-                registry: johns_art
+                registry: johns_docker
         execution:
           onExecute:
             - echo "Hello world"
@@ -30,7 +30,7 @@ pipelines:
             tag: "16.04"
             autoPull: true
             # sourceRepository: pipelines-docker
-            registry: johns_art
+            registry: johns_docker
     steps:
       - name: basic_stuff
         type: Bash
