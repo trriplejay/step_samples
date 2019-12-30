@@ -17,6 +17,7 @@ pipelines:
         execution:
           onExecute:
             - echo "Hello world"
+            - printenv
 
   - name: tr_custom_pipe_image
     configuration:
@@ -35,3 +36,4 @@ pipelines:
         execution:
           onExecute:
             - echo "hello world"
+            - printenv
