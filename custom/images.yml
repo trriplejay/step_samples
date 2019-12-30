@@ -10,7 +10,7 @@ pipelines:
             image:
               custom:
                 name: trriplejay/ubuntu
-                tag: 16.04
+                tag: "16.04"
                 autoPull: true
                 # sourceRepository: pipelines-docker
                 registry: johns_art
@@ -27,7 +27,7 @@ pipelines:
         image:
           custom:
             name: trriplejay/ubuntu
-            tag: 16.04
+            tag: "16.04"
             autoPull: true
             # sourceRepository: pipelines-docker
             registry: johns_art
