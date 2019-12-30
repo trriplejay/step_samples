@@ -9,10 +9,10 @@ pipelines:
             type: image
             image:
               custom:
-                name: pipelines-docker.jfrog.io/jfrog/pipelines-router
-                tag: 0.0.0-m000
+                name: trriplejay/ubuntu
+                tag: 16.04
                 autoPull: true
-                sourceRepository: pipelines-docker
+                # sourceRepository: pipelines-docker
                 registry: johns_art
         execution:
           onExecute:
@@ -26,10 +26,10 @@ pipelines:
         type: image
         image:
           custom:
-            name: pipelines-docker.jfrog.io/jfrog/pipelines-router
-            tag: 0.0.0-m000
+            name: trriplejay/ubuntu
+            tag: 16.04
             autoPull: true
-            sourceRepository: pipelines-docker
+            # sourceRepository: pipelines-docker
             registry: johns_art
     steps:
       - name: basic_stuff
