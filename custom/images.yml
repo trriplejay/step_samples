@@ -9,7 +9,7 @@ pipelines:
             type: image
             image:
               custom:
-                name: jfrog/pipelines-router
+                name: pipelines-docker.jfrog.io/jfrog/pipelines-router
                 tag: 0.0.0-m000
                 autoPull: true
                 sourceRepository: pipelines-docker
@@ -26,7 +26,7 @@ pipelines:
         type: image
         image:
           custom:
-            name: jfrog/pipelines-router
+            name: pipelines-docker.jfrog.io/jfrog/pipelines-router
             tag: 0.0.0-m000
             autoPull: true
             sourceRepository: pipelines-docker
