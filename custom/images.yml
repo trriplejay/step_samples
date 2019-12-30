@@ -18,6 +18,7 @@ pipelines:
           onExecute:
             - echo "Hello world"
             - printenv
+            - cat $step_json_path
 
   - name: tr_custom_pipe_image
     configuration:
@@ -37,3 +38,4 @@ pipelines:
           onExecute:
             - echo "hello world"
             - printenv
+            - cat $step_json_path
