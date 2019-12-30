@@ -17,3 +17,21 @@ pipelines:
         execution:
           onExecute:
             - echo "Hello world"
+
+  - name: tr_custom_pipe_image
+    configuration:
+      runtime:
+        type: image
+        image:
+          custom:
+            name: jfrog/pipelines-router
+            tag: 0.0.0-m000
+            autoPull: true
+            sourceRepository: pipelines-docker
+            registry: johns_art
+    steps:
+      - name: basic_stuff
+        type: Bash
+        execution:
+          onExecute:
+            - echo "hello world"
