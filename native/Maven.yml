@@ -1,8 +1,8 @@
 resources:
-  - name: java_repo
+  - name: examples_repo
     type: GitRepo
     configuration:
-      path: ~johns/java-backend
+      path: ~johns/project-examples
       gitProvider: johns_bbs
       branches:
         include: master
@@ -12,11 +12,11 @@ pipelines:
     - name: BuildSample
       type: MvnBuild
       configuration:
-        sourceLocation: .
+        sourceLocation: artifactory-maven-plugin-example
         configFileLocation: .
-        configFileName: mvn-art-config
-        mvnCommand: "clean install -ntp"
+        configFileName: config
+        mvnCommand: "install -P release"
         inputResources:
-          - name: java_repo
+          - name: examples_repo
         integrations:
           - name: johns_art
