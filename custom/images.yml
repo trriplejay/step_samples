@@ -2,15 +2,15 @@
 pipelines:
   - name: tr_custom_image
     steps:
-      - name: basic_node
+      - name: basic_cpp
         type: Bash
         configuration:
           runtime:
             type: image
             image:
               custom:
-                name: trriplejay/ubuntu
-                tag: "16.04"
+                name: trriplejay/c7cpp
+                tag: "test"
                 autoPull: true
                 # sourceRepository: pipelines-docker
                 registry: johns_docker
@@ -19,6 +19,12 @@ pipelines:
             - echo "Hello world"
             - printenv
             - cat $step_json_path
+            - clang --version
+            - gcc --version
+            - g++ --version
+            - printenv BASH_ENV
+            - printenv TEST_VAR
+
 
   - name: tr_custom_pipe_image
     configuration:
