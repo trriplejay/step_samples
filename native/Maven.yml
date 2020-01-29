@@ -13,8 +13,8 @@ pipelines:
       type: MvnBuild
       configuration:
         sourceLocation: artifactory-maven-plugin-example
-        configFileLocation: .
-        configFileName: config
+        configFileLocation: .jfrog/projects/
+        configFileName: maven.yaml
         mvnCommand: "install -P release"
         inputResources:
           - name: examples_repo
