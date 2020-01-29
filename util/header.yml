@@ -1,0 +1,23 @@
+resources:
+  - name: test_repo
+    type: GitRepo
+    configuration:
+      gitProvider: john_bbs
+      path: ~johns/step_samples
+
+pipelines:
+  - name: git_status
+    steps:
+      - name: success
+        type: Bash
+        configuration:
+          inputResources:
+            - name: test_repo
+
+        execution:
+          onStart:
+            - update_commit_status test_repo
+          onExecute:
+            - update_commit_status test_repo
+          onComplete:
+            - update_commit_status test_repo
