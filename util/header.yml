@@ -2,7 +2,7 @@ resources:
   - name: test_repo
     type: GitRepo
     configuration:
-      gitProvider: john_bbs
+      gitProvider: johns_bbs
       path: ~johns/step_samples
 
 pipelines:
