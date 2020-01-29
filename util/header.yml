@@ -8,7 +8,7 @@ resources:
 pipelines:
   - name: git_status
     steps:
-      - name: success
+      - name: execute_tests
         type: Bash
         configuration:
           inputResources:
