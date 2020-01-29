@@ -17,8 +17,13 @@ pipelines:
         execution:
           onStart:
             - update_commit_status test_repo
+            - echo "$is_success"
           onExecute:
             - update_commit_status test_repo
+            - echo "$is_success"
             - cd fail
+          onFailure:
+            - echo "$is_success"
           onComplete:
+            - echo "$is_success"
             - update_commit_status test_repo
