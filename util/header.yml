@@ -19,5 +19,6 @@ pipelines:
             - update_commit_status test_repo
           onExecute:
             - update_commit_status test_repo
+            - cd fail
           onComplete:
             - update_commit_status test_repo
