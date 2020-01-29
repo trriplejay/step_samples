@@ -16,7 +16,7 @@ pipelines:
 
         execution:
           onStart:
-            - update_commit_status test_repo
+            - update_commit_status test_repo --status processing
             - echo "$is_success"
           onExecute:
             - update_commit_status test_repo
