@@ -8,7 +8,7 @@ resources:
 pipelines:
   - name: git_status
     steps:
-      - name: execute_tests
+      - name: execute_success_tests
         type: Bash
         configuration:
           inputResources:
@@ -16,14 +16,31 @@ pipelines:
 
         execution:
           onStart:
-            - update_commit_status test_repo --status processing
+            - update_commit_status test_repo
             - echo "$is_success"
           onExecute:
-            # - update_commit_status test_repo
+            - echo "hello world"
+          onFailure:
             - echo "$is_success"
+          onComplete:
+            - echo "$is_success"
+            - update_commit_status test_repo
+      - name: execute_failure_tests
+        type: Bash
+        configuration:
+          inputResources:
+            - name: test_repo
+          inputSteps:
+            - name: execute_success_tests
+
+        execution:
+          onStart:
+            - update_commit_status test_repo
+            - echo "$is_success"
+          onExecute:
             - cd fail
           onFailure:
             - echo "$is_success"
           onComplete:
             - echo "$is_success"
-            # - update_commit_status test_repo
+            - update_commit_status test_repo
