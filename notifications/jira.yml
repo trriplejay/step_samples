@@ -1,75 +1,17 @@
 pipelines:
-  - name: tr_jira_notifications
+  - name: jira_notifications
     steps:
-      - name: jira_kickoff
+      - name: jira_on_failure
         type: bash
-        execution:
-          onExecute:
-            - echo "here we go!"
-
-      - name: jira_v2
-        type: bash
-        requires:
+        configuration:
           integrations:
-            - jira_good_v2
-        triggeredBy:
-          steps:
-            - jira_kickoff
+            - johns_jira
         execution:
           onStart:
             - echo "starting"
           onExecute:
-            - echo "executing"
-            - send_notification jira_good_v2 --project-id NOT --description "this is a v2 api call" --type Bug --attach-file "$STEP_JSON_PATH" --summary "using v2"
-            - send_notification jira_good_v2 --project-id NOT --description "this is a v2 api call" --type Task --attach-file "$STEP_JSON_PATH" --summary "using v2"
-            - send_notification jira_good_v2 --project-id NOT --description "this is a v2 api call" --type Story --attach-file "$STEP_JSON_PATH" --summary "using v2"
-
-      - name: jira_v3
-        type: bash
-        requires:
-          integrations:
-            - jira_good_v3
-        triggeredBy:
-          steps:
-            - jira_kickoff
-        execution:
-          onStart:
-            - echo "starting"
-          onExecute:
-            - echo "executing"
-            - send_notification jira_good_v3 --project-id NOT --description "this is a v3 api call" --type Bug --attach-file "$STEP_JSON_PATH" --summary "using v3"
-            - send_notification jira_good_v3 --project-id NOT --description "this is a v3 api call" --type Task --attach-file "$STEP_JSON_PATH" --summary "using v3"
-            - send_notification jira_good_v3 --project-id NOT --description "this is a v3 api call" --type Story --attach-file "$STEP_JSON_PATH" --summary "using v3"
-
-      - name: jira_bad_url
-        type: bash
-        requires:
-          integrations:
-            - jira_bad
-        triggeredBy:
-          steps:
-            - jira_v3
-            - jira_v2
-        execution:
-          onStart:
-            - echo "starting"
-          onExecute:
-            - echo "executing"
-            - send_notification jira_bad --project-id NOT --description "this is a bad api call" --type Bug --attach-file "$STEP_JSON_PATH" --summary "using bad integration"
-
-      - name: jira_latest_url
-        type: bash
-        requires:
-          integrations:
-            - jira_latest
-        triggeredBy:
-          steps:
-            - jira_v3
-            - jira_v2
-        execution:
-          onStart:
-            - echo "starting"
-          onExecute:
-            - echo "executing"
-            - send_notification jira_latest --project-id NOT --description "this is a bad api call using latest" --type Bug --attach-file "$STEP_JSON_PATH" --summary "using bad integration"
-
+            - echo "ls -latr" > runTests.sh
+            - bash runTests.sh > output.log
+            - cd baddirectory
+          onFailure:
+            - send_notification johns_jira --project-id FROG --description "this is a v2 api call" --type Bug --attach-file "$STEP_JSON_PATH" --summary "using v2"
