@@ -14,4 +14,4 @@ pipelines:
             - bash runTests.sh > output.log
             - cd baddirectory
           onFailure:
-            - send_notification johns_jira --project-id FROG --description "this is a v2 api call" --type Bug --attach-file "output.log" --summary "using v2"
+            - send_notification johns_jira --project-id "frog-features" --description "this is a v2 api call" --type Bug --attach-file "output.log" --summary "using v2"
