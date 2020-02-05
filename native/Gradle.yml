@@ -6,6 +6,12 @@ resources:
       gitProvider: johns_bbs
       branches:
         include: master
+  - name: g_buildinfo
+    type: BuildInfo
+    configuration:
+      buildName: placeholder
+      buildNumber: 0
+
 pipelines:
   - name: GradleStuff
     steps:
@@ -13,11 +19,15 @@ pipelines:
       type: GradleBuild
       configuration:
         sourceLocation: gradle-examples/gradle-example
-        configFileLocation: gradle-examples/gradle-example
+        configFileLocation: .
+        forceXrayScan: true
+        autoPublishBuildInfo: true
         configFileName: gradle.yaml
         gradleCommand: "artifactoryPublish"
         inputResources:
           - name: examples_repo
+        outputResources:
+          - name: g_buildinfo
         integrations:
           - name: johns_art
           - name: johns_jira
