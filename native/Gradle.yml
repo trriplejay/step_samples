@@ -9,6 +9,7 @@ resources:
   - name: g_buildinfo
     type: BuildInfo
     configuration:
+      sourceArtifactory: johns_art
       buildName: placeholder
       buildNumber: 0
 
