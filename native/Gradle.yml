@@ -15,7 +15,7 @@ pipelines:
         sourceLocation: gradle-examples/gradle-example
         configFileLocation: .
         configFileName: config
-        gradleCommand: "install -P release"
+        gradleCommand: "artifactoryPublish"
         inputResources:
           - name: examples_repo
         integrations:
