@@ -10,7 +10,6 @@ pipelines:
           onStart:
             - echo "starting"
           onExecute:
-            - echo "ls -latr" > runTests.sh
             - bash runTests.sh > output.log # execute the "tests" and write the output to a file
             - cd baddirectory   # force a failure for the sake of the example
           onFailure:

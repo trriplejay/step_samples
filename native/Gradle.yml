@@ -1,0 +1,28 @@
+resources:
+  - name: examples_repo
+    type: GitRepo
+    configuration:
+      path: ~johns/project-examples
+      gitProvider: johns_bbs
+      branches:
+        include: master
+pipelines:
+  - name: GradleStuff
+    steps:
+    - name: BasicGradleSample
+      type: GradleBuild
+      configuration:
+        sourceLocation: gradle-examples/gradle-example
+        configFileLocation: .
+        configFileName: config
+        gradleCommand: "install -P release"
+        inputResources:
+          - name: examples_repo
+        integrations:
+          - name: johns_art
+          - name: johns_jira
+      execution:
+        onStart:
+          - update-ca-certificates -f
+        onFailure:
+          - send_notification johns_jira --project-id "FROG" --description "Failure occured in $pipeline_name - $step_name" --type Bug --attach-file "output.log" --summary "$step_name has failed"
