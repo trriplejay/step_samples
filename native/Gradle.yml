@@ -13,7 +13,7 @@ pipelines:
       type: GradleBuild
       configuration:
         sourceLocation: gradle-examples/gradle-example
-        configFileLocation: .
+        configFileLocation: gradle-examples/gradle-example
         configFileName: gradle.yaml
         gradleCommand: "artifactoryPublish"
         inputResources:
