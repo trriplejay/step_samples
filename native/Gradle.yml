@@ -22,7 +22,5 @@ pipelines:
           - name: johns_art
           - name: johns_jira
       execution:
-        onStart:
-          - update-ca-certificates -f
         onFailure:
           - send_notification johns_jira --project-id "FROG" --description "Failure occured in $pipeline_name - $step_name" --type Bug --attach-file "output.log" --summary "$step_name has failed"
