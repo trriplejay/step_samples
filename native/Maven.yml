@@ -27,13 +27,12 @@ pipelines:
         sourceLocation: artifactory-maven-plugin-example
         configFileLocation: .
         configFileName: config
-        mvnCommand: "install -P release --log-file log.txt"
+        mvnCommand: "install -P release --log-file $step_tmp_dir/log.txt"
         inputResources:
           - name: examples_repo
         integrations:
           - name: johns_art
       execution:
         onFailure:
-          - pushd $res_examples_repo_resourcePath
-          - cat log.txt
-          - send_notification johns_jira --project-id "FROG" --description "Failure occured in $pipeline_name - $step_name" --type Bug --attach-file "log.txt" --summary "$step_name has failed"
+          - cat $step_tmp_dir/log.txt
+          - send_notification johns_jira --project-id "FROG" --description "Failure occured in $pipeline_name - $step_name" --type Bug --attach-file "$step_tmp_dir/log.txt" --summary "$step_name has failed"
