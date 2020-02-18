@@ -21,9 +21,9 @@ pipelines:
       configuration:
         sourceLocation: gradle-examples/gradle-example
         configFileLocation: .
+        configFileName: gradle.yaml
         forceXrayScan: true
         autoPublishBuildInfo: true
-        configFileName: gradle.yaml
         gradleCommand: "artifactoryPublish"
         inputResources:
           - name: examples_repo

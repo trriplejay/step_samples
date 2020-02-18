@@ -9,6 +9,18 @@ resources:
 pipelines:
   - name: MavenStuff
     steps:
+    # - name: BuildSample
+    #   type: MvnBuild
+    #   configuration:
+    #     sourceLocation: artifactory-maven-plugin-example
+    #     configFileLocation: .
+    #     configFileName: config
+    #     mvnCommand: "install -P release"
+    #     inputResources:
+    #       - name: examples_repo
+    #     integrations:
+    #       - name: johns_art
+
     - name: BuildSample
       type: MvnBuild
       configuration:
@@ -21,5 +33,5 @@ pipelines:
         integrations:
           - name: johns_art
       execution:
-        onStart:
-          - update-ca-certificates -f
+        onFailure:
+          - send_notification johns_jira --project-id "FROG" --description "Failure occured in $pipeline_name - $step_name" --type Bug --attach-file "output.log" --summary "$step_name has failed"
