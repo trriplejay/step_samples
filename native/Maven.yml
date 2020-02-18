@@ -34,6 +34,6 @@ pipelines:
           - name: johns_art
       execution:
         onFailure:
-          - pushd $res_examples_repo_path
+          - pushd $res_examples_repo_resourcePath
           - cat log.txt
           - send_notification johns_jira --project-id "FROG" --description "Failure occured in $pipeline_name - $step_name" --type Bug --attach-file "log.txt" --summary "$step_name has failed"
