@@ -33,7 +33,6 @@ pipelines:
         integrations:
           - name: johns_art
       execution:
-        always:
         onFailure:
           - pushd $res_examples_repo_path
           - cat log.txt
