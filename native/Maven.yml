@@ -27,7 +27,7 @@ pipelines:
         sourceLocation: artifactory-maven-plugin-example
         configFileLocation: .
         configFileName: config
-        mvnCommand: "install -P release --log-file $step_tmp_dir/log.txt"
+        mvnCommand: "install -P release --log-file ${step_tmp_dir}/log.txt"
         inputResources:
           - name: examples_repo
         integrations:
