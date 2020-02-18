@@ -21,6 +21,8 @@ pipelines:
     #     integrations:
     #       - name: johns_art
 
+
+  ### with jira for log attachment
     - name: BuildSample
       type: MvnBuild
       configuration:
@@ -32,6 +34,7 @@ pipelines:
           - name: examples_repo
         integrations:
           - name: johns_art
+          - mame: johns_jira
       execution:
         onFailure:
           - cat $step_tmp_dir/log.txt
