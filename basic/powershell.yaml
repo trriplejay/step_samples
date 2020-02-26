@@ -1,0 +1,10 @@
+pipelines:
+  - name: windows_pipe
+    steps:
+      - name: test_ps_1
+        type: PowerShell
+        configuration:
+          nodePool: win-static
+        execution:
+          onExecute:
+            - write-output "hello world"
