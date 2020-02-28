@@ -6,7 +6,7 @@ resources:
       imageName: trriplejay/simpleserver
       imageTag: latest
 
-  - name: myOtherImage_basic
+  - name: myOtherImage_basic_2
     type: Image
     configuration:
       registry: tr_docker
@@ -40,7 +40,7 @@ pipelines:
           #   - name: myImage_basic
           #     trigger: false
           outputResources:
-            - name: myOtherImage_basic
+            - name: myOtherImage_basic_2
         execution:
           onStart:
             - retry_command echo "here we go!!!"
@@ -120,7 +120,7 @@ pipelines:
           integrations:
             - name: johns_bbs
           inputResources:
-            - name: myOtherImage_basic
+            - name: myOtherImage_basic_2
         execution:
           onStart:
             - echo "Prepping build environment"
