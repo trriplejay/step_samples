@@ -10,8 +10,9 @@ resources:
     type: Image
     configuration:
       registry: tr_docker
-      imageName: ~johns/simpleserver
+      imageName: trriplejay/simpleserver
       imageTag: latest
+      autoPull: false
 
   - name: myRepo_basic
     type: GitRepo
