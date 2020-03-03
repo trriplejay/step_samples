@@ -11,7 +11,7 @@ resources:
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
-      path: trriplejay/simpleserver
+      path: ~johns/simpleserver
 
   - name: johns_HelmAdvanced_simpleImage
     type: Image
