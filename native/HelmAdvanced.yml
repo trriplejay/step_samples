@@ -13,12 +13,12 @@ resources:
       gitProvider: johns_bbs
       path: ~johns/simpleserver
 
-  - name: johns_HelmAdvanced_simpleImage2
+  - name: johns_HelmAdvanced_simpleImage3
     type: Image
     configuration:
       registry: johns_art
       sourceRepository: simpleimages
-      imageName: simpleimages/simpleserver
+      imageName: pipe-master.jfrog.info/simpleimages/simpleserver
       imageTag: latest
 
   - name: johns_HelmAdvanced_buildInfo
@@ -40,21 +40,24 @@ pipelines:
             - name: johns_HelmAdvanced_git
           dockerFileLocation: .
           dockerFileName: Dockerfile
-          dockerImageName: simpleimages/simpleserver
+          dockerImageName: pipe-master.jfrog.info/simpleimages/simpleserver
           dockerImageTag: ${run_number}
       - name: push
         type: DockerPush
         configuration:
           integrations:
             - name: johns_art
-          targetRepository: johns/simpleserver
+          targetRepository: pipe-master.jfrog.info
           autoPublishBuildInfo: true
           forceXrayScan: true
           inputSteps:
             - name: build
           outputResources:
             - name: johns_HelmAdvanced_buildInfo
-            - name: johns_HelmAdvanced_simpleImage2
+            - name: johns_HelmAdvanced_simpleImage3
+        execution:
+          onStart:
+            - export DOCKER_OPTS+=" --insecure-registry simpleimages.pipe-master.jfrog.info"
 
       - name: publish_helm_chart
         type: HelmPublish
@@ -72,7 +75,7 @@ pipelines:
             - name: johns_kubernetes
           inputResources:
             - name: johns_HelmAdvanced_chart
-            - name: johns_HelmAdvanced_simpleImage2
+            - name: johns_HelmAdvanced_simpleImage3
           releaseName: simplechart
           dryRun: true
           lint: true
