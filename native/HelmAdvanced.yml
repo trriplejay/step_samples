@@ -18,7 +18,7 @@ resources:
     configuration:
       registry: johns_art
       sourceRepository: simpleimages
-      imageName: trriplejay/simpleserver
+      imageName: simpleimages/simpleserver
       imageTag: latest
 
   - name: johns_HelmAdvanced_buildInfo
@@ -40,7 +40,7 @@ pipelines:
             - name: johns_HelmAdvanced_git
           dockerFileLocation: .
           dockerFileName: Dockerfile
-          dockerImageName: trriplejay/simpleserver
+          dockerImageName: simpleimages/simpleserver
           dockerImageTag: ${run_number}
       - name: push
         type: DockerPush
