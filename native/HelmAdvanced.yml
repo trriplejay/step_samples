@@ -18,7 +18,7 @@ resources:
     configuration:
       registry: johns_art
       sourceRepository: simpleimages
-      imageName: johns/simpleserver
+      imageName: trriplejay/simpleserver
       imageTag: latest
 
   - name: johns_HelmAdvanced_buildInfo
