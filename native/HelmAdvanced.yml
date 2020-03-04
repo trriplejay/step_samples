@@ -34,6 +34,7 @@ pipelines:
       - name: build
         type: DockerBuild
         configuration:
+          affinityGroup: buildAndPush
           integrations:
             - name: johns_art
           inputResources:
@@ -45,6 +46,7 @@ pipelines:
       - name: push
         type: DockerPush
         configuration:
+          affinityGroup: buildAndPush
           integrations:
             - name: johns_art
           targetRepository: simpleimages
