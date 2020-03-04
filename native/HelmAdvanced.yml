@@ -49,7 +49,7 @@ pipelines:
             - name: johns_art
           targetRepository: simpleimages
           autoPublishBuildInfo: true
-          forceXrayScan: true
+          forceXrayScan: false
           inputSteps:
             - name: build
           outputResources:
