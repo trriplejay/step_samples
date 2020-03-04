@@ -4,14 +4,14 @@ resources:
     configuration:
       sourceArtifactory: johns_art
       repository: simplecharts
-      chart: simpleserver
+      chart: simplehelm
       version: 1.0.0
 
-  - name: johns_HelmAdvanced_git
+  - name: johns_HelmAdvanced_source
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
-      path: ~johns/simpleserver
+      path: ~johns/simplehelm
 
   - name: johns_HelmAdvanced_simpleImg
     type: Image
@@ -37,7 +37,7 @@ pipelines:
           integrations:
             - name: johns_art
           inputResources:
-            - name: johns_HelmAdvanced_git
+            - name: johns_HelmAdvanced_source
           dockerFileLocation: .
           dockerFileName: Dockerfile
           dockerImageName: pipe-master.jfrog.info:8082/simpleimages/simpleserver
@@ -60,10 +60,10 @@ pipelines:
         type: HelmPublish
         configuration:
           inputResources:
-            - name: johns_HelmAdvanced_git
+            - name: johns_HelmAdvanced_source
           outputResources:
             - name: johns_HelmAdvanced_chart
-          chartPath: ./simpleserver
+          chartPath: ./simplehelm
 
       - name: deploy_helm_chart
         type: HelmDeploy
