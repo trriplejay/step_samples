@@ -19,12 +19,14 @@ pipelines:
             type: image
             image:
               custom:
-                name: docker.bintray.io/jfrog/pipelines-u18node
-                tag: 10.16.3
-                autoPull: false
+                name: trriplejay/helmv3
+                tag: latest
+                autoPull: true
         execution:
           onExecute:
             - bash --version
+            - helm version
+            - node version
             - echo "pipeline source branch is - {{gitBranch}}"
 
       - name: second_step_simple
