@@ -6,21 +6,20 @@ resources:
       path: ~johns/app-go-service
 
 pipelines:
-
-  - name: johns_simple_gobuild
+  - name: johns_go_versions
     steps:
-      - name: build
-        type: GoBuild
+      - name: one_fourteen
+        type: Bash
         configuration:
-          sourceLocation: .
-          repository: goRepo
-          outputLocation: /tmp/dist
-          outputFile: hello_gb
-          integrations:
-            - name: johns_art
-          inputResources:
-            - name: goRepo
+          runtime:
+            type: image
+            image:
+              auto:
+                language: go
+                versions:
+                  - 1.13
         execution:
-          onStart:
-            - echo 'hello'
-            - go version
+          onExecute:
+            - gvm install go1.14.2 --prefer-binary
+            - source /root/.gvm/scripts/gvm
+            - gvm use go$GOVER
