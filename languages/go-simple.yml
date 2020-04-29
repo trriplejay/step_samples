@@ -22,4 +22,5 @@ pipelines:
           onExecute:
             - gvm install go1.14.2 --prefer-binary
             - source /root/.gvm/scripts/gvm
-            - gvm use go$GOVER
+            - gvm use go1.14.2
+            - go version
