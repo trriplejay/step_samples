@@ -13,7 +13,6 @@ pipelines:
       - name: first_step_simple
         type: Bash
         configuration:
-          nodePool: u16
           inputResources:
             - name: singleRepo_simple
           runtime:
@@ -34,7 +33,6 @@ pipelines:
       - name: second_step_simple
         type: Bash
         configuration:
-          nodePool: u16
           inputSteps:
             - name: first_step_simple
         execution:
