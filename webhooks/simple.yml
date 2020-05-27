@@ -26,7 +26,7 @@ pipelines:
             - export imageTag="testtag"
           onSuccess:
             - echo "{\"imageName\":\"$imageName\",\"imageTag\":\"$imageTag\"}" > $step_tmp_dir/payload.json
-            - set_payload johns_outhook --file $step_tmp_dir/payload.json
+            - set_payload johns_outhook $step_tmp_dir/payload.json --file
             - echo "$johns_outhook_payload_file"
             - cat $johns_outhook_payload_file
 
