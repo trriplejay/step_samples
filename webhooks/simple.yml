@@ -1,0 +1,40 @@
+resources:
+  - name: johns_inhook
+    type: IncomingWebhook
+    configuration:
+      webhookName: johns_incoming
+  - name: johns_outhook
+    type: OutgoingWebhook
+    configuration:
+      webhookName: johns_outgoing
+
+
+pipelines:
+
+  - name: johns_startpipe
+    steps:
+      - name: sendHook
+        type: Bash
+        configuration:
+          outputResources:
+            - name: johns_outhook
+        execution:
+          onExecute:
+            - export imageName="testname"
+            - export imageTag="testtag"
+          onSuccess:
+            - set_payload johns_outhook "{\"imageName\",\"$imageName\",\"imageTag\",\"$imageTag\"}"
+
+
+  - name: johns_endpipe
+    steps:
+      - name: receiveHook
+        type: Bash
+        configuration:
+          inputResources:
+            - name: johns_inhook
+        execution:
+          onExecute:
+            - echo "$res_johns_inhook_payload" | jq '.' | tee > payload.json
+            - read_json payload.json "imageTag"
+            - read_json payload.json "imageName"
