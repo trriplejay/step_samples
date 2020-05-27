@@ -1,4 +1,5 @@
 resources:
+
   - name: johns_inhook
     type: IncomingWebhook
     configuration:
@@ -8,7 +9,6 @@ resources:
     configuration:
       webhookName: johns_outgoing
 
-
 pipelines:
 
   - name: johns_startpipe
@@ -17,6 +17,10 @@ pipelines:
         type: Bash
         configuration:
           environmentVariables:
+            # this is a workaround to a bug in outgoingWebhooks.
+            # you must declare this variable named <outgoing wehbook resource name>_payload_file
+            # in this case my resource is named "johns_outhook"
+            # I'd recommend using the same value that I used here ("${step_tmp_dir}/payload.json")
             johns_outhook_payload_file: "${step_tmp_dir}/payload.json"
           outputResources:
             - name: johns_outhook
@@ -25,11 +29,11 @@ pipelines:
             - export imageName="testname"
             - export imageTag="testtag"
           onSuccess:
+            # this is echoing the desired payload to the file that we defined in the environmentVariables section
             - echo "{\"imageName\":\"$imageName\",\"imageTag\":\"$imageTag\"}" > $johns_outhook_payload_file
+            # this is using the --file option of set_payload to set the payload to be the
+            # contents of the file we created on the previous line
             - set_payload johns_outhook $johns_outhook_payload_file --file
-            - echo "$johns_outhook_payload_file"
-            - cat $johns_outhook_payload_file
-
 
   - name: johns_endpipe
     steps:
@@ -40,6 +44,6 @@ pipelines:
             - name: johns_inhook
         execution:
           onExecute:
-            - echo "$res_johns_inhook_payload" | jq '.' | tee > payload.json
+            - echo "$res_johns_inhook_payload" | jq '.' > payload.json
             - read_json payload.json "imageTag"
             - read_json payload.json "imageName"
