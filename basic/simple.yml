@@ -44,8 +44,6 @@ pipelines:
       - name: second_step_simple
         type: Bash
         configuration:
-          inputSteps:
-            - name: first_step_simple
           inputResources:
             - name: myProps
         execution:
