@@ -7,6 +7,12 @@ resources:
       branches:
         include: master
 
+  - name: myProps
+    type: PropertyBag
+    configuration:
+      foo: bar
+      hello: world
+
 pipelines:
   - name: simple_pipe_simple
     steps:
@@ -15,6 +21,8 @@ pipelines:
         configuration:
           inputResources:
             - name: singleRepo_simple
+          outputResources:
+            - name: myProps
           runtime:
             type: image
             image:
@@ -29,14 +37,22 @@ pipelines:
             # - nvm use 10.18.0
             - node --version
             - echo "pipeline source branch is - {{gitBranch}}"
+            - echo "hello is $hello"
+            - echo "foo is $foo"
+            - write_output myProps "fizz=buzz"
 
       - name: second_step_simple
         type: Bash
         configuration:
           inputSteps:
             - name: first_step_simple
+          inputResources:
+            - name: myProps
         execution:
           onExecute:
             - echo "final step in the pipeline"
+            - echo "fizz is $fizz"
+            - echo "hello is $hello"
+            - echo "foo is $foo"
 
 
