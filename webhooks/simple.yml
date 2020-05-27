@@ -25,6 +25,7 @@ pipelines:
           onSuccess:
             - set_payload johns_outhook "{\"imageName\":\"$imageName\",\"imageTag\":\"$imageTag\"}"
             - echo "$johns_outhook_payload_file"
+            - cat $johns_outhook_payload_file
 
 
   - name: johns_endpipe
