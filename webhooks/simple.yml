@@ -16,7 +16,7 @@ pipelines:
       - name: sendHook
         type: Bash
         configuration:
-          environmentVariabes:
+          environmentVariables:
             johns_outhook_payload_file: "${step_tmp_dir}/payload.json"
           outputResources:
             - name: johns_outhook
