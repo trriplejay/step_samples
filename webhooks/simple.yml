@@ -23,7 +23,7 @@ pipelines:
             - export imageName="testname"
             - export imageTag="testtag"
           onSuccess:
-            - set_payload johns_outhook "{\"imageName\",\"$imageName\",\"imageTag\",\"$imageTag\"}"
+            - set_payload johns_outhook "{\"imageName\":\"$imageName\",\"imageTag\":\"$imageTag\"}"
 
 
   - name: johns_endpipe
