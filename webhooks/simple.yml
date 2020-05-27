@@ -16,6 +16,8 @@ pipelines:
       - name: sendHook
         type: Bash
         configuration:
+          environmentVariabes:
+            johns_outhook_payload_file: "${step_tmp_dir}/payload.json"
           outputResources:
             - name: johns_outhook
         execution:
@@ -23,7 +25,8 @@ pipelines:
             - export imageName="testname"
             - export imageTag="testtag"
           onSuccess:
-            - set_payload johns_outhook "{\"imageName\":\"$imageName\",\"imageTag\":\"$imageTag\"}"
+            - echo "{\"imageName\":\"$imageName\",\"imageTag\":\"$imageTag\"}" > $step_tmp_dir/payload.json
+            - set_payload johns_outhook --file $step_tmp_dir/payload.json
             - echo "$johns_outhook_payload_file"
             - cat $johns_outhook_payload_file
 
