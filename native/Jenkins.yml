@@ -1,0 +1,65 @@
+resources:
+  - name: johns_jenkins_output
+    type: PropertyBag
+    configuration:
+      jenkinsvalue: original
+
+  - name: johns_jenkins_incomingHook
+    type: IncomingWebhook
+    configuration:
+      webhookName: johns_incoming
+  - name: johns_jenkins_outgoingHook
+    type: OutgoingWebhook
+    configuration:
+      webhookName: john_outgoing
+
+pipelines:
+  - name: john_jenkins_support
+    steps:
+      - name: firstStep
+        type: Bash
+        execution:
+          onExecute:
+            - echo "hello"
+      - name: jenkinsStep
+        type: Jenkins
+        configuration:
+          jenkinsJobName: blah
+          BuildParameters:
+            foo: bar
+          integrations:
+            - name: johns_Jenkins
+          inputSteps:
+            - name: firstStep
+          outputResources:
+            - name: johns_jenkins_output
+
+      - name: lastStep
+        type: Bash
+        configuration:
+          inputResources:
+            - name: johns_jenkins_output
+        execution:
+          onExecute:
+            - printenv | grep johns_jenkins_output
+
+
+  - name: johns_jenkins_fake
+    steps:
+      - name: fake_jenkins_job
+        type: Bash
+        configuration:
+          inputResources:
+            - name: johns_jenkins_incomingHook
+          outputResources:
+            - name: johns_jenkins_outgoingHook
+
+        execution:
+          onExecute:
+            - echo "$johns_jenkins_incomingHook" | jq '.' > payload.json
+            - cat payload.json
+            - export stepId=$(read_json payload.json stepId)
+            - set_payload "{\"action\":\"status\",\"stepId\":\"$stepId\"}"
+
+          onSuccess:
+

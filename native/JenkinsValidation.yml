@@ -1,0 +1,47 @@
+pipelines:
+  - name: johns_bad_steps
+    steps:
+      - name: jenkinsStep_badjobname
+        type: Jenkins
+        configuration:
+          jenkinsJobName: 123
+          BuildParameters:
+            foo: bar
+          integrations:
+            - name: johns_Jenkins
+          outputResources:
+            - name: johns_jenkins_output
+
+      - name: jenkinsStep_missingjobname
+        type: Jenkins
+        configuration:
+          BuildParameters:
+            foo: bar
+          integrations:
+            - name: johns_Jenkins
+          inputSteps:
+            - name: jenkinsStep_badjobname
+          outputResources:
+            - name: johns_jenkins_output
+
+      - name: jenkinsStep_missingintegration
+        type: Jenkins
+        configuration:
+          BuildParameters:
+            foo: bar
+          inputSteps:
+            - name: jenkinsStep_badjobname
+          outputResources:
+            - name: johns_jenkins_output
+
+      - name: jenkinsStep_badintegration
+        type: Jenkins
+        configuration:
+          BuildParameters:
+            foo: bar
+          integrations:
+            - name: johns_generic
+          inputSteps:
+            - name: jenkinsStep_badjobname
+          outputResources:
+            - name: johns_jenkins_output
