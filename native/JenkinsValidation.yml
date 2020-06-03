@@ -1,55 +1,65 @@
 pipelines:
   - name: johns_bad_steps
     steps:
-      - name: jenkinsStep_badjobname
-        type: Jenkins
-        configuration:
-          jenkinsJobName: 123
-          integrations:
-            - name: johns_Jenkins
-          outputResources:
-            - name: johns_jenkins_output
+      # - name: jenkinsStep_badjobname
+      #   type: Jenkins
+      #   configuration:
+      #     jenkinsJobName: 123
+      #     integrations:
+      #       - name: johns_Jenkins
+      #     outputResources:
+      #       - name: johns_jenkins_output
 
-      - name: jenkinsStep_missingjobname
-        type: Jenkins
-        configuration:
-          integrations:
-            - name: johns_Jenkins
-          inputSteps:
-            - name: jenkinsStep_badjobname
-          outputResources:
-            - name: johns_jenkins_output
+      # - name: jenkinsStep_missingjobname
+      #   type: Jenkins
+      #   configuration:
+      #     integrations:
+      #       - name: johns_Jenkins
+      #     inputSteps:
+      #       - name: jenkinsStep_badjobname
+      #     outputResources:
+      #       - name: johns_jenkins_output
 
-      - name: jenkinsStep_missingintegration
-        type: Jenkins
-        configuration:
-          jenkinsJobName: hello
-          inputSteps:
-            - name: jenkinsStep_badjobname
-          outputResources:
-            - name: johns_jenkins_output
+      # - name: jenkinsStep_missingintegration
+      #   type: Jenkins
+      #   configuration:
+      #     jenkinsJobName: hello
+      #     inputSteps:
+      #       - name: jenkinsStep_badjobname
+      #     outputResources:
+      #       - name: johns_jenkins_output
 
-      - name: jenkinsStep_badintegration
-        type: Jenkins
-        configuration:
-          jenkinsJobName: hello
-          integrations:
-            - name: johns_generic
-          inputSteps:
-            - name: jenkinsStep_badjobname
-          outputResources:
-            - name: johns_jenkins_output
+      # - name: jenkinsStep_badintegration
+      #   type: Jenkins
+      #   configuration:
+      #     jenkinsJobName: hello
+      #     integrations:
+      #       - name: johns_generic
+      #     inputSteps:
+      #       - name: jenkinsStep_badjobname
+      #     outputResources:
+      #       - name: johns_jenkins_output
+
+      # - name: jenkinsStep_badparameters
+      #   type: Jenkins
+      #   configuration:
+      #     jenkinsJobName: hello
+      #     buildParameters:
+      #       - test
+      #       - test2
+      #     integrations:
+      #       - name: johns_generic
+      #     inputSteps:
+      #       - name: jenkinsStep_badjobname
+      #     outputResources:
+      #       - name: johns_jenkins_output
 
       - name: jenkinsStep_badparameters
         type: Jenkins
         configuration:
           jenkinsJobName: hello
           buildParameters:
-            - test
-            - test2
+            foo: bar
           integrations:
+            - name: johns_jenkins
             - name: johns_generic
-          inputSteps:
-            - name: jenkinsStep_badjobname
-          outputResources:
-            - name: johns_jenkins_output
