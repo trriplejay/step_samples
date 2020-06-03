@@ -5,8 +5,6 @@ pipelines:
         type: Jenkins
         configuration:
           jenkinsJobName: 123
-          BuildParameters:
-            foo: bar
           integrations:
             - name: johns_Jenkins
           outputResources:
@@ -15,8 +13,6 @@ pipelines:
       - name: jenkinsStep_missingjobname
         type: Jenkins
         configuration:
-          BuildParameters:
-            foo: bar
           integrations:
             - name: johns_Jenkins
           inputSteps:
@@ -27,8 +23,7 @@ pipelines:
       - name: jenkinsStep_missingintegration
         type: Jenkins
         configuration:
-          BuildParameters:
-            foo: bar
+          jenkinsJobName: hello
           inputSteps:
             - name: jenkinsStep_badjobname
           outputResources:
@@ -37,8 +32,21 @@ pipelines:
       - name: jenkinsStep_badintegration
         type: Jenkins
         configuration:
-          BuildParameters:
-            foo: bar
+          jenkinsJobName: hello
+          integrations:
+            - name: johns_generic
+          inputSteps:
+            - name: jenkinsStep_badjobname
+          outputResources:
+            - name: johns_jenkins_output
+
+      - name: jenkinsStep_badparameters
+        type: Jenkins
+        configuration:
+          jenkinsJobName: hello
+          buildParameters:
+            - test
+            - test2
           integrations:
             - name: johns_generic
           inputSteps:
