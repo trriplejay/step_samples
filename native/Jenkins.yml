@@ -11,16 +11,16 @@ resources:
   - name: johns_jenkins_outgoingHook
     type: OutgoingWebhook
     configuration:
-      webhookName: john_outgoing
+      webhookName: johns_outgoing
 
 pipelines:
   - name: john_jenkins_support
     steps:
-      - name: firstStep
-        type: Bash
-        execution:
-          onExecute:
-            - echo "hello"
+      # - name: firstStep
+      #   type: Bash
+      #   execution:
+      #     onExecute:
+      #       - echo "hello"
       - name: jenkinsStep
         type: Jenkins
         configuration:
@@ -28,20 +28,20 @@ pipelines:
           BuildParameters:
             foo: bar
           integrations:
-            - name: johns_Jenkins
-          inputSteps:
-            - name: firstStep
+            - name: johns_ultra_new_jenkins
+          # inputSteps:
+          #   - name: firstStep
           outputResources:
             - name: johns_jenkins_output
 
-      - name: lastStep
-        type: Bash
-        configuration:
-          inputResources:
-            - name: johns_jenkins_output
-        execution:
-          onExecute:
-            - printenv | grep johns_jenkins_output
+      # - name: lastStep
+      #   type: Bash
+      #   configuration:
+      #     inputResources:
+      #       - name: johns_jenkins_output
+      #   execution:
+      #     onExecute:
+      #       - printenv | grep johns_jenkins_output
 
 
   - name: johns_jenkins_fake
