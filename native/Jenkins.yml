@@ -25,7 +25,7 @@ pipelines:
         type: Jenkins
         configuration:
           jenkinsJobName: blah
-          BuildParameters:
+          buildParameters:
             foo: bar
           integrations:
             - name: johns_ultra_new_jenkins
