@@ -54,10 +54,19 @@ pipelines:
       #     outputResources:
       #       - name: johns_jenkins_output
 
+      - name: baseStep
+        type: Bash
+        execution:
+          onExecute:
+            - cat blah
+
+
       - name: jenkinsStep_badparameters
         type: Jenkins
         configuration:
           jenkinsJobName: hello
+          inputSteps:
+            - name: baseStep
           buildParameters:
             foo: bar
           integrations:
