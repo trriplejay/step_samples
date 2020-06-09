@@ -70,5 +70,5 @@ pipelines:
           buildParameters:
             foo: bar
           integrations:
-            - name: johns_new_jenkins
+            - name: johns_ultra_new_jenkins
             - name: johns_generic
