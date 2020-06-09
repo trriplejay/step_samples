@@ -61,5 +61,4 @@ pipelines:
             - export stepId=$(read_json payload.json stepId)
             - set_payload "{\"action\":\"status\",\"stepId\":\"$stepId\"}"
 
-          onSuccess:
 
