@@ -1,80 +1,64 @@
 resources:
-  - name: johns_jenkins_output
-    type: PropertyBag
+  - name: app_mb
+    type: GitRepo
     configuration:
-      jenkinsvalue: original
+      gitProvider: johns_bbs
+      path: ~johns/step_samples
+      branches:
+        include: ^{{gitBranch}}$
 
-  - name: johns_jenkins_incomingHook
-    type: IncomingWebhook
+  - name: app_docker
+    type: Image
     configuration:
-      webhookName: johns_incoming
-  - name: johns_jenkins_outgoingHook
-    type: OutgoingWebhook
-    configuration:
-      webhookName: johns_outgoing
+      repo: artMaster
+      sourceRepository: docker-local
+      imageName: basicapi
+      imageTag: latest
+
 
 pipelines:
-  - name: john_jenkins_multibranch_support
+  - name: jenkins_demo_mb
     steps:
-      - name: jenkinsStep
+      - name: build_app
+        type: DockerBuild
+        configuration:
+          affinityGroup: buildAndPush
+          inputResouces:
+            - name: app_mb
+          dockerFileLocation: .
+          dockerFileName: Dockerfile
+          dockerImageName: basicapi
+          dockerImageTag: {{gitBranch}}.${run_number}
+
+      - name: push_app
+        type: DockerPush
+        configuration:
+          affinityGroup: buildAndPush
+          inputSteps:
+            - name: build_app
+          outputResources:
+            - name: app_docker
+      - name: test_app
         type: Jenkins
         configuration:
-          jenkinsJobName: blah
+          jenkinsJobName: app_test
           jenkinsBranchName: {{gitBranch}}
+          inputResources:
+            - name: app_docker
           buildParameters:
             foo: bar
           integrations:
-            - name: johns_ultra_new_jenkins
+            - name: jenkins
           # inputSteps:
           #   - name: firstStep
           outputResources:
             - name: johns_jenkins_output
 
-  - name: john_jenkins_support
-    steps:
-      # - name: firstStep
-      #   type: Bash
-      #   execution:
-      #     onExecute:
-      #       - echo "hello"
-      - name: jenkinsStep
-        type: Jenkins
-        configuration:
-          jenkinsJobName: blah
-          buildParameters:
-            foo: bar
-          integrations:
-            - name: johns_ultra_new_jenkins
-          # inputSteps:
-          #   - name: firstStep
-          outputResources:
-            - name: johns_jenkins_output
-
-      # - name: lastStep
-      #   type: Bash
-      #   configuration:
-      #     inputResources:
-      #       - name: johns_jenkins_output
-      #   execution:
-      #     onExecute:
-      #       - printenv | grep johns_jenkins_output
-
-
-  - name: johns_jenkins_fake
-    steps:
-      - name: fake_jenkins_job
+      - name: lastStep
         type: Bash
         configuration:
           inputResources:
-            - name: johns_jenkins_incomingHook
-          outputResources:
-            - name: johns_jenkins_outgoingHook
-
+            - name: johns_jenkins_output
         execution:
           onExecute:
-            - echo "$johns_jenkins_incomingHook" | jq '.' > payload.json
-            - cat payload.json
-            - export stepId=$(read_json payload.json stepId)
-            - set_payload "{\"action\":\"status\",\"stepId\":\"$stepId\"}"
-
-
+            - printenv | grep johns_jenkins_output
