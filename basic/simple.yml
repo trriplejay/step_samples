@@ -19,7 +19,7 @@ pipelines:
       - name: first_step_simple
         type: Bash
         configuration:
-          nodePool: c7dynamic
+          nodePool: u18dynamic
           inputResources:
             - name: singleRepo_simple
           outputResources:
@@ -45,7 +45,7 @@ pipelines:
       - name: second_step_simple
         type: Bash
         configuration:
-          nodePool: c7dynamic
+          nodePool: u18dynamic
           inputResources:
             - name: myProps
         execution:
