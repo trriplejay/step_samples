@@ -31,6 +31,7 @@ pipelines:
         execution:
           onExecute:
             - echo "hello a"
+            - echo "$res_johns_repo_a_commit_sha"
 
       - name: second_step
         type: Bash
@@ -42,3 +43,4 @@ pipelines:
         execution:
           onExecute:
             - echo "hello b"
+            - echo "$res_johns_repo_b_commit_sha"
