@@ -5,14 +5,18 @@ resources:
     configuration:
       gitProvider: johns_bbs
       path: ~johns/step_samples
-      filePattern:
+      branches:
+        include: ^{{gitBranch}}$
+      files:
         include: ^a/.*$
   - name: johns_repo_b
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
       path: ~johns/step_samples
-      filePattern:
+      branches:
+        include: ^{{gitBranch}}$
+      files:
         include: ^b/.*$
 
 
