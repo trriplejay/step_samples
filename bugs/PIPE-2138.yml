@@ -1,0 +1,40 @@
+resources:
+
+  - name: johns_repo_a
+    type: GitRepo
+    configuration:
+      gitProvider: johns_bbs
+      path: ~johns/step_samples
+      filePattern:
+        include: ^a/.*$
+  - name: johns_repo_b
+    type: GitRepo
+    configuration:
+      gitProvider: johns_bbs
+      path: ~johns/step_samples
+      filePattern:
+        include: ^b/.*$
+
+
+pipelines:
+  - name: johns_test_force_push
+    steps:
+      - name: first_step
+        type: Bash
+        configuration:
+          inputResources:
+            - name: johns_repo_a
+        execution:
+          onExecute:
+            - echo "hello a"
+
+      - name: second_step
+        type: Bash
+        configuration:
+          inputResources:
+            - name: johns_repo_b
+          inputSteps:
+            - name: first_step
+        execution:
+          onExecute:
+            - echo "hello b"
