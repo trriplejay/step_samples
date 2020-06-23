@@ -42,7 +42,6 @@ pipelines:
               custom:
                 name: ${imageName}
                 tag: ${imageTag}
-                options:
                 registry: johns_docker
                 autoPull: true         # default true; pulls image before run
         execution:
