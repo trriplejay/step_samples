@@ -25,6 +25,11 @@ resources:
       imageName: ${imageName}
       imageTag: ${imageTag}
       autoPull: false
+  - name: testBag
+    type: PropertyBag
+    configuration:
+      myName: helloworld
+      myValue: foobar
 
 
 pipelines:
@@ -35,13 +40,14 @@ pipelines:
         configuration:
           inputResources:
             - name: johns_repo_a
-            - name: testImage
+            # - name: testImage
+            - name: testBag
           runtime:
             type: image
             image:
               custom:
-                name: ${imageName}
-                tag: ${imageTag}
+                name: ${myName}
+                tag: ${myValue}
                 registry: johns_docker
                 autoPull: true         # default true; pulls image before run
         execution:
