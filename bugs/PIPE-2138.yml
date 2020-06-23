@@ -41,7 +41,6 @@ pipelines:
             - echo "hello a"
             - echo "$res_johns_repo_a_commit_sha"
             - printenv | grep res_testImage
-            -
 
       - name: second_step
         type: Bash
