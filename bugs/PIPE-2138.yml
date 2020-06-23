@@ -46,8 +46,8 @@ pipelines:
             type: image
             image:
               custom:
-                name: ${myName}
-                tag: ${myValue}
+                name: ${res_testBag_myName}
+                tag: ${res_testBag_myValue}
                 registry: johns_docker
                 autoPull: true         # default true; pulls image before run
         execution:
