@@ -18,6 +18,12 @@ resources:
         include: ^{{gitBranch}}$
       files:
         include: ^b/.*$
+  - name: testImage
+    type: Image
+    configuration:
+      registry: johns_docker
+      imageName: ${imageName}
+      imageTag: ${imageTag}
 
 
 pipelines:
@@ -28,10 +34,12 @@ pipelines:
         configuration:
           inputResources:
             - name: johns_repo_a
+            - name: testImage
         execution:
           onExecute:
             - echo "hello a"
             - echo "$res_johns_repo_a_commit_sha"
+            - printenv | grep res_testImage
 
       - name: second_step
         type: Bash
