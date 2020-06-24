@@ -29,7 +29,7 @@ pipelines:
       execution:
         onExecute:
           - cd $res_pipe_3182_test_gitrepo_a_resourcePath
-          - cat a/a.txt
+          - cat a/test.txt
           - git rev-parse --short HEAD
     - name: build_b
       type: Bash
@@ -41,5 +41,6 @@ pipelines:
       execution:
         onExecute:
           - cd $res_pipe_3182_test_gitrepo_b_resourcePath
-          - cat b/b.txt
+          - cat b/test.txt
           - git rev-parse --short HEAD
+          - printenv | grep res_pipe_3182_test_gitrepo_b
