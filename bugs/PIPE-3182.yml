@@ -6,8 +6,7 @@ resources:
       gitProvider: johns_bbs
       branches:
         include: ^{{gitBranch}}$
-      files:
-        include: ^a\/.*$
+
   - name: pipe_3182_test_gitrepo_b
     type: GitRepo
     configuration:
