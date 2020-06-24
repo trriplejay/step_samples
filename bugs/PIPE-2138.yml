@@ -9,6 +9,7 @@ resources:
         include: ^{{gitBranch}}$
       files:
         include: ^a/.*$
+
   - name: johns_repo_b
     type: GitRepo
     configuration:
@@ -18,19 +19,6 @@ resources:
         include: ^{{gitBranch}}$
       files:
         include: ^b/.*$
-  - name: testImage
-    type: Image
-    configuration:
-      registry: johns_docker
-      imageName: ${imageName}
-      imageTag: ${imageTag}
-      autoPull: false
-  - name: testBag
-    type: PropertyBag
-    configuration:
-      myName: helloworld
-      myValue: foobar
-
 
 pipelines:
   - name: johns_test_force_push
@@ -40,16 +28,7 @@ pipelines:
         configuration:
           inputResources:
             - name: johns_repo_a
-            # - name: testImage
-            - name: testBag
-          runtime:
-            type: image
-            image:
-              custom:
-                name: ${myName}
-                tag: ${myValue}
-                registry: johns_docker
-                autoPull: true         # default true; pulls image before run
+
         execution:
           onExecute:
             - echo "hello a"
