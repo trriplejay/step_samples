@@ -1,0 +1,45 @@
+resources:
+  - name: pipe_3182_test_gitrepo_a
+    type: GitRepo
+    configuration:
+      path: ~johns/step_samples
+      gitProvider: johns_bbs
+      branches:
+        include: ^{{gitBranch}}$
+      files:
+        include: ^a\/.*$
+  - name: pipe_3182_test_gitrepo_b
+    type: GitRepo
+    configuration:
+      path: ~johns/step_samples
+      gitProvider: johns_bbs
+      branches:
+        include: ^{{gitBranch}}$
+      files:
+        include: ^b\/.*$
+
+pipelines:
+- name: johns_3182_test
+  steps:
+    - name: build_a
+      type: Bash
+      configuration:
+        inputResources:
+          - name: pipe_3182_test_gitrepo_a
+      execution:
+        onExecute:
+          - cd $res_pipe_3182_test_gitrepo_a_resourcePath
+          - cat a/a.txt
+          - git rev-parse --short HEAD
+    - name: build_b
+      type: Bash
+      configuration:
+        inputSteps:
+          - name: build_a
+        inputResources:
+          - name: pipe_3182_test_gitrepo_b
+      execution:
+        onExecute:
+          - cd $res_pipe_3182_test_gitrepo_b_resourcePath
+          - cat b/b.txt
+          - git rev-parse --short HEAD
