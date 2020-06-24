@@ -40,6 +40,7 @@ pipelines:
           - name: pipe_3182_test_gitrepo_b
       execution:
         onExecute:
+          - echo "blah"
           - cd $res_pipe_3182_test_gitrepo_b_resourcePath
           - cat b/test.txt
           - git rev-parse --short HEAD
