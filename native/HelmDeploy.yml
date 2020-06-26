@@ -1,13 +1,13 @@
 ######## basic #############
 
 resources:
-  - name: johns_HelmDeploy_chart
-    type: HelmChart
-    configuration:
-      sourceArtifactory: johns_art
-      repository: simplecharts
-      chart: simpleserver
-      version: 1.0.0
+  # - name: johns_HelmDeploy_chart
+  #   type: HelmChart
+  #   configuration:
+  #     sourceArtifactory: johns_art
+  #     repository: simplecharts
+  #     chart: simpleserver
+  #     version: 1.0.0
 
   - name: johns_HelmDeploy_git
     type: GitRepo
@@ -16,31 +16,33 @@ resources:
       path: ~johns/simpleserver
 
 pipelines:
-  - name: johns_test_HelmDeploy_basic_chart
-    steps:
-      - name: deploy_git_chart
-        type: HelmDeploy
-        configuration:
-          environmentVariables:
-            REPLICAS: 3
-          integrations:
-            - name: johns_kubernetes
-          inputResources:
-            - name: johns_publish_helmChart
-          releaseName: simplechart
-          # valueFilePaths:
-          #   - override.yaml
-          flags: "--namespace dev"
-          # dryRun: true
-          # lint: true
-          # lintFlags: "--strict"
-          # test: true
-          # testFlags: "--cleanup"
+  # - name: johns_test_HelmDeploy_basic_chart
+  #   steps:
+  #     - name: deploy_git_chart
+  #       type: HelmDeploy
+  #       syntaxVersion: 2.0
+  #       configuration:
+  #         environmentVariables:
+  #           REPLICAS: 3
+  #         integrations:
+  #           - name: johns_kubernetes
+  #         inputResources:
+  #           - name: johns_publish_helmChart
+  #         releaseName: simplechart
+  #         # valueFilePaths:
+  #         #   - override.yaml
+  #         flags: "--namespace dev"
+  #         # dryRun: true
+  #         # lint: true
+  #         # lintFlags: "--strict"
+  #         # test: true
+  #         # testFlags: "--cleanup"
 
   - name: johns_test_HelmDeploy_basic_git
     steps:
       - name: deploy_git_chart
         type: HelmDeploy
+        syntaxVersion: 2.0
         configuration:
           integrations:
             - name: johns_kubernetes
