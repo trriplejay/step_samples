@@ -9,11 +9,11 @@ resources:
   #     chart: simpleserver
   #     version: 1.0.0
 
-  - name: johns_HelmDeploy_git
+  - name: johns_HelmDeploy_repo
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
-      path: ~johns/simpleserver
+      path: ~johns/simplehelm
 
 pipelines:
   # - name: johns_test_HelmDeploy_basic_chart
@@ -46,8 +46,8 @@ pipelines:
           integrations:
             - name: johns_kubernetes
           inputResources:
-            - name: johns_HelmDeploy_git
-          chartPath: ./simpleserver
+            - name: johns_HelmDeploy_repo
+          chartPath: ./simplehelm
           releaseName: simplegit
           flags: "--namespace dev"
           dryRun: true
