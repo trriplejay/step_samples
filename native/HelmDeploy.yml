@@ -42,7 +42,6 @@ pipelines:
     steps:
       - name: deploy_git_chart
         type: HelmDeploy
-        syntaxVersion: 2.0
         configuration:
           integrations:
             - name: johns_kubernetes
