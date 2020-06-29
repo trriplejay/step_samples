@@ -41,7 +41,7 @@ pipelines:
             - name: johns_HelmAdvanced_source
           dockerFileLocation: .
           dockerFileName: Dockerfile
-          dockerImageName: pipe-master.jfrog.info:8082/simpleimages/simpleserver
+          dockerImageName: 192.168.50.4:8082/simpleimages/simpleserver
           dockerImageTag: ${run_number}
       - name: push
         type: DockerPush
