@@ -54,6 +54,9 @@ pipelines:
           lint: true
           test: true
           testFlags: "--cleanup"
+        execution:
+          onStart:
+            - cat -n "$steplet_script_path"
 
 
 
