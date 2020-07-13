@@ -77,6 +77,6 @@ pipelines:
         execution:
           onExecute:
             - echo "triggered by $step_triggered_by_resource_name"
-            - shouldTest=$(echo eval $"res_"$step_triggered_by_resource_name"_test")
+            - shouldTest=$(eval echo "$"res_"$step_triggered_by_resource_name"_test)
             - echo "i should run test suite $shouldTest"
 
