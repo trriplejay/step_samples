@@ -48,19 +48,19 @@ pipelines:
           onExecute:
             - |
               if [ "$bag1" == "true" ]; then
-                write_output bag1 "shouldTest=true"
+                write_output bag1 "runNumber=$run_number"
               fi
               if [ "$bag2" == "true" ]; then
-                write_output bag2 "shouldTest=true"
+                write_output bag2 "runNumber=$run_number"
               fi
               if [ "$bag3" == "true" ]; then
-                write_output bag3 "shouldTest=true"
+                write_output bag3 "runNumber=$run_number"
               fi
               if [ "$bag4" == "true" ]; then
-                write_output bag4 "shouldTest=true"
+                write_output bag4 "runNumber=$run_number"
               fi
               if [ "$bag5" == "true" ]; then
-                write_output bag5 "shouldTest=true"
+                write_output bag5 "runNumber=$run_number"
               fi
 
   - name: johns_stop_pipe_triggering
