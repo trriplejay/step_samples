@@ -1,0 +1,80 @@
+resources:
+  - name: bag1
+    type: PropertyBag
+    configuration:
+      test: 1
+
+  - name: bag2
+    type: PropertyBag
+    configuration:
+      test: 2
+
+  - name: bag3
+    type: PropertyBag
+    configuration:
+      test: 3
+
+  - name: bag4
+    type: PropertyBag
+    configuration:
+      test: 4
+
+  - name: bag5
+    type: PropertyBag
+    configuration:
+      test: 5
+
+
+pipelines:
+  - name: johns_start_pipe_triggering
+    steps:
+      - name: first_step
+        configuration:
+          environmentVariables:
+            bag1: false
+            bag2: false
+            bag3: false
+            bag4: false
+            bag5: false
+          outputResources:
+            - name: bag1
+            - name: bag2
+            - name: bag3
+            - name: bag4
+            - name: bag5
+
+        execution:
+          onExecute:
+            - |
+              if [ "$bag1" == "true" ]; then
+                write_output bag1 "shouldTest=true"
+              fi
+              if [ "$bag2" == "true" ]; then
+                write_output bag2 "shouldTest=true"
+              fi
+              if [ "$bag3" == "true" ]; then
+                write_output bag3 "shouldTest=true"
+              fi
+              if [ "$bag4" == "true" ]; then
+                write_output bag4 "shouldTest=true"
+              fi
+              if [ "$bag5" == "true" ]; then
+                write_output bag5 "shouldTest=true"
+              fi
+
+  - name: johns_stop_pipe_triggering
+    steps:
+      - name: second_step
+        configuration:
+          inputResources:
+            - name: bag1
+            - name: bag2
+            - name: bag3
+            - name: bag4
+            - name: bag5
+        execution:
+          onExecute:
+            - echo "triggered by $step_triggered_by_resource_name"
+            - shouldTest=$(eval "res_"$step_triggered_by_resource_name"_shouldTest")
+            - echo "should i test? $shouldTest"
+
