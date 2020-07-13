@@ -32,11 +32,11 @@ pipelines:
         type: Bash
         configuration:
           environmentVariables:
-            bag1: false
-            bag2: false
-            bag3: false
-            bag4: false
-            bag5: false
+            bag1: "false"
+            bag2: "false"
+            bag3: "false"
+            bag4: "false"
+            bag5: "false"
           outputResources:
             - name: bag1
             - name: bag2
