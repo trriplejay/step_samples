@@ -12,10 +12,6 @@ resources:
     configuration:
       foo: bar
       hello: world
-  - name: myIncoming
-    type: IncomingWebhook
-    configuration:
-      webhookName: johns_incoming_webhook
 
 pipelines:
   - name: simple_pipe_simple
@@ -27,14 +23,6 @@ pipelines:
             - name: singleRepo_simple
           outputResources:
             - name: myProps
-            - name: myIncoming
-          runtime:
-            type: image
-            image:
-              custom:
-                name: trriplejay/helmv3
-                tag: latest
-                autoPull: true
         execution:
           onExecute:
             - bash --version
@@ -45,22 +33,15 @@ pipelines:
             - echo "hello is $hello"
             - echo "foo is $foo"
             - write_output myProps "fizz=buzz"
-            - echo -e "{\"value\":\"hello\nworld\"}" > output.txt
-            - set_payload myIncoming output.txt --file
-
 
       - name: second_step_simple
         type: Bash
         configuration:
           inputResources:
             - name: myProps
-            - name: myIncoming
         execution:
           onExecute:
             - echo "final step in the pipeline"
             - echo "fizz is $fizz"
             - echo "hello is $hello"
             - echo "foo is $foo"
-            - printenv | grep res_myIncoming_
-
-
