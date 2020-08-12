@@ -25,7 +25,7 @@ pipelines:
             - name: myProps
         execution:
           onExecute:
-            - restore_cache_files state .
+            - restore_cache_files state output.txt
             - bash --version
             # - helm version
             # - nvm use 10.18.0
