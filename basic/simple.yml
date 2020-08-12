@@ -27,7 +27,7 @@ pipelines:
           onExecute:
             - restore_cache_files state .
             - bash --version
-            - helm version
+            # - helm version
             # - nvm use 10.18.0
             - node --version
             - echo "pipeline source branch is - {{gitBranch}}"
