@@ -36,6 +36,7 @@ pipelines:
             - write_output myProps "fizz=buzz"
             - echo "hello world $run_number" >> output.txt
             - add_cache_files output.txt state
+            - add_run_variables "message=heeeeeeey"
 
       - name: second_step_simple
         type: Bash
@@ -48,3 +49,4 @@ pipelines:
             - echo "fizz is $fizz"
             - echo "hello is $hello"
             - echo "foo is $foo"
+            - echo "message is $message"
