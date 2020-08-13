@@ -19,8 +19,8 @@ pipelines:
       - name: first_step_simple
         type: Bash
         configuration:
-          inputResources:
-            - name: singleRepo_simple
+          # inputResources:
+          #   - name: singleRepo_simple
           outputResources:
             - name: myProps
         execution:
