@@ -25,6 +25,7 @@ pipelines:
             - name: myProps
         execution:
           onExecute:
+            - sleep 10
             - restore_cache_files state output.txt
             - bash --version
             # - helm version
@@ -37,6 +38,7 @@ pipelines:
             - echo "hello world $run_number" >> output.txt
             - add_cache_files output.txt state
             - add_run_variables "message=heeeeeeey"
+            - sleep 10
 
       - name: second_step_simple
         type: Bash
