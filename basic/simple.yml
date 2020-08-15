@@ -13,13 +13,22 @@ resources:
       foo: bar
       hello: world
 
+  - name: startingProps
+    type: PropertyBag
+    configuration:
+      asdf: asdf
+      not: again
+
 pipelines:
   - name: simple_pipe_simple
     steps:
       - name: first_step_simple
         type: Bash
         configuration:
-          # inputResources:
+          integrations:
+            - name: johns_bbs
+          inputResources:
+            - name: startingProps
           #   - name: singleRepo_simple
           outputResources:
             - name: myProps
