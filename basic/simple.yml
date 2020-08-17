@@ -61,3 +61,15 @@ pipelines:
             - echo "hello is $hello"
             - echo "foo is $foo"
             - echo "message is $message"
+
+
+  - name: zero_day_pipeline
+    steps:
+      - name: zero_step_simple
+        type: Bash
+        configuration:
+          outputResources:
+            - name: startingProps
+        execution:
+          onExecute:
+            - write_output startingProps "zero_run_number=$run_number"
