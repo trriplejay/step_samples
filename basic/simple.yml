@@ -36,6 +36,7 @@ pipelines:
           onExecute:
             - sleep 10
             - restore_cache_files state output.txt
+            - restore_pipeline_files state output.txt
             - bash --version
             # - helm version
             # - nvm use 10.18.0
@@ -46,6 +47,7 @@ pipelines:
             - write_output myProps "fizz=buzz"
             - echo "hello world $run_number" >> output.txt
             - add_cache_files output.txt state
+            - add_pipeline_files output.txt state
             - add_run_variables "message=heeeeeeey"
             - sleep 10
 
