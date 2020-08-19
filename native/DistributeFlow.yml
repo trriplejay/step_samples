@@ -87,6 +87,8 @@ pipelines:
         configuration:
           integrations:
             - name: johns_art
+          inputSteps:
+            - name: build_push_api
           inputResources:
             - name: ui_repo
           outputResources:
