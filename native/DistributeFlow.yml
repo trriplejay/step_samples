@@ -79,8 +79,8 @@ pipelines:
           onExecute:
             - echo "blah"
             - pushd $res_api_repo_resourcePath
-            - docker build -t pipe-master.jfrog.info:8082/simpleimages/ui_image:${run_number} .
-            - jfrog rt docker-push pipe-master.jfrog.info:8082/simpleimages/ui_image:${run_number} simpleimages --build-name $step_name --build-number $run_number
+            - docker build -t pipe-master.jfrog.info:8082/simpleimages/api_image:${run_number} .
+            - jfrog rt docker-push pipe-master.jfrog.info:8082/simpleimages/api_image:${run_number} simpleimages --build-name $step_name --build-number $run_number
             - jfrog rt bce $step_name $run_number
             - jfrog rt bp $step_name $run_number
             - write_output api_buildinfo "buildName=$step_name" "buildNumber=$run_number"
@@ -90,8 +90,6 @@ pipelines:
         configuration:
           integrations:
             - name: johns_art
-          inputSteps:
-            - name: build_push_api
           inputResources:
             - name: ui_repo
           outputResources:
@@ -99,14 +97,30 @@ pipelines:
         execution:
           onExecute:
             - echo "blah"
-            - pushd $res_api_repo_resourcePath
-            - docker build -t pipe-master.jfrog.info:8082/simpleimages/api_image:${run_number} .
-            - jfrog rt docker-push pipe-master.jfrog.info:8082/simpleimages/api_image:${run_number} simpleimages --build-name $step_name --build-number $run_number
+            - pushd $res_ui_repo_resourcePath
+            - docker build -t pipe-master.jfrog.info:8082/simpleimages/ui_image:${run_number} .
+            - jfrog rt docker-push pipe-master.jfrog.info:8082/simpleimages/ui_image:${run_number} simpleimages --build-name $step_name --build-number $run_number
             - jfrog rt bce $step_name $run_number
             - jfrog rt bp $step_name $run_number
             - write_output ui_buildinfo "buildName=$step_name" "buildNumber=$run_number"
-      # - name: make_bundle
-      #   type: CreateReleaseBundle
+      - name: make_bundle
+        type: CreateReleaseBundle
+        configuration:
+          releaseBundleName: myApp
+          releaseBundleVersion: ${run_number}
+          dryRun: false
+          inputResources:
+            - name: ui_buildinfo
+            - name: api_buildinfo
+          outputResources:
+            - name: app_bundle
+          execution:
+            onStart:
+              - export payloadPath=""
+            onComplete:
+              - cat $payloadPath
+
+
       # - name: sign_bundle
       #   type: SignReleaseBundle
       # - name: dist_bundle
