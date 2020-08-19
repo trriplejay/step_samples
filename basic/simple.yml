@@ -18,6 +18,11 @@ resources:
     configuration:
       asdf: asdf
       not: again
+  - name: testProps
+    type: propertyBag
+    configuration:
+      zero_run_number_copy: ${res_startingProps_zero_run_number}
+      zero_run_number_copy2: ${zero_run_number}
 
 pipelines:
   - name: simple_pipe_simple
@@ -50,6 +55,7 @@ pipelines:
             - add_pipeline_files output.txt state
             - add_run_variables "message=heeeeeeey"
             - sleep 10
+            - env | grep zero_run
 
       - name: second_step_simple
         type: Bash
