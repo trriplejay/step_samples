@@ -80,7 +80,8 @@ pipelines:
             - echo "blah"
             - pushd $res_api_repo_resourcePath
             - docker build -t pipe-master.jfrog.info:8082/simpleimages/ui_image:${run_number} .
-            - jfrog rt docker-push pipe-master.jfrog.info:8082/simpleimages/ui_image:${run_number} simpleimages
+            - jfrog rt docker-push pipe-master.jfrog.info:8082/simpleimages/ui_image:${run_number} simpleimages --build-name $step_name --build-number $run_number
+            - jfrog rt bce --build-name $step_name --build-number $run_number
             - jfrog rt bp $step_name $run_number
             - write_output api_buildinfo "buildName=$step_name" "buildNumber=$run_number"
 
@@ -100,7 +101,8 @@ pipelines:
             - echo "blah"
             - pushd $res_api_repo_resourcePath
             - docker build -t pipe-master.jfrog.info:8082/simpleimages/api_image:${run_number} .
-            - jfrog rt docker-push pipe-master.jfrog.info:8082/simpleimages/api_image:${run_number} simpleimages
+            - jfrog rt docker-push pipe-master.jfrog.info:8082/simpleimages/api_image:${run_number} simpleimages --build-name $step_name --build-number $run_number
+            - jfrog rt bce --build-name $step_name --build-number $run_number
             - jfrog rt bp $step_name $run_number
             - write_output ui_buildinfo "buildName=$step_name" "buildNumber=$run_number"
       # - name: make_bundle
