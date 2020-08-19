@@ -66,9 +66,17 @@ pipelines:
     configuration:
       nodePool: static-node-pool
     steps:
+      - name: kickoff
+        type: Bash
+        execution:
+          onExecute:
+            - echo "hello world"
+
       - name: build_push_api
         type: Bash
         configuration:
+          inputSteps:
+            - name: kickoff
           integrations:
             - name: johns_art
           inputResources:
@@ -88,6 +96,8 @@ pipelines:
       - name: build_push_ui
         type: Bash
         configuration:
+          inputSteps:
+            - name: kickoff
           integrations:
             - name: johns_art
           inputResources:
