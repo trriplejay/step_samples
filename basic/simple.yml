@@ -34,6 +34,7 @@ pipelines:
             - name: johns_bbs
           inputResources:
             - name: startingProps
+            - name: testProps
           #   - name: singleRepo_simple
           outputResources:
             - name: myProps
