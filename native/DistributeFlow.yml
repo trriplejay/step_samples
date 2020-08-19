@@ -11,6 +11,12 @@ resources:
       sourceArtifactory: johns_art
       buildName: ${step_name}
       buildNumber: ${run_number}
+  - name: util_buildinfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: johns_art
+      buildName: ${step_name}
+      buildNumber: ${run_number}
   - name: prom_api_buildinfo
     type: BuildInfo
     configuration:
@@ -18,6 +24,12 @@ resources:
       buildName: ${step_name}
       buildNumber: ${run_number}
   - name: prom_ui_buildinfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: johns_art
+      buildName: ${step_name}
+      buildNumber: ${run_number}
+  - name: prom_util_buildinfo
     type: BuildInfo
     configuration:
       sourceArtifactory: johns_art
@@ -53,6 +65,13 @@ resources:
       branches:
         include: ^master$
   - name: ui_repo
+    type: GitRepo
+    configuration:
+      gitProvider: johns_bbs
+      path: ~johns/simpleserver
+      branches:
+        include: ^master$
+  - name: util_repo
     type: GitRepo
     configuration:
       gitProvider: johns_bbs
@@ -113,6 +132,26 @@ pipelines:
             - jfrog rt bce $step_name $run_number
             - jfrog rt bp $step_name $run_number
             - write_output ui_buildinfo "buildName=$step_name" "buildNumber=$run_number"
+      - name: build_push_util
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: kickoff
+          integrations:
+            - name: johns_art
+          inputResources:
+            - name: util_repo
+          outputResources:
+            - name: util_buildinfo
+        execution:
+          onExecute:
+            - echo "blah"
+            - pushd $res_ui_repo_resourcePath
+            - docker build -t pipe-master.jfrog.info:8082/simpleimages/util_image:${run_number} .
+            - jfrog rt docker-push pipe-master.jfrog.info:8082/simpleimages/util_image:${run_number} simpleimages --build-name $step_name --build-number $run_number
+            - jfrog rt bce $step_name $run_number
+            - jfrog rt bp $step_name $run_number
+            - write_output util_buildinfo "buildName=$step_name" "buildNumber=$run_number"
 
       - name: promote_api
         type: PromoteBuild
@@ -131,6 +170,14 @@ pipelines:
             - name: ui_buildinfo
           outputResources:
             - name: prom_ui_buildinfo
+      - name: promote_util
+        type: PromoteBuild
+        configuration:
+          targetRepository: prod-simpleimages
+          inputResources:
+            - name: util_buildinfo
+          outputResources:
+            - name: prom_util_buildinfo
 
       - name: make_bundle
         type: CreateReleaseBundle
@@ -141,6 +188,7 @@ pipelines:
           inputResources:
             - name: prom_ui_buildinfo
             - name: prom_api_buildinfo
+            - name: prom_util_buildinfo
           outputResources:
             - name: app_bundle
         execution:
