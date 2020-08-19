@@ -23,6 +23,11 @@ resources:
     configuration:
       zero_run_number_copy: ${res_startingProps_zero_run_number}
       zero_run_number_copy2: ${zero_run_number}
+  - name: testSpec
+    type: FileSpec
+    configuration:
+      sourceArtifactory:    johns_art
+      pattern: "helm-local/${fileprefix}*"
 
 pipelines:
   - name: simple_pipe_simple
@@ -35,6 +40,7 @@ pipelines:
           inputResources:
             - name: startingProps
             - name: testProps
+            - name: testSpec
           #   - name: singleRepo_simple
           outputResources:
             - name: myProps
@@ -89,4 +95,4 @@ pipelines:
             - name: startingProps
         execution:
           onExecute:
-            - write_output startingProps "zero_run_number=$run_number"
+            - write_output startingProps "zero_run_number=$run_number" "fileprefix=tomcat"
