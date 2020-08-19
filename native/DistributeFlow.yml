@@ -104,12 +104,12 @@ pipelines:
             - jfrog rt bp $step_name $run_number
             - write_output ui_buildinfo "buildName=$step_name" "buildNumber=$run_number"
 
-      - name: promote_api
-        type: PromoteBuild
-        configuration:
-          targetRepository: prod-simpleimages
-      - name: promote_ui
-        type: PromoteBuild
+      # - name: promote_api
+      #   type: PromoteBuild
+      #   configuration:
+      #     targetRepository: prod-simpleimages
+      # - name: promote_ui
+      #   type: PromoteBuild
       - name: make_bundle
         type: CreateReleaseBundle
         configuration:
