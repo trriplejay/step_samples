@@ -132,6 +132,7 @@ pipelines:
             - jfrog rt bce $step_name $run_number
             - jfrog rt bp $step_name $run_number
             - write_output ui_buildinfo "buildName=$step_name" "buildNumber=$run_number"
+
       - name: build_push_util
         type: Bash
         configuration:
@@ -146,7 +147,7 @@ pipelines:
         execution:
           onExecute:
             - echo "blah"
-            - pushd $res_ui_repo_resourcePath
+            - pushd $res_util_repo_resourcePath
             - docker build -t pipe-master.jfrog.info:8082/simpleimages/util_image:${run_number} .
             - jfrog rt docker-push pipe-master.jfrog.info:8082/simpleimages/util_image:${run_number} simpleimages --build-name $step_name --build-number $run_number
             - jfrog rt bce $step_name $run_number
