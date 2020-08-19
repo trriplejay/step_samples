@@ -27,7 +27,7 @@ resources:
     type: FileSpec
     configuration:
       sourceArtifactory:    johns_art
-      pattern: "helm-local/${fileprefix}*"
+      pattern: "helm-local/${res_startingProps_fileprefix}*"
 
 pipelines:
   - name: simple_pipe_simple
