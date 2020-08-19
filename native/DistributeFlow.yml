@@ -103,6 +103,13 @@ pipelines:
             - jfrog rt bce $step_name $run_number
             - jfrog rt bp $step_name $run_number
             - write_output ui_buildinfo "buildName=$step_name" "buildNumber=$run_number"
+
+      - name: promote_api
+        type: PromoteBuild
+        configuration:
+          targetRepository: prod-simpleimages
+      - name: promote_ui
+        type: PromoteBuild
       - name: make_bundle
         type: CreateReleaseBundle
         configuration:
@@ -114,11 +121,11 @@ pipelines:
             - name: api_buildinfo
           outputResources:
             - name: app_bundle
-          execution:
-            onStart:
-              - export payloadPath=""
-            onComplete:
-              - cat $payloadPath
+        execution:
+          onStart:
+            - export payloadPath=""
+          onComplete:
+            - cat $payloadPath
 
 
       # - name: sign_bundle
