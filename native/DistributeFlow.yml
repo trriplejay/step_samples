@@ -63,6 +63,8 @@ resources:
 
 pipelines:
   - name: johns_dist_flow
+    configuration:
+      nodePool: static-node-pool
     steps:
       - name: build__push_api
         type: Bash
