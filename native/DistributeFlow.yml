@@ -104,12 +104,24 @@ pipelines:
             - jfrog rt bp $step_name $run_number
             - write_output ui_buildinfo "buildName=$step_name" "buildNumber=$run_number"
 
-      # - name: promote_api
-      #   type: PromoteBuild
-      #   configuration:
-      #     targetRepository: prod-simpleimages
-      # - name: promote_ui
-      #   type: PromoteBuild
+      - name: promote_api
+        type: PromoteBuild
+        configuration:
+          targetRepository: prod-simpleimages
+          inputResources:
+            - name: api_buildinfo
+          outputResources:
+            - name: prom_api_buildinfo
+
+      - name: promote_ui
+        type: PromoteBuild
+        configuration:
+          targetRepository: prod-simpleimages
+          inputResources:
+            - name: ui_buildinfo
+          outputResources:
+            - name: prom_ui_buildinfo
+
       - name: make_bundle
         type: CreateReleaseBundle
         configuration:
@@ -117,8 +129,8 @@ pipelines:
           releaseBundleVersion: ${run_number}
           dryRun: false
           inputResources:
-            - name: ui_buildinfo
-            - name: api_buildinfo
+            - name: prom_ui_buildinfo
+            - name: prom_api_buildinfo
           outputResources:
             - name: app_bundle
         execution:
