@@ -2,21 +2,25 @@ resources:
   - name: api_buildinfo
     type: BuildInfo
     configuration:
+      sourceArtifactory: johns_art
       buildName: ${step_name}
       buildNumber: ${run_number}
   - name: ui_buildinfo
     type: BuildInfo
     configuration:
+      sourceArtifactory: johns_art
       buildName: ${step_name}
       buildNumber: ${run_number}
   - name: prom_api_buildinfo
     type: BuildInfo
     configuration:
+      sourceArtifactory: johns_art
       buildName: ${step_name}
       buildNumber: ${run_number}
   - name: prom_ui_buildinfo
     type: BuildInfo
     configuration:
+      sourceArtifactory: johns_art
       buildName: ${step_name}
       buildNumber: ${run_number}
   - name: app_bundle
@@ -69,7 +73,7 @@ pipelines:
             - name: api_repo
           outputResources:
             - name: api_buildinfo
-        execute:
+        execution:
           onExecute:
             - echo "blah"
             - pushd $res_api_repo_resourcePath
@@ -87,7 +91,7 @@ pipelines:
             - name: ui_repo
           outputResources:
             - name: ui_buildinfo
-        execute:
+        execution:
           onExecute:
             - echo "blah"
             - pushd $res_api_repo_resourcePath
