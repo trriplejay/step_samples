@@ -16,7 +16,7 @@ resources:
   - name: startingProps
     type: PropertyBag
     configuration:
-      asdf: asdf
+      fileprefix: "tomcat"
       not: again
   - name: testProps
     type: propertyBag
@@ -27,7 +27,7 @@ resources:
     type: FileSpec
     configuration:
       sourceArtifactory:    johns_art
-      pattern: "helm-local/${res_startingProps_fileprefix}*"
+      pattern: "helm-local/${res_startingProps_fileprefix}*.tar.gz"
 
 pipelines:
   - name: simple_pipe_simple
@@ -86,13 +86,13 @@ pipelines:
             - echo "final step in the pipeline"
 
 
-  - name: zero_day_pipeline
+  - name: instigating_pipeline
     steps:
-      - name: zero_step_simple
+      - name: start_it
         type: Bash
         configuration:
           outputResources:
             - name: startingProps
         execution:
           onExecute:
-            - write_output startingProps "zero_run_number=$run_number" "fileprefix=tomcat"
+            - write_output startingProps "zero_run_number=$run_number" "fileprefix=tomcat-${run_number}"
