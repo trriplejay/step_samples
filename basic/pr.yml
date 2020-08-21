@@ -1,0 +1,25 @@
+resources:
+  - name: johns_repo
+    type: GitRepo
+    configuration:
+      gitProvider: johns_bbs
+      path: ~johns/step_samples
+      branches:
+        include: ^master$
+      buildOn:
+        commit: false
+        pullRequest: true
+
+pipelines:
+  - name: johns_test_git_pr
+    steps:
+      - name: johns_run_pr
+        type: Bash
+        configuration:
+          inputResources:
+            - name: johns_repo
+
+        execution:
+          onExecute:
+            - cd $res_johns_repo_resourcePath
+            - git status
