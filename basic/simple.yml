@@ -97,4 +97,4 @@ pipelines:
             - name: startingProps
         execution:
           onExecute:
-            - write_output startingProps "zero_run_number=$run_number" "fileprefix=tomcat-${run_number}"
+            - write_output startingProps "zero_run_number=$run_number" "fileprefix=tomcat-0.1"
