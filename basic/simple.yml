@@ -7,11 +7,11 @@ resources:
       branches:
         include: master
 
-  # - name: myProps
-  #   type: PropertyBag
-  #   configuration:
-  #     foo: bar
-  #     hello: world
+  - name: myProps
+    type: PropertyBag
+    configuration:
+      foo: bar
+      hello: world
 
   - name: startingProps
     type: PropertyBag
