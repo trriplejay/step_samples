@@ -77,15 +77,15 @@ pipelines:
             - echo "hello is $hello"
             - echo "foo is $foo"
             - echo "message is $message"
-      # - name: third_step_simple
-      #   type: Bash
-      #   configuration:
-      #     inputSteps:
-      #       - name: second_step_simple
-      #       - name: first_step_simple
-      #   execution:
-      #     onExecute:
-      #       - echo "final step in the pipeline"
+      - name: third_step_simple
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: second_step_simple
+            - name: first_step_simple
+        execution:
+          onExecute:
+            - echo "final step in the pipeline"
 
 
   - name: instigating_pipeline
