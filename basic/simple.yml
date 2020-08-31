@@ -44,8 +44,8 @@ pipelines:
             - name: testProps
             - name: testSpec
           #   - name: singleRepo_simple
-          # outputResources:
-          #   - name: myProps
+          outputResources:
+            - name: myProps
         execution:
           onExecute:
             - sleep 10
@@ -66,26 +66,26 @@ pipelines:
             - sleep 10
             - env | grep zero_run
 
-      # - name: second_step_simple
-      #   type: Bash
-      #   configuration:
-      #     inputResources:
-      #       - name: myProps
-      #   execution:
-      #     onExecute:
-      #       - echo "fizz is $fizz"
-      #       - echo "hello is $hello"
-      #       - echo "foo is $foo"
-      #       - echo "message is $message"
-      # - name: third_step_simple
-      #   type: Bash
-      #   configuration:
-      #     inputSteps:
-      #       - name: second_step_simple
-      #       - name: first_step_simple
-      #   execution:
-      #     onExecute:
-      #       - echo "final step in the pipeline"
+      - name: second_step_simple
+        type: Bash
+        configuration:
+          inputResources:
+            - name: myProps
+        execution:
+          onExecute:
+            - echo "fizz is $fizz"
+            - echo "hello is $hello"
+            - echo "foo is $foo"
+            - echo "message is $message"
+      - name: third_step_simple
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: second_step_simple
+            - name: first_step_simple
+        execution:
+          onExecute:
+            - echo "final step in the pipeline"
 
 
   - name: instigating_pipeline
