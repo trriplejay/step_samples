@@ -7,11 +7,11 @@ resources:
       branches:
         include: master
 
-  - name: myProps
-    type: PropertyBag
-    configuration:
-      foo: bar
-      hello: world
+  # - name: myProps
+  #   type: PropertyBag
+  #   configuration:
+  #     foo: bar
+  #     hello: world
 
   - name: startingProps
     type: PropertyBag
@@ -66,17 +66,17 @@ pipelines:
             - sleep 10
             - env | grep zero_run
 
-      - name: second_step_simple
-        type: Bash
-        configuration:
-          inputResources:
-            - name: myProps
-        execution:
-          onExecute:
-            - echo "fizz is $fizz"
-            - echo "hello is $hello"
-            - echo "foo is $foo"
-            - echo "message is $message"
+      # - name: second_step_simple
+      #   type: Bash
+      #   configuration:
+      #     inputResources:
+      #       - name: myProps
+      #   execution:
+      #     onExecute:
+      #       - echo "fizz is $fizz"
+      #       - echo "hello is $hello"
+      #       - echo "foo is $foo"
+      #       - echo "message is $message"
       - name: third_step_simple
         type: Bash
         configuration:
