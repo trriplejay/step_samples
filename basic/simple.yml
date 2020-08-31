@@ -81,7 +81,7 @@ pipelines:
         type: Bash
         configuration:
           inputSteps:
-            - name: second_step_simple
+            # - name: second_step_simple
             - name: first_step_simple
         execution:
           onExecute:
