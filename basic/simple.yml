@@ -44,8 +44,8 @@ pipelines:
             - name: testProps
             # - name: testSpec
           #   - name: singleRepo_simple
-          outputResources:
-            - name: myProps
+          # outputResources:
+          #   - name: myProps
         execution:
           onExecute:
             - sleep 10
