@@ -31,8 +31,8 @@ resources:
 
 pipelines:
   - name: simple_pipe_simple
-    configuration:
-      nodePool: static-node-pool
+    # configuration:
+    #   nodePool: static-node-pool
     steps:
       - name: first_step_simple
         type: Bash
