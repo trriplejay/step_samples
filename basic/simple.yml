@@ -58,7 +58,7 @@ pipelines:
             - echo "pipeline source branch is - {{gitBranch}}"
             - echo "hello is $hello"
             - echo "foo is $foo"
-            - write_output myProps "fizz=buzz"
+            # - write_output myProps "fizz=buzz"
             - echo "hello world $run_number" >> output.txt
             - add_cache_files output.txt state
             - add_pipeline_files output.txt state
