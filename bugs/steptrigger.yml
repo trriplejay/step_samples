@@ -1,0 +1,57 @@
+resources:
+  - name: myBag
+    type: PropertyBag
+    configuration:
+      hello: world
+
+
+pipelines:
+  - name: bad_pipe
+    steps:
+      - name: first_group_step
+        type: Bash
+        configuration:
+          affinityGroup: check
+          outputResources:
+            - name: myBag
+        execution:
+          onExecute:
+            - echo "first step"
+            - write_output myBag "runNumber=${run_number}"
+      - name: second_group_step
+        type: Bash
+        configuration:
+          affinityGroup: check
+          inputResources:
+            - name: myBag
+        execution:
+          onExecute:
+            - echo "second step"
+            - echo "runNumber is ${res_myBag_runNumber}"
+
+      - name: outsideStep1
+        type: Bash
+        configuration:
+          inputResources:
+            - name: myBag
+        execution:
+          onExecute:
+            - echo "runNumber is ${res_myBag_runNumber}"
+
+      - name: outsideStep2
+        type: Bash
+        configuration:
+          inputResources:
+            - name: myBag
+        execution:
+          onExecute:
+            - echo "runNumber is ${res_myBag_runNumber}"
+
+      - name: outsideStep3
+        type: Bash
+        configuration:
+          inputResources:
+            - name: myBag
+        execution:
+          onExecute:
+            - echo "runNumber is ${res_myBag_runNumber}"
