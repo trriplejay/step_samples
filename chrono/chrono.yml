@@ -2,7 +2,7 @@ pipelines:
   - name: tr_gatekeeper_chrono
     steps:
       - name: g_chrono_1
-        type: bash
+        type: Bash
         configuration:
           chronological: true
         execution:
@@ -11,7 +11,7 @@ pipelines:
             - sleep 10
             - echo "done"
       - name: g_chrono_2
-        type: bash
+        type: Bash
         triggeredBy:
           steps:
             - g_chrono_1
@@ -21,7 +21,7 @@ pipelines:
             - sleep 10
             - echo "done"
       - name: g_chrono_3
-        type: bash
+        type: Bash
         triggeredBy:
           steps:
             - g_chrono_1
@@ -31,7 +31,7 @@ pipelines:
             - sleep 10
             - echo "done"
       - name: g_chrono_4
-        type: bash
+        type: Bash
         triggeredBy:
           steps:
             - g_chrono_1
@@ -41,7 +41,7 @@ pipelines:
             - sleep 10
             - echo "done"
       - name: g_chrono_5
-        type: bash
+        type: Bash
         configuration:
           chronological: true
         triggeredBy:
@@ -58,7 +58,7 @@ pipelines:
   - name: tr_parallel_chrono
     steps:
       - name: p_chrono_1
-        type: bash
+        type: Bash
         configuration:
           chronological: true
         execution:
@@ -67,7 +67,7 @@ pipelines:
             - sleep 10
             - echo "done"
       - name: p_chrono_2
-        type: bash
+        type: Bash
         triggeredBy:
           steps:
             - p_chrono_1
@@ -79,7 +79,7 @@ pipelines:
             - sleep 10
             - echo "done"
       - name: p_chrono_3
-        type: bash
+        type: Bash
         configuration:
           chronological: true
         triggeredBy:
@@ -91,7 +91,7 @@ pipelines:
             - sleep 10
             - echo "done"
       - name: p_chrono_4
-        type: bash
+        type: Bash
         configuration:
           chronological: true
         triggeredBy:
@@ -103,7 +103,7 @@ pipelines:
             - sleep 10
             - echo "done"
       - name: p_chrono_5
-        type: bash
+        type: Bash
         configuration:
           chronological: true
         triggeredBy:
@@ -118,7 +118,7 @@ pipelines:
   - name: tr_serial_chrono
     steps:
       - name: chrono_1
-        type: bash
+        type: Bash
         configuration:
           chronological: true
         execution:
@@ -127,7 +127,7 @@ pipelines:
             - sleep 10
             - echo "done"
       - name: chrono_2
-        type: bash
+        type: Bash
         triggeredBy:
           steps:
             - chrono_1
@@ -139,7 +139,7 @@ pipelines:
             - sleep 10
             - echo "done"
       - name: chrono_3
-        type: bash
+        type: Bash
         configuration:
           chronological: true
         triggeredBy:
@@ -151,7 +151,57 @@ pipelines:
             - sleep 10
             - echo "done"
       - name: chrono_4
-        type: bash
+        type: Bash
+        configuration:
+          chronological: true
+        triggeredBy:
+          steps:
+            - chrono_3
+        execution:
+          onExecute:
+            - echo "here we go"
+            - sleep 10
+            - echo "done"
+
+  - name: tr_pipeline_chrono
+    configuration:
+      chronological: true
+    steps:
+      - name: chrono_1
+        type: Bash
+        configuration:
+          chronological: true
+        execution:
+          onExecute:
+            - echo "here we go"
+            - sleep 10
+            - echo "done"
+      - name: chrono_2
+        type: Bash
+        triggeredBy:
+          steps:
+            - chrono_1
+        configuration:
+          chronological: true
+        execution:
+          onExecute:
+            - echo "here we go"
+            - sleep 10
+            - echo "done"
+      - name: chrono_3
+        type: Bash
+        configuration:
+          chronological: true
+        triggeredBy:
+          steps:
+            - chrono_2
+        execution:
+          onExecute:
+            - echo "here we go"
+            - sleep 10
+            - echo "done"
+      - name: chrono_4
+        type: Bash
         configuration:
           chronological: true
         triggeredBy:
