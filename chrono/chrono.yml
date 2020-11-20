@@ -12,9 +12,9 @@ pipelines:
             - echo "done"
       - name: g_chrono_2
         type: Bash
-        triggeredBy:
-          steps:
-            - g_chrono_1
+        configuration:
+          inputSteps:
+            - name: g_chrono_1
         execution:
           onExecute:
             - echo "here we go"
@@ -22,9 +22,9 @@ pipelines:
             - echo "done"
       - name: g_chrono_3
         type: Bash
-        triggeredBy:
-          steps:
-            - g_chrono_1
+        configuration:
+          inputSteps:
+            - name: g_chrono_1
         execution:
           onExecute:
             - echo "here we go"
@@ -32,9 +32,9 @@ pipelines:
             - echo "done"
       - name: g_chrono_4
         type: Bash
-        triggeredBy:
-          steps:
-            - g_chrono_1
+        configuration:
+          inputSteps:
+            - name: g_chrono_1
         execution:
           onExecute:
             - echo "here we go"
@@ -44,11 +44,10 @@ pipelines:
         type: Bash
         configuration:
           chronological: true
-        triggeredBy:
-          steps:
-            - g_chrono_2
-            - g_chrono_3
-            - g_chrono_4
+          inputSteps:
+            - name: g_chrono_2
+            - name: g_chrono_3
+            - name: g_chrono_4
         execution:
           onExecute:
             - echo "here we go"
@@ -68,11 +67,10 @@ pipelines:
             - echo "done"
       - name: p_chrono_2
         type: Bash
-        triggeredBy:
-          steps:
-            - p_chrono_1
         configuration:
           chronological: true
+          inputSteps:
+            - name: p_chrono_1
         execution:
           onExecute:
             - echo "here we go"
@@ -82,9 +80,8 @@ pipelines:
         type: Bash
         configuration:
           chronological: true
-        triggeredBy:
-          steps:
-            - p_chrono_1
+          inputSteps:
+            - name: p_chrono_1
         execution:
           onExecute:
             - echo "here we go"
@@ -94,9 +91,8 @@ pipelines:
         type: Bash
         configuration:
           chronological: true
-        triggeredBy:
-          steps:
-            - p_chrono_2
+          inputSteps:
+            - name: p_chrono_2
         execution:
           onExecute:
             - echo "here we go"
@@ -106,9 +102,8 @@ pipelines:
         type: Bash
         configuration:
           chronological: true
-        triggeredBy:
-          steps:
-            - p_chrono_3
+          inputSteps:
+            - name: p_chrono_3
         execution:
           onExecute:
             - echo "here we go"
@@ -128,11 +123,10 @@ pipelines:
             - echo "done"
       - name: chrono_2
         type: Bash
-        triggeredBy:
-          steps:
-            - chrono_1
         configuration:
           chronological: true
+          inputSteps:
+            - name: chrono_1
         execution:
           onExecute:
             - echo "here we go"
@@ -142,9 +136,8 @@ pipelines:
         type: Bash
         configuration:
           chronological: true
-        triggeredBy:
-          steps:
-            - chrono_2
+          inputSteps:
+            - name: chrono_2
         execution:
           onExecute:
             - echo "here we go"
@@ -154,9 +147,8 @@ pipelines:
         type: Bash
         configuration:
           chronological: true
-        triggeredBy:
-          steps:
-            - chrono_3
+          inputSteps:
+            - name: chrono_3
         execution:
           onExecute:
             - echo "here we go"
@@ -167,46 +159,38 @@ pipelines:
     configuration:
       chronological: true
     steps:
-      - name: chrono_1
+      - name: step_1
         type: Bash
-        configuration:
-          chronological: true
         execution:
           onExecute:
             - echo "here we go"
             - sleep 10
             - echo "done"
-      - name: chrono_2
+      - name: step_2
         type: Bash
-        triggeredBy:
-          steps:
-            - chrono_1
         configuration:
-          chronological: true
+          inputSteps:
+            - name: step_1
         execution:
           onExecute:
             - echo "here we go"
             - sleep 10
             - echo "done"
-      - name: chrono_3
+      - name: step_3
         type: Bash
         configuration:
-          chronological: true
-        triggeredBy:
-          steps:
-            - chrono_2
+          inputSteps:
+            - name: step_2
         execution:
           onExecute:
             - echo "here we go"
             - sleep 10
             - echo "done"
-      - name: chrono_4
+      - name: step_4
         type: Bash
         configuration:
-          chronological: true
-        triggeredBy:
-          steps:
-            - chrono_3
+          inputSteps:
+            - name: step_3
         execution:
           onExecute:
             - echo "here we go"
