@@ -1,3 +1,9 @@
+resources:
+  - name: start_all
+    type: PropertyBag
+    configuration:
+      hello: world
+
 pipelines:
   - name: pagerduty_notifications
     steps:
@@ -5,6 +11,8 @@ pipelines:
         type: PowerShell
         configuration:
           nodePool: static-win
+          inputResources:
+            - name: start_all
           integrations:
             - name: pagerduty
         execution:
@@ -16,6 +24,8 @@ pipelines:
       - name: pagerduty_success_bash
         type: Bash
         configuration:
+          inputResources:
+            - name: start_all
           integrations:
             - name: pagerduty
         execution:
