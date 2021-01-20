@@ -1,0 +1,26 @@
+pipelines:
+  - name: pagerduty_notifications
+    steps:
+      - name: pagerduty_success_ps
+        type: PowerShell
+        configuration:
+          nodePool: static-win
+          integrations:
+            - name: pagerduty
+        execution:
+          onStart:
+            - echo "starting"
+          onExecute:
+            - send_notification pagerduty
+
+      - name: pagerduty_success_bash
+        type: Bash
+        configuration:
+          integrations:
+            - name: pagerduty
+        execution:
+          onStart:
+            - echo "starting"
+          onExecute:
+            - send_notification pagerduty
+
