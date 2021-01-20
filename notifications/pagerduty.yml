@@ -7,7 +7,7 @@ resources:
 pipelines:
   - name: pagerduty_notifications
     steps:
-      - name: pagerduty_success_ps
+      - name: ps_pagerduty_success
         type: PowerShell
         configuration:
           nodePool: static-win
@@ -21,7 +21,7 @@ pipelines:
           onExecute:
             - send_notification pagerduty
 
-      - name: pagerduty_success_bash
+      - name: bash_pagerduty_success
         type: Bash
         configuration:
           inputResources:
