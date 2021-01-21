@@ -23,7 +23,7 @@ pipelines:
           onStart:
             - echo "starting"
           onExecute:
-            - send_notification pagerduty -routingkey $myRoutingKey -text "hello world"
+            - send_notification pagerduty -routingkey $myRoutingKey -text "hello world from powershell"
 
       - name: bash_pagerduty_success
         type: Bash
@@ -36,5 +36,5 @@ pipelines:
           onStart:
             - echo "starting"
           onExecute:
-            - send_notification pagerduty --routingkey $myRoutingKey --text "hello world"
+            - send_notification pagerduty --routingkey $myRoutingKey --text "hello world from bash"
 
