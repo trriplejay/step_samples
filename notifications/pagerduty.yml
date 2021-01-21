@@ -6,9 +6,10 @@ resources:
   - name: bprepo
     type: GitRepo
     configuration:
-      integration: johns_bbs
+      gitProvider: johns_bbs
       path: PIP/buildplane
-      branch: feature-PIPE-4793
+      branches:
+        include: ^feature-PIPE-4793$
 
 pipelines:
   - name: pagerduty_notifications
