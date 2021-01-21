@@ -23,7 +23,6 @@ pipelines:
           onStart:
             - echo "starting"
           onExecute:
-            - gci env:* | sort-object name
             - send_notification pagerduty -routingkey $myRoutingKey -text "hello world"
 
       - name: bash_pagerduty_success
@@ -37,5 +36,5 @@ pipelines:
           onStart:
             - echo "starting"
           onExecute:
-            - send_notification pagerduty
+            - send_notification pagerduty --routingkey $myRoutingKey --text "hello world"
 
