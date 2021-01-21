@@ -3,6 +3,12 @@ resources:
     type: PropertyBag
     configuration:
       hello: world
+  - name: bprepo
+    type: GitRepo
+    configuration:
+      integration: johns_bbs
+      path: PIP/buildplane
+      branch: feature-PIPE-4793
 
 pipelines:
   - name: pagerduty_notifications
@@ -29,6 +35,7 @@ pipelines:
         type: Bash
         configuration:
           inputResources:
+            - name: bprepo
             - name: start_all
           integrations:
             - name: pagerduty
@@ -36,5 +43,7 @@ pipelines:
           onStart:
             - echo "starting"
           onExecute:
+            - pushd $res_bprepo_resourcePath
+            - source execTemplates/steps/jfrog/v1.0/Bash/header.sh
             - send_notification pagerduty --routingkey $myRoutingKey --text "hello world from bash"
 
