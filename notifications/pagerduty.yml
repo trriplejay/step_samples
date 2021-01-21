@@ -8,7 +8,8 @@ pipelines:
   - name: pagerduty_notifications
     configuration:
       environmentVariables:
-        myRoutingKey: 8c22b13ccaa04da79a9952761248c337
+        readOnly:
+          myRoutingKey: 8c22b13ccaa04da79a9952761248c337
     steps:
       - name: ps_pagerduty_success
         type: PowerShell
