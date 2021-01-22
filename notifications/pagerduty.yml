@@ -46,5 +46,9 @@ pipelines:
           onExecute:
             # - pushd $res_bprepo_resourcePath
             # - source execTemplates/steps/jfrog/v1.0/Bash/header.sh
-            - send_notification pagerduty --routingkey $myRoutingKey --text "hello world from bash"
+            - send_notification pagerduty --routingkey $myRoutingKey --text "hello world from bash run number $run_number"
+            - send_notification pagerduty --routingkey $myRoutingKey || true'
+            - send_notification pagerduty --routingkey badkey --text "bad routing key" || true
+            - send_notification pagerduty --text "no routing key" || true
+            - send_notification pagerduty || true
 
