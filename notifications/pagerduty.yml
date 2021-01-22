@@ -30,7 +30,11 @@ pipelines:
           onStart:
             - echo "starting"
           onExecute:
-            - send_notification pagerduty -routingkey $myRoutingKey -text "hello world from powershell"
+            - try { send_notification pagerduty -routingkey $myRoutingKey -text "hello world from powershell run number $run_number" } catch { $_ }
+            - try { send_notification pagerduty -routingkey $myRoutingKey } catch { $_ }
+            - try { send_notification pagerduty -routingkey badkey -text "bad routing key" } catch { $_ }
+            - try { send_notification pagerduty -text "no routing key" } catch { $_ }
+            - try { send_notification pagerduty } catch { $_ }
 
       - name: bash_pagerduty_success
         type: Bash
