@@ -7,11 +7,11 @@ resources:
       branches:
         include: master
 
-  # - name: myProps
-  #   type: PropertyBag
-  #   configuration:
-  #     foo: bar
-  #     hello: world
+  - name: myProps
+    type: PropertyBag
+    configuration:
+      foo: bar
+      hello: world
 
   - name: startingProps
     type: PropertyBag
@@ -44,28 +44,33 @@ pipelines:
             - name: testProps
             # - name: testSpec
           #   - name: singleRepo_simple
-          # outputResources:
-          #   - name: myProps
+          outputResources:
+            - name: myProps
         execution:
           onExecute:
-            - sleep 10
-            - restore_cache_files state output.txt
-            - restore_pipeline_files state output.txt
-            - bash --version
-            # - helm version
-            # - nvm use 10.18.0
-            - node --version
-            - echo "pipeline source branch is - {{gitBranch}}"
-            - echo "hello is $hello"
-            - echo "foo is $foo"
-            # - write_output myProps "fizz=buzz"
-            - echo "hello world $run_number" >> output.txt
-            - odd=$(($run_number%2))
-            - if [ "$odd" != 0 ]; then add_cache_files output.txt state; fi
-            - add_pipeline_files output.txt state
-            - add_run_variables "message=heeeeeeey"
-            - sleep 10
-            - env | grep zero_run
+            - resource_directory=$(find_resource_variable "resource_name" resourcePath)
+            - env_file_path="$resource_directory/$resource_name.env"
+            - echo "key=value" >> $env_file_path
+            - echo "foo=bar" >> $env_file_path
+            - cat $env_file_path
+            # - sleep 10
+            # - restore_cache_files state output.txt
+            # - restore_pipeline_files state output.txt
+            # - bash --version
+            # # - helm version
+            # # - nvm use 10.18.0
+            # - node --version
+            # - echo "pipeline source branch is - {{gitBranch}}"
+            # - echo "hello is $hello"
+            # - echo "foo is $foo"
+            # # - write_output myProps "fizz=buzz"
+            # - echo "hello world $run_number" >> output.txt
+            # - odd=$(($run_number%2))
+            # - if [ "$odd" != 0 ]; then add_cache_files output.txt state; fi
+            # - add_pipeline_files output.txt state
+            # - add_run_variables "message=heeeeeeey"
+            # - sleep 10
+            # - env | grep zero_run
 
       # - name: second_step_simple
       #   type: Bash
