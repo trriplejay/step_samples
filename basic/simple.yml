@@ -48,10 +48,10 @@ pipelines:
             - name: myProps
         execution:
           onExecute:
-            - resource_directory=$(find_resource_variable "resource_name" resourcePath)
-            - env_file_path="$resource_directory/$resource_name.env"
-            - echo "key=value" >> $env_file_path
-            - echo "foo=bar" >> $env_file_path
+            - resource_directory=$(find_resource_variable "myProps" resourcePath)
+            - env_file_path="$resource_directory/myProps.env"
+            - echo "key=\"value\"" >> $env_file_path
+            - echo "foo=\"bar\"" >> $env_file_path
             - cat $env_file_path
             # - sleep 10
             # - restore_cache_files state output.txt
