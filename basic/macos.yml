@@ -26,7 +26,7 @@ resources:
 pipelines:
   - name: macOSpipe
     steps:
-      - name: basic_macos_step
+      - name: basic_step
         type: Bash
         configuration:
           runtime:
@@ -67,7 +67,7 @@ pipelines:
           runtime:
             type: host
           integrations:
-            - name: johns_bbs
+            - name: johns_github
           inputSteps:
             - name: basic_step
         execution:
@@ -95,7 +95,7 @@ pipelines:
           runtime:
             type: host
           integrations:
-            - name: johns_bbs
+            - name: johns_github
           inputSteps:
             - name: basic_step
         execution:
@@ -122,7 +122,7 @@ pipelines:
             type: host
           affinityGroup: test_group
           integrations:
-            - name: johns_bbs
+            - name: johns_github
           inputResources:
             - name: myOtherImage_basic_2
         execution:
@@ -148,7 +148,7 @@ pipelines:
           runtime:
             type: host
           integrations:
-            - name: johns_bbs
+            - name: johns_github
           inputSteps:
             - name: basic_step
         execution:
@@ -175,7 +175,7 @@ pipelines:
           runtime:
             type: host
           integrations:
-            - name: johns_bbs
+            - name: johns_github
           inputSteps:
             - name: basic_step
         execution:
