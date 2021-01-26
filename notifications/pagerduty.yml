@@ -40,7 +40,7 @@ pipelines:
         type: Bash
         configuration:
           inputResources:
-            # - name: bprepo
+            - name: bprepo
             - name: start_all
           integrations:
             - name: pagerduty
@@ -48,8 +48,8 @@ pipelines:
           onStart:
             - echo "starting"
           onExecute:
-            # - pushd $res_bprepo_resourcePath
-            # - source execTemplates/steps/jfrog/v1.0/Bash/header.sh
+            - pushd $res_bprepo_resourcePath
+            - source execTemplates/steps/jfrog/v1.0/Bash/header.sh
             - (send_notification pagerduty --routingkey $myRoutingKey --text "hello world from bash run number $run_number")
             - send_notification pagerduty --routingkey $myRoutingKey || true
             - '( send_notification pagerduty --routingkey badkey --text "bad routing key") || true'
