@@ -37,6 +37,9 @@ pipelines:
       - name: first_step_simple
         type: Bash
         configuration:
+          environmentVariables:
+            releaseBundleName: mybudnlename
+            releaseBundleVersion: mybundleversion
           integrations:
             - name: johns_bbs
           inputResources:
@@ -47,11 +50,12 @@ pipelines:
           outputResources:
             - name: myProps
         execution:
-          onExecute:
+          onStart:
             - resource_directory=$(find_resource_variable "myProps" resourcePath)
             - env_file_path="$resource_directory/myProps.env"
-            - echo "key=value" >> $env_file_path
-            - echo "foo=bar" >> $env_file_path
+            - echo "name=$(find_step_configuration_value releaseBundleName)" >> $env_file_path
+            - echo "version=$(find_step_configuration_value releaseBundleVersion)" >> $env_file_path
+
             - cat $env_file_path
             # - sleep 10
             # - restore_cache_files state output.txt
