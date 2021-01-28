@@ -39,6 +39,7 @@ pipelines:
             - node --version || true
             - bash --version || true
             - aws --version || true
+            - xcode-select --version || true
 
           onExecute:
             - echo "testing some state stuff"
