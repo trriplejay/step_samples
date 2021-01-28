@@ -40,6 +40,7 @@ pipelines:
             - bash --version || true
             - aws --version || true
             - xcode-select --version || true
+            - xcodebuild || true
 
           onExecute:
             - echo "testing some state stuff"
