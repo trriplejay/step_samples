@@ -38,6 +38,8 @@ pipelines:
             - jfrog --version || true
             - node --version || true
             - bash --version || true
+            - aws --version || true
+
           onExecute:
             - echo "testing some state stuff"
             - sleep 5
@@ -52,6 +54,9 @@ pipelines:
             - sleep 5
       - name: mac_followup
         type: Bash
+        configuration:
+          inputSteps:
+            - name: mactest
         execution:
           onExecute:
             - echo "message is $message"
