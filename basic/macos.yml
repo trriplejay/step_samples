@@ -55,6 +55,8 @@ pipelines:
       - name: mac_followup
         type: Bash
         configuration:
+          runtime:
+            type: host
           inputSteps:
             - name: mactest
         execution:
