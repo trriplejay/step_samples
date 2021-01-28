@@ -32,9 +32,30 @@ pipelines:
           runtime:
             type: host
         execution:
+          onStart:
+            - echo "checking dependencies"
+            - gcloud version || true
+            - jfrog --version || true
+            - node --version || true
+            - bash --version || true
           onExecute:
-            - sw_vers
-            - /usr/bin/xcodebuild -version
+            - echo "testing some state stuff"
+            - sleep 5
+            - restore_cache_files state output.txt
+            - restore_pipeline_files state output.txt
+            - echo "pipeline source branch is - {{gitBranch}}"
+            - echo "hello world $run_number" >> output.txt
+            - odd=$(($run_number%2))
+            - if [ "$odd" != 0 ]; then add_cache_files output.txt state; fi
+            - add_pipeline_files output.txt state
+            - add_run_variables "message=heeeeeeey"
+            - sleep 5
+      - name: mac_followup
+        type: Bash
+        execution:
+          onExecute:
+            - echo "message is $message"
+
 
 
   - name: macOSpipe
