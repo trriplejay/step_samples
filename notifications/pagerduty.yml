@@ -48,6 +48,7 @@ pipelines:
           onStart:
             - echo "starting"
           onExecute:
+            - echo "$int_pagerduty_token"
             - pushd $res_bprepo_resourcePath
             - source execTemplates/steps/jfrog/v1.0/Bash/header.sh
             - (send_notification pagerduty --routingkey $myRoutingKey --text "hello world from bash run number $run_number")
