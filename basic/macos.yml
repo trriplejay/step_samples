@@ -41,6 +41,14 @@ pipelines:
             - aws --version || true
             - xcode-select --version || true
             - xcodebuild || true
+            - xcpretty --version || true
+            - xcversion --version || true
+            - ios --version || true
+            - apn --version || true
+            - pk --version || true
+            - iap --version || true
+            - ipa --version || true
+
 
           onExecute:
             - echo "testing some state stuff"
