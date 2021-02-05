@@ -15,6 +15,8 @@ pipelines:
       - name: mvn_build
         type: MvnBuild
         configuration:
+          integrations:
+            - name: johns_art
           inputResources:
             - name: mvnrepo
           sourceLocation: "projects/mvnsample"
