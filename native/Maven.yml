@@ -29,6 +29,8 @@ pipelines:
         sourceLocation: maven-example
         resolverSnapshotRepo: maven-jcenter
         resolverReleaseRepo: maven-jcenter
+        deployerSnapshotRepo: maven-local
+        deployerReleaseRepo: maven-local
         # configFileLocation: .
         # configFileName: config
         mvnCommand: "clean install"
