@@ -31,7 +31,7 @@ pipelines:
         resolverReleaseRepo: maven-central
         # configFileLocation: .
         # configFileName: config
-        mvnCommand: "clean install -P release"
+        mvnCommand: "clean install"
         inputResources:
           - name: examples_repo
         integrations:
