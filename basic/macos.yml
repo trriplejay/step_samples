@@ -22,6 +22,10 @@ resources:
       branches:
         include: ^dev.*$
         exclude: ^dev-9$
+  - name: mac_cron
+    type: CronTrigger
+    configuration:
+      interval: "0 */1 * * *"
 
 pipelines:
   - name: simple_demo
@@ -29,6 +33,8 @@ pipelines:
       - name: mactest
         type: Bash
         configuration:
+          inputResources:
+            - name: mac_cron
           runtime:
             type: host
         execution:
