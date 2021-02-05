@@ -27,8 +27,8 @@ pipelines:
       type: MvnBuild
       configuration:
         sourceLocation: maven-example
-        resolverSnapshotRepo: maven-central
-        resolverReleaseRepo: maven-central
+        resolverSnapshotRepo: maven-jcenter
+        resolverReleaseRepo: maven-jcenter
         # configFileLocation: .
         # configFileName: config
         mvnCommand: "clean install"
