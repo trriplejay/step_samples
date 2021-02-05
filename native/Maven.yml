@@ -34,7 +34,7 @@ pipelines:
           - name: examples_repo
         integrations:
           - name: johns_art
-          - name: johns_jira
+          # - name: johns_jira
       execution:
         onFailure:
           - cat $step_tmp_dir/log.txt
