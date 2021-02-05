@@ -245,3 +245,21 @@ pipelines:
             - echo "we continue after failure"
           onCancel:
             - echo "Someone cancelled the job"
+
+    - name: macOSxcode
+      steps:
+        - name: install_xcode
+          type: Bash
+          configuration:
+            integrations:
+              - name: xcode_creds
+            environmentVariables:
+              XCODE_INSTALL_USER: ${int_xcode_creds_username}
+              XCODE_INSTALL_PASSWORD: ${int_xcode_creds_password}
+
+          execution:
+            onStart:
+              - xcversion update
+              - xcversion install 8
+            onExecute:
+              - echo "hello xcode"
