@@ -1,0 +1,20 @@
+resources:
+  - name: mvnrepo
+    type: GitRepo
+    configuration:
+      gitProvider: johns_bbs
+      path: ~johns/step_samples
+      branches:
+        include: ^master$
+      files:
+        include: ^projects.*$
+
+pipelines:
+  - name: mvnflow
+    steps:
+      - name: mvn_build
+        type: MvnBuild
+        configuration:
+          inputResources:
+            - name: mvnrepo
+          sourceLocation: "projects/mvnsample"
