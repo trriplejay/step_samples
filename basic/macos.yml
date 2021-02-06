@@ -254,20 +254,6 @@ pipelines:
 
   - name: macOSxcode
     steps:
-      - name: resize_disk
-        type: Bash
-        configuration:
-          runtime:
-            type: host
-        execution:
-          onExecute:
-            - PDISK=$(diskutil list physical external | head -n1 | cut -d" " -f1)
-            - if [ -z "$PDISK" ]; then exit 1; fi
-            - APFSCONT=$(diskutil list physical external | grep "Apple_APFS" | tr -s " " | cut -d" " -f8)
-            - if [ -z "$APFSCONT" ]; then exit 1; fi
-            - sudo diskutil quiet repairDisk $PDISK
-            - sudo diskutil quiet apfs resizeContainer $APFSCONT 0
-
       - name: install_xcode
         type: Bash
         configuration:
@@ -275,13 +261,10 @@ pipelines:
             type: host
           integrations:
             - name: xcode_creds
-          inputSteps:
-            - name: resize_disk
           environmentVariables:
             FASTLANE_SESSION: ${int_xcode_creds_fastlane_session}
             XCODE_INSTALL_USER: ${int_xcode_creds_username}
             XCODE_INSTALL_PASSWORD: ${int_xcode_creds_password}
-
         execution:
           onStart:
             - xcversion update
