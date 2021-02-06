@@ -278,6 +278,7 @@ pipelines:
           inputSteps:
             - name: resize_disk
           environmentVariables:
+            FASTLANE_SESSION: ${int_xcode_creds_fastlane_session}
             XCODE_INSTALL_USER: ${int_xcode_creds_username}
             XCODE_INSTALL_PASSWORD: ${int_xcode_creds_password}
 
