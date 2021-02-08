@@ -268,6 +268,6 @@ pipelines:
         execution:
           onStart:
             - xcversion update
-            - xcversion install 12
+            - xcversion install 11
           onExecute:
             - echo "hello xcode"
