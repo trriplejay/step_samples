@@ -37,8 +37,6 @@ pipelines:
       - name: first_step_simple
         type: Bash
         configuration:
-          releaseBundleName: mybudnlename
-          releaseBundleVersion: mybundleversion
           environmentVariables:
             releaseBundleName: mybudnlename
             releaseBundleVersion: mybundleversion
