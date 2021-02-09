@@ -1,11 +1,12 @@
 resources:
-  - name: iOSApplicationRepo
+  - name: applicationRepo
     type: GitRepo
     configuration:
-      gitProvider: johns_bbs
-      path: ~taylorl/ios-hello-world
+      gitProvider: johns_github
+      path: trriplejay/ios-hello-world
       branches:
         include: master
+
   - name: myImage_basic
     type: Image
     configuration:
@@ -286,7 +287,7 @@ pipelines:
         type: Bash
         configuration:
           inputResources:
-            - name: iOSApplicationRepo
+            - name: applicationRepo
           runtime:
             type: host
         execution:
