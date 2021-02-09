@@ -37,6 +37,7 @@ pipelines:
       - name: first_step_simple
         type: Bash
         configuration:
+          nodePool: k8_node_pool
           environmentVariables:
             releaseBundleName: mybudnlename
             releaseBundleVersion: mybundleversion
@@ -51,6 +52,8 @@ pipelines:
             - name: myProps
         execution:
           onStart:
+            - docker ps -a
+            - docker images
             - resource_directory=$(find_resource_variable "myProps" resourcePath)
             - env_file_path="$resource_directory/myProps.env"
             - echo "name=$(find_step_configuration_value releaseBundleName)" >> $env_file_path
