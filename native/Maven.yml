@@ -36,4 +36,7 @@ pipelines:
           - name: examples_repo
         integrations:
           - name: johns_art
+        execution:
+          onStart:
+            - docker ps -a
 
