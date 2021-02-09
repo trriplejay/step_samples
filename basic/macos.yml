@@ -1,4 +1,10 @@
 resources:
+  - name: iOSApplicationRepo
+    type: GitRepo
+    gitProvider: johns_bbs
+    path: ~taylorl/ios-hello-world
+    branches:
+      include: master
   - name: myImage_basic
     type: Image
     configuration:
@@ -272,3 +278,19 @@ pipelines:
             - xcversion install 11
           onExecute:
             - echo "hello xcode"
+
+  - name: iOSTestPipeline
+    steps:
+      - name: build_app
+        type: Bash
+        configuration:
+          inputResources:
+            - name: iOSApplicationRepo
+          runtime:
+            type: host
+        execution:
+          onStart:
+            - xcversion use 12
+          onExecute:
+            - echo "hello iOS world"
+            - ls -latr "$res_iOSApplicationRepo_resourcePath"
