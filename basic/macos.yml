@@ -1,10 +1,11 @@
 resources:
   - name: iOSApplicationRepo
     type: GitRepo
-    gitProvider: johns_bbs
-    path: ~taylorl/ios-hello-world
-    branches:
-      include: master
+    configuration:
+      gitProvider: johns_bbs
+      path: ~taylorl/ios-hello-world
+      branches:
+        include: master
   - name: myImage_basic
     type: Image
     configuration:
