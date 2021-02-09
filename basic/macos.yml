@@ -257,6 +257,7 @@ pipelines:
       - name: install_xcode
         type: Bash
         configuration:
+          timeoutSeconds: 7200
           runtime:
             type: host
           integrations:
