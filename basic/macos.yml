@@ -146,4 +146,22 @@ pipelines:
             - ls -latr /Applications || true
             - xcode-select --switch /Applications/Xcode-12.app
             - pushd "$res_applicationRepo_resourcePath"
-            - xcodebuild -scheme HelloWorld clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO CODE_SIGN_ENTITLEMENTS="" -destination "platform=iOS Simulator,name=iPhone 12,OS=14.3"
+            - xcodebuild -scheme HelloWorld clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO CODE_SIGN_ENTITLEMENTS="" -destination "platform=iOS Simulator,name=iPhone 12,OS=13.7"
+
+  - name: mac_install_simulator
+    steps:
+      - name: install_simulator
+        type: Bash
+        configuration:
+          timeoutSeconds: 10800
+          runtime:
+            type: host
+          integrations:
+            - name: xcode_creds
+          environmentVariables:
+            FASTLANE_SESSION: ${int_xcode_creds_fastlane_session}
+            XCODE_INSTALL_USER: ${int_xcode_creds_username}
+            XCODE_INSTALL_PASSWORD: ${int_xcode_creds_password}
+        execution:
+          onExecute:
+            - xcversion simuators --install 'iOS 13.7'
