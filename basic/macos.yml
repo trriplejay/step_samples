@@ -65,6 +65,7 @@ pipelines:
 
 
           onExecute:
+            - xcversion list
             - echo "testing some state stuff"
             - sleep 5
             - restore_cache_files state output.txt
@@ -278,8 +279,10 @@ pipelines:
           onStart:
             - df -h
             - xcversion update
+            - xcversion list
           onExecute:
             - xcversion install 12 --retry-download-count=10
+            - xcversion list
             - echo "hello xcode"
 
   - name: iOSTestPipeline
@@ -294,5 +297,6 @@ pipelines:
         execution:
           onExecute:
             - echo "hello iOS world"
+            - xcversion list
             - ls -latr "$res_iOSApplicationRepo_resourcePath"
             - xcodebuild -scheme HelloWorld clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO CODE_SIGN_ENTITLEMENTS="" -destination "platform=iOS Simulator,name=iPhone 12,OS=14.3"
