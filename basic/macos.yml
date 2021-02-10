@@ -36,7 +36,7 @@ resources:
       interval: "0 */1 * * *"
 
 pipelines:
-  - name: simple_demo
+  - name: macOS_check_utils
     steps:
       - name: mactest
         type: Bash
@@ -74,7 +74,7 @@ pipelines:
             - odd=$(($run_number%2))
             - if [ "$odd" != 0 ]; then add_cache_files output.txt state; fi
             - add_pipeline_files output.txt state
-            - add_run_variables "message=heeeeeeey"
+            - add_run_variables "message=heeeeeeey_$run_number"
             - sleep 5
       - name: mac_followup
         type: Bash
