@@ -116,11 +116,16 @@ pipelines:
             - xcversion installed || true
           onExecute:
             - xcversion install 12 --retry-download-count=10
-            - xcode-select --switch /Applications/Xcode-12.app
+            - df -h
+            - ls -latr /Applications || true
             - xcversion list
+            - xcversion installed || true
             - ls -latr
             - ls -latr /Applications || true
-            - xcversion installed || true
+            - xcode-select --switch /Applications/Xcode-12.app || true
+            - ls -latr /Applications || true
+            - xcode-select --switch /Applications/Xcode.app || true
+            - ls -latr /Applications || true
             - echo "hello xcode"
 
   - name: iOSTestPipeline
