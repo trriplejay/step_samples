@@ -277,7 +277,7 @@ pipelines:
         execution:
           onStart:
             - xcversion update
-            - xcversion install 11
+            - xcversion install 12
           onExecute:
             - echo "hello xcode"
 
@@ -296,3 +296,4 @@ pipelines:
           onExecute:
             - echo "hello iOS world"
             - ls -latr "$res_iOSApplicationRepo_resourcePath"
+            - xcodebuild -scheme HelloWorld clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO CODE_SIGN_ENTITLEMENTS="" -destination "platform=iOS Simulator,name=iPhone 12,OS=14.3"
