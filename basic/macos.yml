@@ -63,6 +63,7 @@ pipelines:
             - iap --version || true
             - ipa --version || true
             - df -h
+            - xcrun simctl list || true
 
           onExecute:
             - xcversion list
