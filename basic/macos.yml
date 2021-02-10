@@ -265,7 +265,7 @@ pipelines:
       - name: install_xcode
         type: Bash
         configuration:
-          timeoutSeconds: 7200
+          timeoutSeconds: 10800
           runtime:
             type: host
           integrations:
@@ -276,9 +276,10 @@ pipelines:
             XCODE_INSTALL_PASSWORD: ${int_xcode_creds_password}
         execution:
           onStart:
+            - df -h
             - xcversion update
-            - xcversion install 12
           onExecute:
+            - xcversion install 12 --retry-download-count=10
             - echo "hello xcode"
 
   - name: iOSTestPipeline
