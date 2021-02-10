@@ -66,9 +66,10 @@ pipelines:
 
           onExecute:
             - xcversion list
+            - xcversion installed || true
             - ls -latr
             - ls /Applications || true
-            - xcode-select --switch /Applications/Xcode-12.app
+            - xcode-select --switch /Applications/Xcode.app
             - echo "testing some state stuff"
             - sleep 5
             - restore_cache_files state output.txt
