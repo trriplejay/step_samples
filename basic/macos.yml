@@ -144,5 +144,5 @@ pipelines:
             - ls -latr
             - ls -latr /Applications || true
             - xcode-select --switch /Applications/Xcode-12.app
-            - ls -latr "$res_applicationRepo_resourcePath"
+            - pushd "$res_applicationRepo_resourcePath"
             - xcodebuild -scheme HelloWorld clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO CODE_SIGN_ENTITLEMENTS="" -destination "platform=iOS Simulator,name=iPhone 12,OS=14.3"
