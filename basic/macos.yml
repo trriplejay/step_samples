@@ -280,9 +280,14 @@ pipelines:
             - df -h
             - xcversion update
             - xcversion list
+            - ls -latr
+            - ls /Applications || true
           onExecute:
             - xcversion install 12 --retry-download-count=10
+            - xcode-select --switch /Applications/Xcode-12.app
             - xcversion list
+            - ls -latr
+            - ls /Applications || true
             - echo "hello xcode"
 
   - name: iOSTestPipeline
@@ -298,5 +303,8 @@ pipelines:
           onExecute:
             - echo "hello iOS world"
             - xcversion list
+            - ls -latr
+            - ls /Applications || true
+            - xcode-select --switch /Applications/Xcode-12.app
             - ls -latr "$res_iOSApplicationRepo_resourcePath"
             - xcodebuild -scheme HelloWorld clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO CODE_SIGN_ENTITLEMENTS="" -destination "platform=iOS Simulator,name=iPhone 12,OS=14.3"
