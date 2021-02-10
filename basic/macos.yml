@@ -108,6 +108,7 @@ pipelines:
             XCODE_INSTALL_PASSWORD: ${int_xcode_creds_password}
         execution:
           onStart:
+            - rm -f /Applications/Xcode.app || true
             - df -h
             - xcversion update
             - xcversion list
