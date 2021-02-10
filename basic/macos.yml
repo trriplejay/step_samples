@@ -293,7 +293,7 @@ pipelines:
             type: host
         execution:
           onStart:
-            - xcversion use 12
+            - xcversion select 12
           onExecute:
             - echo "hello iOS world"
             - ls -latr "$res_iOSApplicationRepo_resourcePath"
