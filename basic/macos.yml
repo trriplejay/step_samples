@@ -67,6 +67,7 @@ pipelines:
           onExecute:
             - xcversion list
             - xcversion installed || true
+            - xcversion simulators || true
             - ls -latr
             - ls -latr /Applications || true
             - xcode-select --switch /Applications/Xcode.app
