@@ -7,29 +7,6 @@ resources:
       branches:
         include: master
 
-  - name: myImage_basic
-    type: Image
-    configuration:
-      registry: johns_docker
-      imageName: trriplejay/simpleserver
-      imageTag: latest
-
-  - name: myOtherImage_basic_2
-    type: Image
-    configuration:
-      registry: johns_docker
-      imageName: trriplejay/simpleserver
-      imageTag: latest
-      autoPull: false
-
-  - name: myRepo_basic
-    type: GitRepo
-    configuration:
-      path: trriplejay/simpleserver
-      gitProvider: johns_github
-      branches:
-        include: ^dev.*$
-        exclude: ^dev-9$
   - name: mac_cron
     type: CronTrigger
     configuration:
@@ -108,6 +85,7 @@ pipelines:
             FASTLANE_SESSION: ${int_xcode_creds_fastlane_session}
             XCODE_INSTALL_USER: ${int_xcode_creds_username}
             XCODE_INSTALL_PASSWORD: ${int_xcode_creds_password}
+            xcode_version: "12.3"
         execution:
           onStart:
             - df -h
@@ -117,17 +95,15 @@ pipelines:
             - ls -latr /Applications || true
             - xcversion installed || true
           onExecute:
-            - xcversion install 12 --retry-download-count=10
+            - xcversion install ${xcode_version} --retry-download-count=10
+            - xcode-select -p || true
+            - xcode-select --switch /Applications/Xcode-${xcode_version}.app || true
+            - xcodebuild || true
+            - xcode-select -p || true
             - df -h
             - ls -latr /Applications || true
             - xcversion list
             - xcversion installed || true
-            - ls -latr
-            - ls -latr /Applications || true
-            - xcode-select --switch /Applications/Xcode-12.app || true
-            - ls -latr /Applications || true
-            - xcode-select --switch /Applications/Xcode.app || true
-            - ls -latr /Applications || true
             - echo "hello xcode"
 
   - name: iOSTestPipeline
@@ -148,21 +124,3 @@ pipelines:
             - xcode-select --switch /Applications/Xcode-12.app
             - pushd "$res_applicationRepo_resourcePath"
             - xcodebuild -scheme HelloWorld clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO CODE_SIGN_ENTITLEMENTS="" -destination "platform=iOS Simulator,name=iPhone X,OS=11.0"
-
-  - name: mac_install_simulator
-    steps:
-      - name: install_simulator
-        type: Bash
-        configuration:
-          timeoutSeconds: 10800
-          runtime:
-            type: host
-          integrations:
-            - name: xcode_creds
-          environmentVariables:
-            FASTLANE_SESSION: ${int_xcode_creds_fastlane_session}
-            XCODE_INSTALL_USER: ${int_xcode_creds_username}
-            XCODE_INSTALL_PASSWORD: ${int_xcode_creds_password}
-        execution:
-          onExecute:
-            - xcversion simuators --install 'iOS 13.7'
