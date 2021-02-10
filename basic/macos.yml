@@ -62,6 +62,7 @@ pipelines:
             - pk --version || true
             - iap --version || true
             - ipa --version || true
+            - df -h
 
 
           onExecute:
