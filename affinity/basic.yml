@@ -22,8 +22,8 @@ pipelines:
         configuration:
           affinityGroup: test_affinity
           inputResources:
-            - myprops_affinity
+            - name: myprops_affinity
 
-        exeuction:
+        execution:
           onExecute:
             - echo "hello is $hello"
