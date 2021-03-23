@@ -1,0 +1,29 @@
+resources:
+  - name: myprops_affinity
+    type: PropertyBag
+    configuration:
+      foo: bar
+
+
+pipelines:
+  - name: affinity_with_resource
+    steps:
+      - name: first_step
+        type: Bash
+        configuration:
+          affinityGroup: test_affinity
+          outputResources:
+            - name: myprops_affinity
+        execution:
+          onExecute:
+            - write_output myprops_affinity "hello=world${run_number}"
+      - name: second_step
+        type: Bash
+        configuration:
+          affinityGroup: test_affinity
+          inputResources:
+            - myprops_affinity
+
+        exeuction:
+          onExecute:
+            - echo "hello is $hello"
