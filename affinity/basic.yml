@@ -23,6 +23,7 @@ pipelines:
           affinityGroup: test_affinity
           inputResources:
             - name: myprops_affinity
+              trigger: false
 
         execution:
           onExecute:
