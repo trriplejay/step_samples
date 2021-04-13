@@ -23,6 +23,7 @@ pipelines:
         configuration:
           nodePool: static-win
           inputResources:
+            - name: bprepo
             - name: start_all
           integrations:
             - name: pagerduty
@@ -30,6 +31,7 @@ pipelines:
           onStart:
             - echo "starting"
           onExecute:
+            - . core/execTemplates/steps/jfrog/v1.0/PowerShell/header.ps1
             - try { send_notification pagerduty -routingkey $myRoutingKey -text "hello world from powershell run number $run_number" } catch { $_ }
             - try { send_notification pagerduty -routingkey $myRoutingKey } catch { $_ }
             - try { send_notification pagerduty -routingkey badkey -text "bad routing key" } catch { $_ }
