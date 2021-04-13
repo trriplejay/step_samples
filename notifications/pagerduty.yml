@@ -9,7 +9,7 @@ resources:
       gitProvider: johns_bbs
       path: PIP/buildplane
       branches:
-        include: ^feature-PIPE-4793$
+        include: ^feature-PIPE-5073$
 
 pipelines:
   - name: pagerduty_notifications
@@ -51,11 +51,10 @@ pipelines:
             - echo "$int_pagerduty_token"
             - pushd $res_bprepo_resourcePath
             - source execTemplates/steps/jfrog/v1.0/Bash/header.sh
-            - (send_notification pagerduty --routingkey $myRoutingKey --text "hello world from bash run number $run_number")
-            - send_notification pagerduty --routingkey $myRoutingKey || true
-            - send_notification pagerduty --routingkey badkey --text "bad routing key"
-            - send_notification pagerduty --text "no routing key"
+            - (send_notification pagerduty --text "hello world from bash run number $run_number")
             - send_notification pagerduty || true
+
+
 
       - name: bash_pagerduty_failure1
         type: Bash
