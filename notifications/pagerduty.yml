@@ -51,7 +51,7 @@ pipelines:
             - echo "$int_pagerduty_token"
             - pushd $res_bprepo_resourcePath
             - source core/execTemplates/steps/jfrog/v1.0/Bash/header.sh
-            - send_notification pagerduty "hello world from bash run number $run_number"
+            - send_notification pagerduty -text "hello world from bash run number $run_number"
             - send_notification pagerduty || true
 
 

@@ -1,0 +1,30 @@
+- name: mystep
+  type: Bash
+  configuration:
+    environmentVariables:
+      foo: bar
+      hello: there
+    variableGroups:
+      - name: select_environment
+        default: dev
+        options: # choices? values?
+          - name: prod
+            values:
+              hello: moto
+              testing: 123
+              environment: production
+              score: ${run_number}
+          - name: stg
+            values:
+              hello: Clarice
+              testing: 456
+              environment: staging
+              score: ${run_id}
+          - name: dev
+            values:
+              hello: world
+              testing: 789
+              environment: dev
+  execution:
+    onExecute:
+      - echo "my environment is: $environment"
