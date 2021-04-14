@@ -31,6 +31,7 @@ pipelines:
           onStart:
             - echo "starting"
           onExecute:
+            - cd $res_bprepo_resourcePath
             - . core/execTemplates/steps/jfrog/v1.0/PowerShell/header.ps1
             - try { send_notification pagerduty -text "hello world from powershell run number $run_number" } catch { $_ }
             - try { send_notification pagerduty } catch { $_ }
