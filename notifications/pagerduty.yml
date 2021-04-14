@@ -32,7 +32,7 @@ pipelines:
             - echo "starting"
           onExecute:
             # - send_notification pagerduty -text "hello world from powershell run number $run_number"
-            - send_notification pagerduty
+            - send_notification pagerduty --text "hello world from powershell run number $run_number"
 
       - name: bash_pagerduty_success
         type: Bash
