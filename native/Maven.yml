@@ -38,5 +38,19 @@ pipelines:
           - name: johns_art
       execution:
         onStart:
+          - ls -latrR $step_workspace_dir
           - docker ps -a
+        onComplete:
+          - ls -latrR $step_workspace_dir
 
+    - name: followup
+      type: Bash
+      configuration:
+        inputSteps:
+          - name: BuildSample
+      execution:
+        onExecute:
+
+          - ls -latrR $step_workspace_dir
+          - restore_run_files jfrog .
+          - ls -latrR
