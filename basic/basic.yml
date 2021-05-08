@@ -186,8 +186,6 @@ pipelines:
             - echo "uh oh, something went wrong"
           onComplete:
             - echo "Cleaning up some stuff"
-            - cat badfile
-            - echo "we continue after failure"
           onCancel:
             - echo "Someone cancelled the job"
 
