@@ -5,6 +5,8 @@ resources:
       registry: johns_docker
       imageName: trriplejay/simpleserver
       imageTag: faketag
+      autoPull: true
+
 
   # - name: myOtherImage_basic_2
   #   type: Image
@@ -172,7 +174,6 @@ pipelines:
             - name: basic_step
           inputResources:
             - name: myImage_basic
-              autoPull: true
         execution:
           onStart:
             - echo "Prepping build environment"
