@@ -26,6 +26,7 @@
 pipelines:
   - name: tr_test_pipeline_1
     configuration:
+      nodePool: u16static
       environmentVariables:
         readOnly:
           testReadOnly: "successful!"
