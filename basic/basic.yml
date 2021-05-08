@@ -1,27 +1,27 @@
-resources:
-  - name: myImage_basic
-    type: Image
-    configuration:
-      registry: tr_docker
-      imageName: trriplejay/simpleserver
-      imageTag: latest
+# resources:
+  # - name: myImage_basic
+  #   type: Image
+  #   configuration:
+  #     registry: tr_docker
+  #     imageName: trriplejay/simpleserver
+  #     imageTag: latest
 
-  - name: myOtherImage_basic_2
-    type: Image
-    configuration:
-      registry: tr_docker
-      imageName: trriplejay/simpleserver
-      imageTag: latest
-      autoPull: false
+  # - name: myOtherImage_basic_2
+  #   type: Image
+  #   configuration:
+  #     registry: tr_docker
+  #     imageName: trriplejay/simpleserver
+  #     imageTag: latest
+  #     autoPull: false
 
-  - name: myRepo_basic
-    type: GitRepo
-    configuration:
-      path: ~johns/simpleserver
-      gitProvider: johns_bbs
-      branches:
-        include: ^dev.*$
-        exclude: ^dev-9$
+  # - name: myRepo_basic
+  #   type: GitRepo
+  #   configuration:
+  #     path: ~johns/simpleserver
+  #     gitProvider: johns_bbs
+  #     branches:
+  #       include: ^dev.*$
+  #       exclude: ^dev-9$
 
 pipelines:
   - name: tr_test_pipeline_1
@@ -39,8 +39,8 @@ pipelines:
           #   - name: myRepo_basic
           #   - name: myImage_basic
           #     trigger: false
-          outputResources:
-            - name: myOtherImage_basic_2
+          # outputResources:
+          #   - name: myOtherImage_basic_2
         execution:
           onStart:
             - retry_command echo "here we go!!!"
@@ -55,8 +55,8 @@ pipelines:
             - for item in ${!open_group_info[@]}; do echo "$item --- ${open_group_info[$item]}"; done
           onSuccess:
             - echo "yay success"
-            - printenv | grep myRepo_basic
-            - printenv | grep myImage_basic
+            # - printenv | grep myRepo_basic
+            # - printenv | grep myImage_basic
             - printenv | sort
           onFailure:
             - echo "boo failure"
@@ -119,8 +119,10 @@ pipelines:
           affinityGroup: test_group
           integrations:
             - name: johns_bbs
-          inputResources:
-            - name: myOtherImage_basic_2
+          inputSteps:
+            - name: basic_step
+          # inputResources:
+          #   - name: myOtherImage_basic_2
         execution:
           onStart:
             - echo "Prepping build environment"
