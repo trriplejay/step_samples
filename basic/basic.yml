@@ -1,10 +1,10 @@
-# resources:
-  # - name: myImage_basic
-  #   type: Image
-  #   configuration:
-  #     registry: tr_docker
-  #     imageName: trriplejay/simpleserver
-  #     imageTag: latest
+resources:
+  - name: myImage_basic
+    type: Image
+    configuration:
+      registry: johns_docker
+      imageName: trriplejay/simpleserver
+      imageTag: faketag
 
   # - name: myOtherImage_basic_2
   #   type: Image
@@ -163,6 +163,30 @@ pipelines:
             - echo "we continue after failure"
           onComplete: #always
             - echo "Cleaning up some stuff"
+          onCancel:
+            - echo "Someone cancelled the job"
+      - name: fail_in_resources
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: basic_step
+          inputResources:
+            - name: myImage_basic
+              autoPull: true
+        execution:
+          onStart:
+            - echo "Prepping build environment"
+          onExecute:
+            - echo "executing task command 1"
+            - echo "executing task command 2"
+          onSuccess:
+            - echo "Job well done!"
+          onFailure:
+            - echo "uh oh, something went wrong"
+          onComplete:
+            - echo "Cleaning up some stuff"
+            - cat badfile
+            - echo "we continue after failure"
           onCancel:
             - echo "Someone cancelled the job"
 
