@@ -25,6 +25,8 @@ pipelines:
       - name: build_application
         type: GoBuild
         configuration:
+          integrations:
+            - name: art
           inputResources:
             - name: applicationRepo
 
