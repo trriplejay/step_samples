@@ -67,7 +67,7 @@ pipelines:
             - name: promotedBuildInfo
         execution:
           onStart:
-            - jfrog rt dl --build ${res_promotedBuildInfo_buildName}/${res_promotedBuildInfo_buildNumber}
+            - jfrog rt dl prod-go-local/app
             - ls -latr
           onExecute:
             - chmod +x app
