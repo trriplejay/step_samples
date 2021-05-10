@@ -21,6 +21,10 @@ resources:
 
 pipelines:
   - name: dev_pipeline
+    configuration:
+      environmentVariables:
+        readOnly:
+          JFROG_CLI_BUILD_NAME: go_app
     steps:
       - name: build_app
         type: GoBuild
