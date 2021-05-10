@@ -69,6 +69,7 @@ pipelines:
             - jfrog rt dl --build ${res_promotedBuildInfo_buildName}/${res_promotedBuildInfo_buildNumber}
             - ls -latr
           onExecute:
+            - chmod +x app
             - ./app
 
 
