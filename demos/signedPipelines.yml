@@ -26,6 +26,7 @@ pipelines:
         type: GoBuild
         configuration:
           resolverRepo: gocenter-remote
+          outputFile: app
           integrations:
             - name: art
           inputResources:
@@ -68,8 +69,7 @@ pipelines:
             - jfrog rt dl --build ${res_promotedBuildInfo_buildName}/${res_promotedBuildInfo_buildNumber}
             - ls -latr
           onExecute:
-            - pushd build_app
-            - ./main
+            - ./app
 
 
 
