@@ -70,12 +70,6 @@ pipelines:
             - ls -latr
           onExecute:
             - chmod +x app
-            - |
-              for i in {0..5}
-              do
-                ./app
-                sleep 1
-              done
-
+            - ./app
 
 
