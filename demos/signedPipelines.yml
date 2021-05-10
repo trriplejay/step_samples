@@ -1,0 +1,68 @@
+resources:
+  - name: applicationRepo
+    type: GitRepo
+    configuration:
+      gitProvider: org_github
+      path: trriplejay/go_app
+      branches:
+        include: ^master$
+
+  - name: basicBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: art
+
+  - name: promotedBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: art
+
+
+
+pipelines:
+  - name: dev_pipeline
+    steps:
+      - name: build_application
+        type: GoBuild
+        configuration:
+          inputResources:
+            - name: applicationRepo
+
+      - name: publish_application
+        type: GoPublishBinary
+        configuration:
+          autoPublishBuildInfo: true
+          targetRepository: dev-go-local
+          inputSteps:
+            - name: build_application
+          outputResources:
+            - name: basicBuildInfo
+
+
+  - name: prod_pipeline
+    steps:
+      - name: promote_application
+        type: PromoteBuild
+        configuration:
+          copy: true
+          targetRepository: prod-go-local
+          comment: "promoted via pipeline ${pipeline_name} in run number ${run_number}"
+          inputResources:
+            - name: basicBuildInfo
+              trigger: false
+          ouptutResources:
+            - name: promotedBuildInfo
+
+      - name: deploy_application
+        type: Bash
+        configuration:
+          inputResources:
+            - name: promotedBuildInfo
+        execution:
+          onStart:
+            - jfrog rt dl --build ${res_promotedBuildInfo_buildName}/${res_promotedBuildInfo_buildNumber}
+            - ls -latr
+          onExecute:
+            - echo "run the binary here"
+
+
