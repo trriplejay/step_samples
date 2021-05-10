@@ -1,5 +1,5 @@
 resources:
-  - name: applicationRepo
+  - name: appRepo
     type: GitRepo
     configuration:
       gitProvider: org_github
@@ -22,29 +22,29 @@ resources:
 pipelines:
   - name: dev_pipeline
     steps:
-      - name: build_application
+      - name: build_app
         type: GoBuild
         configuration:
           resolverRepo: gocenter-remote
           integrations:
             - name: art
           inputResources:
-            - name: applicationRepo
+            - name: appRepo
 
-      - name: publish_application
+      - name: publish_app
         type: GoPublishBinary
         configuration:
           autoPublishBuildInfo: true
           targetRepository: dev-go-local
           inputSteps:
-            - name: build_application
+            - name: build_app
           outputResources:
             - name: basicBuildInfo
 
 
   - name: prod_pipeline
     steps:
-      - name: promote_application
+      - name: promote_app
         type: PromoteBuild
         configuration:
           copy: true
@@ -56,7 +56,7 @@ pipelines:
           outputResources:
             - name: promotedBuildInfo
 
-      - name: deploy_application
+      - name: deploy_app
         type: Bash
         configuration:
           integrations:
@@ -68,6 +68,8 @@ pipelines:
             - jfrog rt dl --build ${res_promotedBuildInfo_buildName}/${res_promotedBuildInfo_buildNumber}
             - ls -latr
           onExecute:
-            - echo "run the binary here"
+            - pushd ${res_promotedBuildInfo_buildName}/${res_promotedBuildInfo_buildNumber}
+            - ./main
+
 
 
