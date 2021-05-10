@@ -52,7 +52,7 @@ pipelines:
           inputResources:
             - name: basicBuildInfo
               trigger: false
-          ouptutResources:
+          outputResources:
             - name: promotedBuildInfo
 
       - name: deploy_application
