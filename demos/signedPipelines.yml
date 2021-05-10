@@ -68,7 +68,7 @@ pipelines:
             - jfrog rt dl --build ${res_promotedBuildInfo_buildName}/${res_promotedBuildInfo_buildNumber}
             - ls -latr
           onExecute:
-            - pushd ${res_promotedBuildInfo_buildName}/${res_promotedBuildInfo_buildNumber}
+            - pushd build_app
             - ./main
 
 
