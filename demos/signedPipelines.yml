@@ -59,6 +59,8 @@ pipelines:
       - name: deploy_application
         type: Bash
         configuration:
+          integrations:
+            - name: art
           inputResources:
             - name: promotedBuildInfo
         execution:
