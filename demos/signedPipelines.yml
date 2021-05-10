@@ -25,6 +25,7 @@ pipelines:
       - name: build_application
         type: GoBuild
         configuration:
+          resolverRepo: gocenter-remote
           integrations:
             - name: art
           inputResources:
