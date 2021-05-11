@@ -17,8 +17,6 @@ resources:
     configuration:
       sourceArtifactory: art
 
-
-
 pipelines:
   - name: dev_pipeline
     configuration:
@@ -29,7 +27,6 @@ pipelines:
       - name: build_app
         type: GoBuild
         configuration:
-          resolverRepo: gocenter-remote
           outputFile: app
           integrations:
             - name: art
@@ -52,7 +49,7 @@ pipelines:
       - name: promote_app
         type: PromoteBuild
         configuration:
-          failOnValidate: true
+          # failOnValidate: true
           copy: true
           targetRepository: prod-go-local
           comment: "promoted via pipeline ${pipeline_name} in run number ${run_number}"
