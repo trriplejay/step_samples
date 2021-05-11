@@ -50,7 +50,7 @@ pipelines:
       - name: promote_app
         type: PromoteBuild
         configuration:
-          failOnValidate: true
+          # failOnValidate: true
           copy: true
           targetRepository: prod-go-local
           comment: "promoted via pipeline ${pipeline_name} in run number ${run_number}"
