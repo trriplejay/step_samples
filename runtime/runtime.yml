@@ -1,0 +1,13 @@
+pipelines:
+  - name: mypip_johns
+    steps:
+      - name: bashtest
+        type: Bash
+        configuration:
+          nodePool: k8s
+          runtime:
+            type: host
+        execution:
+          onExecute:
+            - echo "hello"
+            - docker run hello-world
