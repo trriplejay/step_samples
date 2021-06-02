@@ -11,3 +11,5 @@ pipelines:
           onExecute:
             - echo "hello"
             - docker run hello-world
+            - docker images
+            - docker info
