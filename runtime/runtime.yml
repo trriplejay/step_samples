@@ -18,3 +18,5 @@ pipelines:
             - echo "$REQEXEC_DIR"
             - echo "$REQKICK_DIR"
             - ls $REQKICK_DIR
+            - ps -aux
+            - systemctl status pipelines-reqKick
