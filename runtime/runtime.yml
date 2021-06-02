@@ -14,3 +14,4 @@ pipelines:
             - docker images
             - docker info
             - docker ps -a
+            - cat /etc/drydock/.env
