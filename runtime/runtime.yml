@@ -16,3 +16,5 @@ pipelines:
             - docker ps -a
             # - cat /etc/drydock/.env
             - echo "$REQEXEC_DIR"
+            - echo "$REQKICK_DIR"
+            - ls $REQKICK_DIR
