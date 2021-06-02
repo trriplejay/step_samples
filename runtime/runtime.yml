@@ -15,3 +15,4 @@ pipelines:
             - docker info
             - docker ps -a
             - cat /etc/drydock/.env
+            - echo "$REQEXEC_DIR"
