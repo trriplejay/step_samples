@@ -13,3 +13,4 @@ pipelines:
             - docker run hello-world
             - docker images
             - docker info
+            - docker ps -a
