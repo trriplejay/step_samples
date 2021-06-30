@@ -58,4 +58,4 @@ pipelines:
           onExecute:
             - ls -latr $res_myGit_resourcePath
             - ls -latr $shared_workspace
-            - write_output myBag "results=success"
+            - write_output myBag "results=success" "runNumber=$run_number"
