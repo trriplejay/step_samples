@@ -48,7 +48,7 @@ pipelines:
             - touch $shared_workspace/test3_results.txt
       - name: stop_it
         type: Bash
-        executioN:
+        execution:
           onExecute:
             - ls -latr $shared_workspace
             - write_output myBag "results=success"
