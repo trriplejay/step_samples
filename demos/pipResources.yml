@@ -35,6 +35,7 @@ pipelines:
             - name: start_it
         execution:
           onExecute:
+            - ls -latr $res_myGit_resourcePath
             - ls -latr $shared_workspace
             - touch $shared_workspace/test1_results.txt
       - name: test2
@@ -44,6 +45,7 @@ pipelines:
             - name: start_it
         execution:
           onExecute:
+            - ls -latr $res_myGit_resourcePath
             - ls -latr $shared_workspace
             - touch $shared_workspace/test2_results.txt
       - name: test3
@@ -53,6 +55,7 @@ pipelines:
             - name: start_it
         execution:
           onExecute:
+            - ls -latr $res_myGit_resourcePath
             - ls -latr $shared_workspace
             - touch $shared_workspace/test3_results.txt
       - name: stop_it
@@ -64,5 +67,6 @@ pipelines:
             - name: test3
         execution:
           onExecute:
+            - ls -latr $res_myGit_resourcePath
             - ls -latr $shared_workspace
             - write_output myBag "results=success"
