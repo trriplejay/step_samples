@@ -1,0 +1,54 @@
+resources:
+  - name: myGit
+    type: GitRepo
+    configuration:
+      gitProvider: johns_bbs
+      path: ~johns/simpleserver
+  - name: myBag
+    type: PropertyBag
+    configuration:
+      hello: world
+      test: 1234
+
+pipelines:
+  - name: showcase
+    configuration:
+      affinityGroup: showcase
+      inputResources:
+        - name: myGit
+      outputResources:
+        - name: myBag
+      integrations:
+        - name: main_rt
+    steps:
+      - name: start_it
+        type: Bash
+        execution:
+          onExecute:
+            - ls -latr $res_myGit_resourcePath
+            - cd $res_myGit_resourcePath
+            - cp server.js $shared_workspace
+      - name: test1
+        type: Bash
+        execution:
+          onExecute:
+            - ls -latr $shared_workspace
+            - touch $shared_workspace/test1_results.txt
+      - name: test2
+        type: Bash
+        execution:
+          onExecute:
+            - ls -latr $shared_workspace
+            - touch $shared_workspace/test2_results.txt
+      - name: test3
+        type: Bash
+        execution:
+          onExecute:
+            - ls -latr $shared_workspace
+            - touch $shared_workspace/test3_results.txt
+      - name: stop_it
+        type: Bash
+        executioN:
+          onExecute:
+            - ls -latr $shared_workspace
+            - write_output myBag "results=success"
