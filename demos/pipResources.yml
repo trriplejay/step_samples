@@ -30,24 +30,38 @@ pipelines:
             - cp server.js $shared_workspace
       - name: test1
         type: Bash
+        configuration:
+          inputSteps:
+            - name: start_it
         execution:
           onExecute:
             - ls -latr $shared_workspace
             - touch $shared_workspace/test1_results.txt
       - name: test2
         type: Bash
+        configuration:
+          inputSteps:
+            - name: start_it
         execution:
           onExecute:
             - ls -latr $shared_workspace
             - touch $shared_workspace/test2_results.txt
       - name: test3
         type: Bash
+        configuration:
+          inputSteps:
+            - name: start_it
         execution:
           onExecute:
             - ls -latr $shared_workspace
             - touch $shared_workspace/test3_results.txt
       - name: stop_it
         type: Bash
+        configuration:
+          inputSteps:
+            - name: test1
+            - name: test2
+            - name: test3
         execution:
           onExecute:
             - ls -latr $shared_workspace
