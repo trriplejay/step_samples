@@ -48,23 +48,12 @@ pipelines:
             - ls -latr $res_myGit_resourcePath
             - ls -latr $shared_workspace
             - touch $shared_workspace/test2_results.txt
-      - name: test3
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: start_it
-        execution:
-          onExecute:
-            - ls -latr $res_myGit_resourcePath
-            - ls -latr $shared_workspace
-            - touch $shared_workspace/test3_results.txt
       - name: stop_it
         type: Bash
         configuration:
           inputSteps:
             - name: test1
             - name: test2
-            - name: test3
         execution:
           onExecute:
             - ls -latr $res_myGit_resourcePath
