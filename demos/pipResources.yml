@@ -24,7 +24,7 @@ pipelines:
       - name: start_it
         type: Bash
         configuration:
-          timeoutSeconds: 9999999999
+          timeoutSeconds: 21600
         execution:
           onExecute:
             - ls -latr $res_myGit_resourcePath
