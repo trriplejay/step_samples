@@ -23,6 +23,8 @@ pipelines:
     steps:
       - name: start_it
         type: Bash
+        configuration:
+          timeoutSeconds: 9999999999
         execution:
           onExecute:
             - ls -latr $res_myGit_resourcePath
@@ -31,6 +33,7 @@ pipelines:
       - name: test1
         type: Bash
         configuration:
+          timeoutSeconds: 3700
           inputSteps:
             - name: start_it
         execution:
@@ -41,6 +44,7 @@ pipelines:
       - name: test2
         type: Bash
         configuration:
+          timeoutSeconds: 60
           inputSteps:
             - name: start_it
         execution:
