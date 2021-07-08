@@ -1,0 +1,26 @@
+resources:
+  - name: myFileSpec
+    type: FileSpec
+  - name: myGitRepo
+    type: GitRepo
+    configuration:
+      path: ~johns/simpleserver
+      gitProvider: johns_bbs
+      branch: master
+
+
+pipelines:
+  - name: my_upload_test
+    steps:
+      - name: upload_rt
+        type: jfrog_dev/UploadArtifact
+        configuration:
+          integrations:
+            - name: main_rt
+          inputResources:
+            - name: myGitRepo
+          outputResources:
+            - naem: myFileSpec
+          sourcePath: $res_myGitRepo_resourcePath/*
+          targetPath: testupload/simpleserver
+
