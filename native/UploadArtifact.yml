@@ -1,6 +1,4 @@
 resources:
-  - name: myFileSpec
-    type: FileSpec
   - name: myGitRepo
     type: GitRepo
     configuration:
@@ -19,8 +17,6 @@ pipelines:
             - name: main_rt
           inputResources:
             - name: myGitRepo
-          outputResources:
-            - naem: myFileSpec
           sourcePath: $res_myGitRepo_resourcePath/*
           targetPath: testupload/simpleserver
 
