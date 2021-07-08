@@ -4,7 +4,8 @@ resources:
     configuration:
       path: ~johns/simpleserver
       gitProvider: johns_bbs
-      branch: master
+      branches:
+        include: ^master$
 
 
 pipelines:
