@@ -57,7 +57,7 @@ pipelines:
         type: Bash
         configuration:
           integrations:
-            - name: dockerhub
+            - name: Creds_DockerRegistry_Punchh
             - name: docker_image_slack_notification
             - name: EnvVars_Development_EventFramework
           inputResources:
