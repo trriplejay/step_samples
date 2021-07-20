@@ -4,6 +4,8 @@ resources:
     configuration:
       gitProvider: github # name of the integration
       path: trriplejay/step_samples # temp so that pipeline sync will work
+      branches:
+        include: ^master$
 
   - name: docker_image_event_webhook_service
     type: Image
@@ -72,7 +74,7 @@ pipelines:
             - export BRANCH_NAME="${int_EnvVars_Development_EventFramework_BRANCH_NAME}""
             - pushd ${res_eventframework_code_repo_resourcePath}
             - echo "step 2 branch name :- $BRANCH_NAME"
-            - if [[ ${#SHIPPABLE_TRIGGER_DETAIL} -gt 0 ]]; then export BRANCH_NAME=$SHIPPABLE_TRIGGER_DETAIL; fi
+            - if [[ ${#PIPELINE_TRIGGER_DETAIL} -gt 0 ]]; then export BRANCH_NAME=$PIPELINE_TRIGGER_DETAIL; fi
             - git checkout $BRANCH_NAME
             - docker build -f app/build/Dockerfile -t $DOCKER_ACC/$DOCKER_REPO:$BRANCH_NAME . --pull
             - docker push $DOCKER_ACC/$DOCKER_REPO:$BRANCH_NAME
