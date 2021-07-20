@@ -58,6 +58,11 @@ pipelines:
       - name: event_framework_staging_build
         type: Bash
         configuration:
+          environmentVariables:
+            PIPELINE_TRIGGER_DETAIL:
+              description: "The branch you want to build"
+              default: ""
+              allowCustom: true
           integrations:
             - name: Creds_DockerRegistry_Punchh
             - name: docker_image_slack_notification
