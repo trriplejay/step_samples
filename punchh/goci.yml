@@ -50,7 +50,7 @@ pipelines:
             - |
                 if ( [ $BRANCH == "master" ] && [ $IS_PULL_REQUEST == false ] )
                 then
-                  write_output docker_image_event_webhook_service "imageTag=$COMMIT sourceName=$DOCKER_ACC/$DOCKER_REPO buildNumber=$BUILD_NUMBER"
+                  write_output docker_image_event_webhook_service "imageTag=$COMMIT buildNumber=$runNumber"
                 fi
 
       - name: event_framework_staging_build
