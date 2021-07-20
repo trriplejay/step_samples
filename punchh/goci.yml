@@ -1,0 +1,82 @@
+resources:
+  - name: eventframework_code_repo
+    type: GitRepo
+    configuration:
+      gitProvider: github # name of the integration
+      path: trriplejay/step_samples # temp so that pipeline sync will work
+
+  - name: docker_image_event_webhook_service
+    type: Image
+    configuration:
+      registry: Creds_DockerRegistry_Punchh
+      imageName: punchh/eventwebhook
+      imageTag: latest
+
+pipelines:
+  - name: event_framework_ci
+    configuration:
+      environmentVariables:
+        readOnly:
+          DOCKER_ACC: punchh
+          DOCKER_REPO: eventwebhook
+    steps:
+      - name: event_framework_master_build
+        type: Bash
+        configuration:
+          integrations:
+            - name: Creds_DockerRegistry_Punchh
+            - name: docker_image_slack_notification
+          inputResources:
+            - name: eventframework_code_repo
+          outputResources:
+            - name: docker_image_event_webhook_service
+        execution:
+          onStart:
+            - send_notification docker_image_slack_notification "started $step_name"
+          onExecute:
+            - |
+                if ( [ $BRANCH == "master" ] && [ $IS_PULL_REQUEST == false ] )
+                then
+                  pushd ${res_eventframework_code_repo_resourcePath}
+                  export COMMIT=${res_eventframework_code_repo_commitSha}
+                  docker build -t $DOCKER_ACC/$DOCKER_REPO:$COMMIT -f app/build/Dockerfile .
+                  docker push $DOCKER_ACC/$DOCKER_REPO:$COMMIT
+                  docker tag $DOCKER_ACC/$DOCKER_REPO:$COMMIT $DOCKER_ACC/$DOCKER_REPO:latest
+                  docker push $DOCKER_ACC/$DOCKER_REPO:latest
+                fi
+          onComplete:
+            - send_notification docker_image_slack_notification "finished $step_name"
+          onSuccess:
+            - |
+                if ( [ $BRANCH == "master" ] && [ $IS_PULL_REQUEST == false ] )
+                then
+                  write_output docker_image_event_webhook_service "imageTag=$COMMIT sourceName=$DOCKER_ACC/$DOCKER_REPO buildNumber=$BUILD_NUMBER"
+                fi
+
+      - name: event_framework_staging_build
+        type: Bash
+        configuration:
+          integrations:
+            - name: dockerhub
+            - name: docker_image_slack_notification
+            - name: EnvVars_Development_EventFramework
+          inputResources:
+            - name: eventframework_code_repo
+              trigger: false
+            - name: docker_image_event_webhook_service
+              trigger: false
+        execution:
+          onStart:
+            - send_notification docker_image_slack_notification "started $step_name"
+          onExecute:
+            - export BRANCH_NAME="${int_EnvVars_Development_EventFramework_BRANCH_NAME}""
+            - pushd ${res_eventframework_code_repo_resourcePath}
+            - echo "step 2 branch name :- $BRANCH_NAME"
+            - if [[ ${#SHIPPABLE_TRIGGER_DETAIL} -gt 0 ]]; then export BRANCH_NAME=$SHIPPABLE_TRIGGER_DETAIL; fi
+            - git checkout $BRANCH_NAME
+            - docker build -f app/build/Dockerfile -t $DOCKER_ACC/$DOCKER_REPO:$BRANCH_NAME . --pull
+            - docker push $DOCKER_ACC/$DOCKER_REPO:$BRANCH_NAME
+          onComplete:
+            - send_notification docker_image_slack_notification "finished $step_name"
+
+
