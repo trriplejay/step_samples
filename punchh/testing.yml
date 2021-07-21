@@ -65,6 +65,7 @@ pipelines:
             - docker compose up -d
           onExecute:
             - echo "hello"
+            - docker ps -a
 
           onSuccess:
             - |
