@@ -42,7 +42,8 @@ pipelines:
             - sudo chmod +x /usr/local/bin/docker-compose
             - echo $COMPOSE | base64 --decode > docker-compose.yml
             - cat docker-compose.yml
-            - docker-compose up -d
+            - docker-compose up -d es
+            - docker-compose up -d mongo
           onExecute:
             - echo "hello"
             - docker ps -a
