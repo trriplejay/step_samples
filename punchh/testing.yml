@@ -19,6 +19,30 @@ pipelines:
     configuration:
       environmentVariables:
         readOnly:
+          COMPOSE: |
+            version: "3.8"
+            services:
+
+              redis:
+                image: redis
+                ports:
+                  - "6379"
+                restart: on-failure
+              db:
+                image: mysql:5.7
+                volumes:
+                  - db_data:/var/lib/mysql:delegated
+                restart: always
+                environment:
+                  MYSQL_ROOT_PASSWORD: ${int_EnvVars_Development_EventFramework_MYSQL_ROOT_PASS}
+                  MYSQL_DATABASE: punchh_development
+                  MYSQL_USER: app_user
+                  MYSQL_PASSWORD: ${int_EnvVars_Development_EventFramework_MYSQL_PASS}
+                ports:
+                  - "3306:3306"
+
+            volumes:
+              db_data:
           DOCKER_ACC: punchh
           DOCKER_REPO: eventwebhook
     steps:
@@ -28,26 +52,20 @@ pipelines:
           integrations:
             - name: Creds_DockerRegistry_Punchh
             - name: docker_image_slack_notification
+            - name: EnvVars_Development_EventFramework
           inputResources:
             - name: eventframework_code_repo
           outputResources:
             - name: docker_image_event_webhook_service
         execution:
           onStart:
-            - send_notification docker_image_slack_notification "started $step_name"
+
+            - echo $COMPOSE > docker-compose.yml
+            - cat docker-compose.yml
+            - docker compose up -d
           onExecute:
-            - |
-                if ( [ $BRANCH == "master" ] && [ $IS_PULL_REQUEST == false ] )
-                then
-                  pushd ${res_eventframework_code_repo_resourcePath}
-                  export COMMIT=${res_eventframework_code_repo_commitSha}
-                  docker build -t $DOCKER_ACC/$DOCKER_REPO:$COMMIT -f app/build/Dockerfile .
-                  docker push $DOCKER_ACC/$DOCKER_REPO:$COMMIT
-                  docker tag $DOCKER_ACC/$DOCKER_REPO:$COMMIT $DOCKER_ACC/$DOCKER_REPO:latest
-                  docker push $DOCKER_ACC/$DOCKER_REPO:latest
-                fi
-          onComplete:
-            - send_notification docker_image_slack_notification "finished $step_name"
+            - echo "hello"
+
           onSuccess:
             - |
                 if ( [ $BRANCH == "master" ] && [ $IS_PULL_REQUEST == false ] )
