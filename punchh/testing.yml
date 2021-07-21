@@ -43,7 +43,7 @@ pipelines:
             - sudo chmod +x /usr/local/bin/docker-compose
             - echo $COMPOSE | base64 --decode > docker-compose.yml
             - cat docker-compose.yml
-            - docker-compose -d up
+            - docker-compose up -d
           onExecute:
             - echo "hello"
             - docker ps -a
