@@ -64,7 +64,7 @@ pipelines:
             - echo -n $COMPOSE
             - echo $COMPOSE > docker-compose.yml
             - cat docker-compose.yml
-            - docker compose -d up
+            - docker-compose -d up
           onExecute:
             - echo "hello"
             - docker ps -a
