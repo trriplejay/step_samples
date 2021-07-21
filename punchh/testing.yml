@@ -60,9 +60,11 @@ pipelines:
         execution:
           onStart:
 
+            - echo $COMPOSE
+            - echo -n $COMPOSE
             - echo $COMPOSE > docker-compose.yml
             - cat docker-compose.yml
-            - docker compose up -d
+            - docker compose -d up
           onExecute:
             - echo "hello"
             - docker ps -a
