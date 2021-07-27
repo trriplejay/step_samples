@@ -15,7 +15,7 @@ resources:
       imageTag: latest
 
 pipelines:
-  - name: go_test
+  - name: johns_go_test
     configuration:
       environmentVariables:
         readOnly:
@@ -56,7 +56,7 @@ pipelines:
                   write_output johns_docker_image "imageTag=$COMMIT buildNumber=$runNumber"
                 fi
 
-      - name: event_framework_staging_build
+      - name: johns_staging_build
         type: Bash
         configuration:
           environmentVariables:
