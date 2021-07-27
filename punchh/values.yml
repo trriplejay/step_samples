@@ -1,8 +1,8 @@
 github:
- name: eventframework_code_repo
+ name: myCoolRepo
  branch: ^{{gitBranch}}$
 image:
- name: docker_image_event_webhook_service
+ name: myCoolImage
  imagename: eventwebhook
  imageTag: latest
 runtime:
