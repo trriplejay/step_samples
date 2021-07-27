@@ -1,0 +1,11 @@
+github:
+ name: eventframework_code_repo
+ branch: ^{{gitBranch}}$
+image:
+ name: docker_image_event_webhook_service
+ imagename: eventwebhook
+ imageTag: latest
+runtime:
+ version: 1.12
+docker:
+ filepath: app/build/Dockerfile

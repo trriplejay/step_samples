@@ -1,0 +1,92 @@
+resources:
+  - name: punchh-server_master_info
+    type: PropertyBag
+    configuration:
+      commitSha : "seed"
+      buildNumber: "seed"
+
+  # app service image
+  - name: docker_image_punchh_server
+    type: Image
+    configuration:
+      registry: Creds_DockerRegistry_Punchh
+      imageName: punchh/shippable
+      imageTag: latest
+
+  # app service nightly image
+  - name: docker_nightly_image_punchh_server
+    type: Image
+    configuration:
+      registry: Creds-DockerRegistry-Punchh
+      imageName: "punchh/shippable"
+      imageTag: nightly
+
+  ## note: this should be turned into a generic integration as
+  ## secure "params" resources are not present in pipelines
+  # for assets compile
+  # - name: cdn_access_keys
+  #   type: params
+
+  - name: nightly_punchh_server_timer
+    type: CronTrigger
+    configuration:
+      interval: "0 2 * * *"   # Triggers at 2 am GMT
+
+  - name: server_code_repo
+    type: GitRepo
+    configuration:
+      gitProvider: github # name of the integration
+      path: trriplejay/step_samples # temp so that pipeline sync will work
+      shallowDepth: 20
+      branches:
+        include: {{gitBranch}}
+
+  - name: docker_image_event_webhook_service
+    type: Image
+    configuration:
+      registry: Creds_DockerRegistry_Punchh
+      imageName: punchh/eventwebhook
+      imageTag: latest
+
+pipelines:
+  - name: ruby_test
+    configuration:
+      environmentVariables:
+        readOnly:
+          COMPOSE: dmVyc2lvbjogIjMuOCIKc2VydmljZXM6CgogIG1vbmdvOgogICAgaW1hZ2U6IG1vbmdvCiAgICByZXN0YXJ0OiBhbHdheXMKICAgIGVudmlyb25tZW50OgogICAgICBNT05HT19JTklUREJfUk9PVF9VU0VSTkFNRTogcm9vdAogICAgICBNT05HT19JTklUREJfUk9PVF9QQVNTV09SRDogZXhhbXBsZQoKICBlczoKICAgIGltYWdlOiBkb2NrZXIuZWxhc3RpYy5jby9lbGFzdGljc2VhcmNoL2VsYXN0aWNzZWFyY2g6Ny4xMy40CiAgICBjb250YWluZXJfbmFtZTogZXMwMQogICAgZW52aXJvbm1lbnQ6CiAgICAgIC0gZGlzY292ZXJ5LnR5cGU9c2luZ2xlLW5vZGUKICAgIHZvbHVtZXM6CiAgICAgIC0gZXNfZGF0YTovdXNyL3NoYXJlL2VsYXN0aWNzZWFyY2gvZGF0YQogICAgcG9ydHM6CiAgICAgIC0gOTIwMDo5MjAwCiAgICAgIC0gOTMwMDo5MzAwCgogIHJlZGlzOgogICAgaW1hZ2U6IHJlZGlzCiAgICBwb3J0czoKICAgICAgLSAiNjM3OSIKICAgIHJlc3RhcnQ6IG9uLWZhaWx1cmUKICBkYjoKICAgIGltYWdlOiBteXNxbDo1LjcKICAgIHZvbHVtZXM6CiAgICAgIC0gZGJfZGF0YTovdmFyL2xpYi9teXNxbDpkZWxlZ2F0ZWQKICAgIHJlc3RhcnQ6IGFsd2F5cwogICAgZW52aXJvbm1lbnQ6CiAgICAgIE1ZU1FMX1JPT1RfUEFTU1dPUkQ6IHB1bmNoaDEyMwogICAgICBNWVNRTF9EQVRBQkFTRTogcHVuY2hoX2RldmVsb3BtZW50CiAgICAgIE1ZU1FMX1VTRVI6IGFwcF91c2VyCiAgICAgIE1ZU1FMX1BBU1NXT1JEOiBwdW5jaGgxMjMKICAgIHBvcnRzOgogICAgICAtICIzMzA2OjMzMDYiCgp2b2x1bWVzOgogIGRiX2RhdGE6CiAgZXNfZGF0YToK
+          DOCKER_ACC: punchh
+          DOCKER_REPO: eventwebhook
+
+    steps:
+      - name: server_ci_prematrix
+        type: PreMatrix
+        configuration:
+
+      - name: server_ci
+        type: Matrix
+        configuration:
+          multiNode: true
+          environmentVariables:
+            RAILS_ENV: "test"
+            RACK_ENV: "test"
+            TEST_QUEUE_WORKERS: 6
+            TESTPATH: "test/"
+            TESTREPORTSPATH: "test/reports/minitest/"
+            PARALLELIZATION: 4
+        stepletMultipliers:
+          environmentVariables:
+            - NODENUMBER: 0
+            - NODENUMBER: 1
+            - NODENUMBER: 2
+            - NODENUMBER: 3
+
+      - name: server_ci_postmatrix
+        type: PostMatrix
+        configuration:
+
+      - name: build_app_img
+      - name: build_app_img_manually
+      - name: build_nightly_app_img
+      - name: build_app_img_advance_review
+      - name: build_sandbox_app_img
+      - name: build_updated_ruby_app_img
