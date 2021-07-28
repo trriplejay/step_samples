@@ -7,6 +7,7 @@ github:
     branch: {{gitBranch}}
 image:
   name: build_u20ruby
+  imageTag: latest
 
 pipeline:
   name: build_ruby_pipeline
