@@ -24,10 +24,11 @@ services:
     ports:
       - "6379"
     restart: on-failure
-  db:
+
+  mysql:
     image: mysql:5.7
     volumes:
-      - db_data:/var/lib/mysql:delegated
+      - mysql_data:/var/lib/mysql:delegated
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: testing123
@@ -38,5 +39,5 @@ services:
       - "3306:3306"
 
 volumes:
-  db_data:
+  mysql_data:
   es_data:

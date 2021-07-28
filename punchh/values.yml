@@ -1,11 +1,18 @@
 github:
- name: myCoolRepo
- branch: ^{{gitBranch}}$
+  utils:
+    name: gh_utils
+    branch: {{gitBranch}}
+  app:
+    name: my_application
+    branch: {{gitBranch}}
 image:
- name: myCoolImage
- imagename: eventwebhook
- imageTag: latest
-runtime:
- version: 1.12
+  name: build_u20ruby
+
+pipeline:
+  name: build_ruby_pipeline
+  imagename: u20ruby
+  imageTag: latest
 docker:
- filepath: app/build/Dockerfile
+  filepath: .
+integrations:
+  slackName: mySlack
