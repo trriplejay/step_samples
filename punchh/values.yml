@@ -10,7 +10,7 @@ image:
   imageTag: latest
 
 pipeline:
-  name: build_ruby_pipeline
+  name: matrix_compose_pipeline
   imagename: u20ruby
   imageTag: latest
 docker:
