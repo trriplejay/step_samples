@@ -20,9 +20,10 @@ resources:
 
 pipelines:
   - name: test_builds
-    environmentVariables:
-      readOnly:
-        serviceRepo: servicefiles
+    configuration:
+      environmentVariables:
+        readOnly:
+          serviceRepo: servicefiles
     steps:
       - name: service1
         type: Bash
