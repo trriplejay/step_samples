@@ -80,6 +80,8 @@ pipelines:
         configuration:
           environmentVariables:
             JFROG_CLI_BUILD_NAME: aggregate_build
+          integrations:
+            - name: artifactory
           inputResources:
             - name: build1
             - name: build2
