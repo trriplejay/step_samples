@@ -40,7 +40,7 @@ pipelines:
             - jfrog rt u svc1.txt ${serviceRepo}/service1/svc1.txt
             - jfrog rt bce
             - jfrog rt bp $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
-            - write_output build1 "$JFROG_CLI_BUILD_NAME=$JFROG_CLI_BUILD_NUMBER"
+            - write_output build1 "buildName=$JFROG_CLI_BUILD_NAME" "buildNumber=$JFROG_CLI_BUILD_NUMBER"
 
       - name: service2
         type: Bash
@@ -57,7 +57,7 @@ pipelines:
             - jfrog rt u svc2.txt ${serviceRepo}/service2/svc2.txt
             - jfrog rt bce
             - jfrog rt bp $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
-            - write_output build2 "$JFROG_CLI_BUILD_NAME=$JFROG_CLI_BUILD_NUMBER"
+            - write_output build2 "buildName=$JFROG_CLI_BUILD_NAME" "buildNumber=$JFROG_CLI_BUILD_NUMBER"
 
       - name: service3
         type: Bash
@@ -74,7 +74,7 @@ pipelines:
             - jfrog rt u svc3.txt ${serviceRepo}/service3/svc3.txt
             - jfrog rt bce
             - jfrog rt bp $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
-            - write_output build3 "$JFROG_CLI_BUILD_NAME=$JFROG_CLI_BUILD_NUMBER"
+            - write_output build3 "buildName=$JFROG_CLI_BUILD_NAME" "buildNumber=$JFROG_CLI_BUILD_NUMBER"
       - name: aggregate
         type: Bash
         configuration:
