@@ -15,6 +15,13 @@ resources:
     type: BuildInfo
     configuration:
       sourceArtifactory: artifactory
+  - name: app_repo
+    type: GitRepo
+    configuration:
+      gitProvider: github
+      path: trriplejay/simpleserver
+      branches:
+        include: ^master$
 
 
 
@@ -32,13 +39,17 @@ pipelines:
             JFROG_CLI_BUILD_NAME: service_1_build
           integrations:
             - name: artifactory
+          inputResources:
+            - name: app_repo
           outputResources:
             - name: build1
         execution:
           onExecute:
-            - echo "hello service1" > svc1.txt
-            - jfrog rt u svc1.txt ${serviceRepo}/service1/svc1.txt
-            - jfrog rt bce
+            - pushd $res_app_repo_resourcePath
+            - docker build -t https://swampup303.jfrog.io/docker-all/servicea:${JFROG_CLI_BUILD_NUMBER} .
+            - jfrog rt docker-push https://swampup303.jfrog.io/docker-all/servicea:${run_number} docker-all --build-name=JFROG_CLI_BUILD_NAME --build-number $JFROG_CLI_BUILD_NUMBER
+            - jfrog rt bce $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
+            - jfrog rt bag $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
             - jfrog rt bp $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
             - write_output build1 "buildName=$JFROG_CLI_BUILD_NAME" "buildNumber=$JFROG_CLI_BUILD_NUMBER"
 
