@@ -47,7 +47,7 @@ pipelines:
           onExecute:
             - pushd $res_app_repo_resourcePath
             - docker build -t swampup303.jfrog.io/docker-all/servicea:${JFROG_CLI_BUILD_NUMBER} .
-            - jfrog rt docker-push swampup303.jfrog.io/docker-all/servicea:${run_number} docker-all --build-name=JFROG_CLI_BUILD_NAME --build-number $JFROG_CLI_BUILD_NUMBER
+            - jfrog rt docker-push swampup303.jfrog.io/docker-all/servicea:${JFROG_CLI_BUILD_NUMBER} docker-all --build-name=$JFROG_CLI_BUILD_NAME --build-number=$JFROG_CLI_BUILD_NUMBER
             - jfrog rt bce $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
             - jfrog rt bag $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
             - jfrog rt bp $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
@@ -68,7 +68,7 @@ pipelines:
           onExecute:
             - pushd $res_app_repo_resourcePath
             - docker build -t swampup303.jfrog.io/docker-all/serviceb:${JFROG_CLI_BUILD_NUMBER} .
-            - jfrog rt docker-push swampup303.jfrog.io/docker-all/serviceb:${run_number} docker-all --build-name=JFROG_CLI_BUILD_NAME --build-number $JFROG_CLI_BUILD_NUMBER
+            - jfrog rt docker-push swampup303.jfrog.io/docker-all/serviceb:${JFROG_CLI_BUILD_NUMBER} docker-all --build-name=$JFROG_CLI_BUILD_NAME --build-number=$JFROG_CLI_BUILD_NUMBER
             - jfrog rt bce $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
             - jfrog rt bag $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
             - jfrog rt bp $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
@@ -89,7 +89,7 @@ pipelines:
           onExecute:
             - pushd $res_app_repo_resourcePath
             - docker build -t swampup303.jfrog.io/docker-all/servicec:${JFROG_CLI_BUILD_NUMBER} .
-            - jfrog rt docker-push swampup303.jfrog.io/docker-all/servicec:${run_number} docker-all --build-name=JFROG_CLI_BUILD_NAME --build-number $JFROG_CLI_BUILD_NUMBER
+            - jfrog rt docker-push swampup303.jfrog.io/docker-all/servicec:${JFROG_CLI_BUILD_NUMBER} docker-all --build-name=$JFROG_CLI_BUILD_NAME --build-number=$JFROG_CLI_BUILD_NUMBER
             - jfrog rt bce $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
             - jfrog rt bag $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
             - jfrog rt bp $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
@@ -114,3 +114,4 @@ pipelines:
             - jfrog rt build-append $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER ${res_build2_buildName} ${res_build2_buildNumber}
             - jfrog rt build-append $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER ${res_build3_buildName} ${res_build3_buildNumber}
             - jfrog rt build-publish $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
+            - jfrog rt s --build $JFROG_CLI_BUILD_NAME/$JFROG_CLI_BUILD_NUMBER
