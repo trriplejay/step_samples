@@ -12,6 +12,6 @@ pipelines:
         execution:
           onStart: *top_anchor
           onExecute: *bottom_anchor
-          onComplete: *separate_anchor
+          # onComplete: *separate_anchor
 
 
