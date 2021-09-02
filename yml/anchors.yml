@@ -1,5 +1,8 @@
 top_anchor: &top_anchor
   - echo "this is my top anchor"
+bottom_anchor: &bottom_anchor
+  - echo "this is my bottom anchor"
+
 
 pipelines:
   - name: test_anchors
@@ -10,9 +13,5 @@ pipelines:
           onStart: *top_anchor
           onExecute: *bottom_anchor
           onComplete: *separate_anchor
-
-
-bottom_anchor: &bottom_anchor
-  - echo "this is my bottom anchor"
 
 
