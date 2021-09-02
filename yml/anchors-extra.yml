@@ -1,0 +1,2 @@
+separate_anchor: &separate_anchor
+  - echo "this is a separate anchor"

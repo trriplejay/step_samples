@@ -1,0 +1,18 @@
+top_anchor: &top_anchor
+  - echo "this is my top anchor"
+
+pipelines:
+  - name: test_anchors
+    steps:
+      - name: anchor_step
+        type: Bash
+        execution:
+          onStart: *top_anchor
+          onExecute: *bottom_anchor
+          onComplete: *separate_anchor
+
+
+bottom_anchor: &bottom_anchor
+  - echo "this is my bottom anchor"
+
+
