@@ -4,6 +4,15 @@ pipelines:
     steps:
       - name: first_step_simple
         type: Bash
+        configuration:
+          runtime:
+            type: image
+            image:
+              custom:
+                name: pipsaastest.jfrogdev.org/docker-all/jfrog/pipelines-u18node
+                tag: 12.18.2
+                registry: artifactory
+                sourceRepository: docker-all
         execution:
           onStart:
             - echo "test"
