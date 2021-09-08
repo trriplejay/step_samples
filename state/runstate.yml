@@ -31,6 +31,6 @@ pipelines:
           onExecute:
             - echo "about to load state"
             - restore_run_files testdata test-data.tar.gz
-            ls -latr
+            - ls -latr
 
 
