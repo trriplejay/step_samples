@@ -1,0 +1,36 @@
+
+pipelines:
+  - name: john_run_state_functions
+    steps:
+      - name: setup_state
+        type: Bash
+        configuration:
+          integrations:
+            - name: art
+        execution:
+          onExecute:
+            - jfrog rt dl data-dump/test-data.tar.gz
+            - ls -latr
+            - add_run_files test-data.tar.gz testdata
+
+      - name: no_state
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: setup_state
+        execution:
+          onExecute:
+            - echo "no state used here"
+
+      - name: use_state
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: no_state
+        execution:
+          onExecute:
+            - echo "about to load state"
+            - restore_run_files testdata test-data.tar.gz
+            ls -latr
+
+
