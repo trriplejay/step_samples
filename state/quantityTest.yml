@@ -1,0 +1,50 @@
+resources:
+- name: auto_git
+  type: GitRepo
+  configuration:
+    gitProvider: johns_gh
+    path: trriplejay/Org_test_Automation
+    branches:
+      include: ^master$
+
+pipelines:
+  - name: test_files
+    steps:
+      - name: bash_files_add
+        type: Bash
+        configuration:
+          nodePool: u16dynamic
+          inputResources:
+            - name: auto_git
+        execution:
+          onExecute:
+            - add_run_files $res_auto_git_resourcePath bashrepo
+      - name: bash_files_restore
+        type: Bash
+        configuration:
+          nodePool: u16dynamic
+          inputSteps:
+            - name: bash_files_add
+        execution:
+          onExecute:
+            - restore_run_files bashrepo repocontents
+
+      - name: powershell_files_add
+        type: PowerShell
+        configuration:
+          nodePool: win_2019
+          inputResources:
+            - name: auto_git
+        execution:
+          onExecute:
+            - add_run_files $res_auto_git_resourcePath psrepo
+
+      - name: powershell_files_restore
+        type: PowerShell
+        configuration:
+          nodePool: win_2019
+          inputSteps:
+            - name: powershell_files_add
+        execution:
+          onExecute:
+            - restore_run_files psrepo repocontents
