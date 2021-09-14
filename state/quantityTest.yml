@@ -48,3 +48,17 @@ pipelines:
         execution:
           onExecute:
             - restore_run_files psrepo repocontents
+
+      - name: bash_files_matrix
+        type: Matrix
+        configuration:
+          nodePool: u16dynamic
+          inputResources:
+            - name: auto_git
+        stepletMultipliers:
+          environmentVariables:
+            - foo: bar
+            - foo: hello
+        execution:
+          onExecute:
+            - echo "hello"
