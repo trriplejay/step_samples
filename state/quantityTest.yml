@@ -54,7 +54,6 @@ pipelines:
       - name: bash_files_prematrix
         type: PreMatrix
         configuration:
-          nodePool: u16dynamic
           inputResources:
             - name: auto_git
         execution:
@@ -67,7 +66,6 @@ pipelines:
         type: Matrix
         configuration:
           multiNode: true
-          nodePool: u16dynamic
           inputSteps:
             - name: bash_files_prematrix
         stepletMultipliers:
@@ -83,14 +81,12 @@ pipelines:
       - name: bash_files_postmatrix
         type: PostMatrix
         configuration:
-          nodePool: u16dynamic
           inputSteps:
             - name: bash_files_matrix_multi
 
       - name: bash_files_matrix_single
         type: Matrix
         configuration:
-          nodePool: u16dynamic
           inputResources:
             - name: auto_git
         stepletMultipliers:
