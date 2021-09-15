@@ -83,6 +83,9 @@ pipelines:
         configuration:
           inputSteps:
             - name: bash_files_matrix_multi
+        execution:
+          onExecute:
+            - echo "hello"
 
       - name: bash_files_matrix_single
         type: Matrix
