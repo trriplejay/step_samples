@@ -59,7 +59,7 @@ pipelines:
         execution:
           onExecute:
             - pushd $res_auto_git_resourcePath
-            - cat "hello world" > hello.txt
+            - echo "hello world" > hello.txt
             - echo "done"
 
       - name: bash_files_matrix_multi
