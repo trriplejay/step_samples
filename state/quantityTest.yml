@@ -2,7 +2,7 @@ resources:
 - name: auto_git
   type: GitRepo
   configuration:
-    gitProvider: johns_gh
+    gitProvider: github
     path: trriplejay/Org_test_Automation
     branches:
       include: ^master$
