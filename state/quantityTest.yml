@@ -13,7 +13,7 @@ pipelines:
       - name: bash_files_add
         type: Bash
         configuration:
-          nodePool: u16dynamic
+
           inputResources:
             - name: auto_git
         execution:
@@ -22,7 +22,6 @@ pipelines:
       - name: bash_files_restore
         type: Bash
         configuration:
-          nodePool: u16dynamic
           inputSteps:
             - name: bash_files_add
         execution:
@@ -32,7 +31,6 @@ pipelines:
       - name: powershell_files_add
         type: PowerShell
         configuration:
-          nodePool: win_2019
           inputResources:
             - name: auto_git
         execution:
@@ -42,7 +40,7 @@ pipelines:
       - name: powershell_files_restore
         type: PowerShell
         configuration:
-          nodePool: win_2019
+
           inputSteps:
             - name: powershell_files_add
         execution:
