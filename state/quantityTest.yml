@@ -61,6 +61,8 @@ pipelines:
             - pushd $res_auto_git_resourcePath
             - echo "hello world" > hello.txt
             - echo "done"
+            - apt-get install -y tree
+            - tree
 
       - name: bash_files_matrix_multi
         type: Matrix
@@ -76,6 +78,8 @@ pipelines:
           onExecute:
             - printenv
             - echo "hello"
+            - apt-get install -y tree
+            - tree
 
 
       - name: bash_files_postmatrix
@@ -86,6 +90,8 @@ pipelines:
         execution:
           onExecute:
             - echo "hello"
+            - apt-get install -y tree
+            - tree
 
       - name: bash_files_matrix_single
         type: Matrix
