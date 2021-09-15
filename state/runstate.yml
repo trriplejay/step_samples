@@ -1,5 +1,28 @@
+resources:
+  - name: simple_git
+    type: GitRepo
+    configuration:
+      gitProvider: github
+      path: trriplejay/simpleserver
+      branches:
+        include: ^master$
+      buildOn:
+        releaseCreate: true
+      buildOn:
+        commit: false
 
 pipelines:
+  - name: test_release
+    steps:
+      - name: my_release
+        type: Bash
+        configuration:
+          inputResources:
+            - name: simple_git
+        execution:
+          onExecute:
+            - printenv | grep simple_git
+            - echo "done"
   - name: john_run_state_functions
     steps:
       - name: setup_state
