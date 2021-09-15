@@ -8,7 +8,6 @@ resources:
         include: ^master$
       buildOn:
         releaseCreate: true
-      buildOn:
         commit: false
 
 pipelines:
