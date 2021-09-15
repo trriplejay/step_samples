@@ -61,7 +61,10 @@ pipelines:
             - name: auto_git
         execution:
           onExecute:
-            - echo "hello"
+            - pushd $res_auto_git_resourcePath
+            - cat "hello world" > hello.txt
+            - echo "done"
+
       - name: bash_files_matrix_multi
         type: Matrix
         configuration:
@@ -75,7 +78,16 @@ pipelines:
             - foo: hello
         execution:
           onExecute:
+            - printenv
             - echo "hello"
+
+
+      - name: bash_files_postmatrix
+        type: PostMatrix
+        configuration:
+          nodePool: u16dynamic
+          inputSteps:
+            - name: bash_files_matrix_multi
 
       - name: bash_files_matrix_single
         type: Matrix
