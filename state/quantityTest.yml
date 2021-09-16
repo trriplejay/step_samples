@@ -58,11 +58,10 @@ pipelines:
             - name: auto_git
         execution:
           onExecute:
-            - pushd $res_auto_git_resourcePath
-            - echo "hello world" > hello.txt
+            - echo "this adds the cloned GitRepo to matrix state"
+            - echo "so that it doesnt need to be cloned in every matrix steplet"
             - echo "done"
-            - apt-get install -y tree
-            - tree
+
 
       - name: bash_files_matrix_multi
         type: Matrix
@@ -76,10 +75,11 @@ pipelines:
             - foo: hello
         execution:
           onExecute:
-            - printenv
-            - echo "hello"
-            - apt-get install -y tree
-            - tree
+            - export repoPath="bash_files_prematrix/dependencyState/resources/auto_git"
+            - pushd $repoPath
+            - ls -latr
+            - popd
+            - echo "building my app" > app_${foo}.txt
 
 
       - name: bash_files_postmatrix
@@ -90,8 +90,7 @@ pipelines:
         execution:
           onExecute:
             - echo "hello"
-            - apt-get install -y tree
-            - tree
+            - ls -latr
 
       - name: bash_files_matrix_single
         type: Matrix
