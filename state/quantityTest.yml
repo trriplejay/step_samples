@@ -90,6 +90,7 @@ pipelines:
         execution:
           onExecute:
             - echo "hello"
+            - cd bash_files_matrix_multi
             - ls -latr
 
       - name: bash_files_matrix_single
