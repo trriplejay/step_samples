@@ -16,3 +16,5 @@ pipelines:
         execution:
           onExecute:
             - printenv
+            - echo $res_slackHook_payload > payload.json
+            - jq '.' payload.json
