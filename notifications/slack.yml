@@ -4,14 +4,15 @@ resources:
     configuration:
       webhookName: slack_hook
 
-
-steps:
+pipelines:
   - name: slack_triggering
-    type: Bash
-    configuration:
-      priority: 1
-      inputResources:
-        - name: slackHook
-    execution:
-      onExecute:
-        - printenv
+    steps:
+      - name: slack_triggering
+        type: Bash
+        configuration:
+          priority: 1
+          inputResources:
+            - name: slackHook
+        execution:
+          onExecute:
+            - printenv
