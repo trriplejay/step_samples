@@ -4,17 +4,45 @@ resources:
     configuration:
       webhookName: slack_hook
 
+  - name: scripts
+    type: GitRepo
+    configuration:
+      gitProvider: github
+      path: trriplejay/step_samples
+      branches:
+        include: ^master$
+
 pipelines:
   - name: slack_triggering
     steps:
       - name: slack_triggering
         type: Bash
         configuration:
+          integrations:
+            - name: pipe_api_admin
           priority: 1
           inputResources:
             - name: slackHook
+            - name: scripts
+              trigger: false
         execution:
-          onExecute:
-            - printenv
+          onStart:
+            - export API_TOKEN="$res_pipe_creds_token"
             - echo $res_slackHook_payload > payload.json
             - jq '.' payload.json
+            # these are the 3 main fields we're using from slack payload
+            - export USERNAME=$(jq -r '.user_name' $payload.json)
+            - export COMMAND=$(jq -r '.text' $payload.json)
+            - export RESPONSE_URL=$(jq -r '.response_url' $payload.json)
+          onExecute:
+            - echo "user name is $USERNAME"
+            - echo "command is $COMMAND"
+            - echo "response url is $RESPONSE_URL"
+            - pushd $res_scripts_resourcePath
+            - ./trigger.sh $COMMAND
+
+          onFailure:
+            - echo "failed"
+          onSuccess:
+            - echo "Succeeded"
+
