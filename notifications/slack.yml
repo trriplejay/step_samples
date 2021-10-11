@@ -43,7 +43,7 @@ pipelines:
 
           onFailure:
             - echo "failed"
-            - curl -XPOST -H "content-type:application/json" $RESPONSE_URL -d"{\"text\":\"failed to trigger step from command:$COMMAND\"}"
+            - curl -XPOST -H "content-type:application/json" $RESPONSE_URL -d"{\"text\":\"failed to trigger step from command... $COMMAND\"}"
             - curl -XPOST -H "content-type:application/json" $RESPONSE_URL -d"{\"text\":\"To see logs of this failure, visit $step_url\"}"
           onSuccess:
             - echo "Succeeded"
