@@ -31,9 +31,9 @@ pipelines:
             - echo $res_slackHook_payload > payload.json
             - jq '.' payload.json
             # these are the 3 main fields we're using from slack payload
-            - export USERNAME=$(jq -r '.user_name' $payload.json)
-            - export COMMAND=$(jq -r '.text' $payload.json)
-            - export RESPONSE_URL=$(jq -r '.response_url' $payload.json)
+            - export USERNAME=$(jq -r '.user_name' payload.json)
+            - export COMMAND=$(jq -r '.text' payload.json)
+            - export RESPONSE_URL=$(jq -r '.response_url' payload.json)
           onExecute:
             - echo "user name is $USERNAME"
             - echo "command is $COMMAND"
