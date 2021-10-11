@@ -27,7 +27,7 @@ pipelines:
               trigger: false
         execution:
           onStart:
-            - export API_TOKEN="$res_pipe_api_admin_token"
+            - export API_TOKEN="$int_pipe_api_admin_token"
             - echo $res_slackHook_payload > payload.json
             - jq '.' payload.json
             # these are the 3 main fields we're using from slack payload
