@@ -46,6 +46,10 @@ function process_command() {
         injectedEnvs=$RIGHT
         shift
         ;;
+      default)
+        defaultStep=$RIGHT
+        shift
+        ;;
       *)
         echo "Warning: unrecognized argument: \"$LEFT\"" >&2
         shift
@@ -54,8 +58,18 @@ function process_command() {
   done
 
   if [ -z "$pipeline" ] || [ -z "$step" ]; then
-    echo "Invalid arguments. 'pipeline' and 'step' are required." >&2
+    echo "Invalid arguments. 'pipeline' is required." >&2
     exit 1
+  fi
+
+  if [ -z "$step" ]; then
+    if [ -z "$defaultStep" ]; then
+      echo "Invalid arguments. No 'step' or 'defaultStep' provided" >&2
+      exit 1
+    else
+      echo "No step provided. using default step $defaultStep"
+      step=$defaultStep
+    fi
   fi
 
   if [ -z "$branch" ]; then
@@ -176,6 +190,7 @@ function trigger_step() {
 #
 export pipeline=""
 export step=""
+export defaultStep=""
 export branch=""
 export project=""
 export injectedEnvs="" # future use
