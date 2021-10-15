@@ -6,10 +6,11 @@
 # requires jq
 #
 # Usage:
-# slack.sh pipeline=[pipelineName] step=[stepName] branch=[branchName] project=[projectKey]
-# pipeline and step are required
-# branch is required for multibranch pipelines
+# slack.sh [pipelineName] [branchName] [optional step=[stepName] projectKey=[projectKey]]
+# pipeline and branch are required
+# step is optional if default is set
 # project is optional but could have ambiguous results if not used
+# when using multiple projects
 ############################
 
 if [ -z "$pipelines_api_url" ]; then
@@ -22,20 +23,25 @@ if [ -z "$API_TOKEN" ]; then
 fi
 
 function process_command() {
+  # first argument is pipeline
+  # second argument is branch
+  # remaining arguments can be projectKey=xyz and/or step=abc
+  # if no step provided, default step is used
+  if [[ $# -lt 2 ]]; then
+    echo "Usage: ./trigger.sh [pipeline] [branch] ...[step=<step> projectKey=<key>]" >&2
+    exit 1
+  fi
+  pipeline="$1"
+  shift
+  branch="$1"
+  shift
+
   while [[ $# -gt 0 ]]; do
     LEFT="${1%=*}"
     RIGHT="${1#*=}"
     case $LEFT in
-      pipeline)
-        pipeline=$RIGHT
-        shift
-        ;;
       step)
         step=$RIGHT
-        shift
-        ;;
-      branch)
-        branch=$RIGHT
         shift
         ;;
       project)
@@ -46,10 +52,6 @@ function process_command() {
         injectedEnvs=$RIGHT
         shift
         ;;
-      default)
-        defaultStep=$RIGHT
-        shift
-        ;;
       *)
         echo "Warning: unrecognized argument: \"$LEFT\"" >&2
         shift
@@ -57,26 +59,19 @@ function process_command() {
     esac
   done
 
-  if [ -z "$pipeline" ] || [ -z "$step" ]; then
+  if [ -z "$pipeline" ]; then
     echo "Invalid arguments. 'pipeline' is required." >&2
     exit 1
   fi
 
   if [ -z "$step" ]; then
-    if [ -z "$defaultStep" ]; then
-      echo "Invalid arguments. No 'step' or 'defaultStep' provided" >&2
+    if [ -z "$DEFAULT_STEP" ]; then
+      echo "Invalid arguments. No 'step' or 'DEFAULT_STEP' provided" >&2
       exit 1
     else
-      echo "No step provided. using default step $defaultStep"
-      step=$defaultStep
+      echo "No step provided. using default step $DEFAULT_STEP" >&2
+      step="$DEFAULT_STEP"
     fi
-  fi
-
-  if [ -z "$branch" ]; then
-    # if no branch, we assume single-branch mode
-    # which can use string "null" in query param
-    # and will only return single-branch results
-    branch="null"
   fi
 
 }
