@@ -7,3 +7,4 @@ pipelines:
         execution:
           onStart:
             - echo "test"
+            - df -h
