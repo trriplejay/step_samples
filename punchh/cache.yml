@@ -26,7 +26,7 @@ pipelines:
           - cp -r $res_johns_cache_sample_resourcePath /tmp/repo
           - ls -latr /tmp/repo
           - ls -latr $res_johns_cache_sample
-          - mv /tmp/repo $res_johns_cache_sample_resourcePath
+          - cp -r /tmp/repo $res_johns_cache_sample_resourcePath
           - ls -latr /tmp/repo
           - ls -latr $res_johns_cache_sample
           - add_cache_files $res_johns_cache_sample_resourcePath repo
