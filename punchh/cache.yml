@@ -19,17 +19,19 @@ pipelines:
         onExecute:
           - mkdir -p /tmp/repo
           - ls -latr /tmp/repo
-          - ls -latr $res_johns_cache_sample
-          - restore_cache_files repo /tmp/repo
-          - ls -latr /tmp/repo
-          - ls -latr $res_johns_cache_sample
-          - cp -r $res_johns_cache_sample_resourcePath /tmp/repo
-          - ls -latr /tmp/repo
-          - ls -latr $res_johns_cache_sample
-          - cp -r /tmp/repo $res_johns_cache_sample_resourcePath
-          - ls -latr /tmp/repo
-          - ls -latr $res_johns_cache_sample
-          - add_cache_files $res_johns_cache_sample_resourcePath repo
-          - ls -latr /tmp/repo
-          - ls -latr $res_johns_cache_sample
+          - touch test.txt
+          - add_cache_files test.txt repo
+          # - ls -latr $res_johns_cache_sample
+          # - restore_cache_files repo2 /tmp/repo
+          # - ls -latr /tmp/repo
+          # - ls -latr $res_johns_cache_sample
+          # - cp -r $res_johns_cache_sample_resourcePath/* /tmp/repo
+          # - ls -latr /tmp/repo
+          # - ls -latr $res_johns_cache_sample
+          # - cp -r /tmp/repo/* $res_johns_cache_sample_resourcePath
+          # - ls -latr /tmp/repo
+          # - ls -latr $res_johns_cache_sample
+          # - add_cache_files $res_johns_cache_sample_resourcePath repo2
+          # - ls -latr /tmp/repo
+          # - ls -latr $res_johns_cache_sample
 
