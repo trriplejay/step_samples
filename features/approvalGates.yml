@@ -11,7 +11,9 @@ pipelines:
         configuration:
           inputSteps:
             - name: first_step
-          requiresApproval: true
+          requiresApproval:
+            approvers:
+              - johns
         execution:
           onExecute:
             - echo "i've been approved!"
