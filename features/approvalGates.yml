@@ -9,12 +9,17 @@ pipelines:
       - name: approval_step
         type: Bash
         configuration:
+          inputSteps:
+            - name: first_step
           requiresApproval: true
         execution:
           onExecute:
             - echo "i've been approved!"
       - name: last_step
         type: Bash
+        configuration:
+          inputSteps:
+            - name: approval_step
         execution:
           onExecute:
             - echo "i'm done"
