@@ -1,0 +1,35 @@
+resources:
+  - name: johns_cache_sample
+    type: GitRepo
+    configuration:
+      gitProvider: github
+      path: trriplejay/step_samples
+      branches:
+        include: ^master$
+
+pipelines:
+  - name: step_cache_test_johns
+    steps:
+    - name: step_cache_test
+      type: Bash
+      configuration:
+        inputResources:
+          - name: johns_cache_sample
+      execution:
+        onExecute:
+          - mkdir -p /tmp/repo
+          - ls -latr /tmp/repo
+          - ls -latr $res_johns_cache_sample
+          - restore_cache_files repo /tmp/repo
+          - ls -latr /tmp/repo
+          - ls -latr $res_johns_cache_sample
+          - cp -r $res_johns_cache_sample_resourcePath /tmp/repo
+          - ls -latr /tmp/repo
+          - ls -latr $res_johns_cache_sample
+          - mv -r /tmp/repo $res_johns_cache_sample_resourcePath
+          - ls -latr /tmp/repo
+          - ls -latr $res_johns_cache_sample
+          - add_cache_files $res_johns_cache_sample_resourcePath repo
+          - ls -latr /tmp/repo
+          - ls -latr $res_johns_cache_sample
+
