@@ -21,17 +21,20 @@ pipelines:
           - ls -latr /tmp/repo
           # - touch test.txt
           # - add_cache_files test.txt repo
-          - ls -latr $res_johns_cache_sample
+          - pushd $res_johns_cache_sample_resourcePath
+          - git rev-parse HEAD
+          - ls -latr $res_johns_cache_sample_resourcePath
           - restore_cache_files repo /tmp/repo
           - ls -latr /tmp/repo
-          - ls -latr $res_johns_cache_sample
+          - ls -latr $res_johns_cache_sample_resourcePath
           - cp -r $res_johns_cache_sample_resourcePath/* /tmp/repo
           - ls -latr /tmp/repo
-          - ls -latr $res_johns_cache_sample
+          - ls -latr $res_johns_cache_sample_resourcePath
           - cp -r /tmp/repo/* $res_johns_cache_sample_resourcePath
+          - git rev-parse HEAD
           - ls -latr /tmp/repo
-          - ls -latr $res_johns_cache_sample
+          - ls -latr $res_johns_cache_sample_resourcePath
           - add_cache_files $res_johns_cache_sample_resourcePath repo
           - ls -latr /tmp/repo
-          - ls -latr $res_johns_cache_sample
+          - ls -latr $res_johns_cache_sample_resourcePath
 
