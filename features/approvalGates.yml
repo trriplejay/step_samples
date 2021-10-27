@@ -1,0 +1,20 @@
+pipelines:
+  - name: johns_approval
+    steps:
+      - name: first_step
+        type: Bash
+        execution:
+          onExecute:
+            - echo "starting"
+      - name: approval_step
+        type: Bash
+        configuration:
+          requiresApproval: true
+        execution:
+          onExecute:
+            - echo "i've been approved!"
+      - name: last_step
+        type: Bash
+        execution:
+          onExecute:
+            - echo "i'm done"
