@@ -1,0 +1,41 @@
+resources:
+  - name: johns_app_repo
+    type: GitRepo
+    configuration:
+      gitProvider: github
+      path: trriplejay/simpleserver
+  - name: johns_xray_buildinfo
+    type: BuildInfo
+
+
+pipelines:
+  - name: johns_build_and_push
+    steps:
+      - name: docker_build
+        type: DockerBuild
+        configuration:
+          dockerFileLocation: .
+          dockerFileName: Dockerfile
+          dockerImageName: testpipxray.jfrogdev.org/xry-docker-local/trriplejay/simpleserver
+          dockerImageTag: native.$run_number
+          dockerOptions: --pull --no-cache
+          inputResources:
+            - name: johns_app_repo
+        execution:
+          onStart:
+            - echo "lets build!"
+
+      - name: docker_push
+        type: DockerPush
+        configuration:
+          targetRepository: xry-docker-local
+          forceXrayScan: true
+          autoPublishBuildInfo: true
+          integrations:
+            - name: johns_art
+          inputSteps:
+            - name: docker_build
+          outputResources:
+            - name: johns_xray_buildinfo
+
+
