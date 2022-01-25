@@ -9,11 +9,13 @@ resources:
 
 pipelines:
   - name: test_exports
-    type: Bash
-    configuration:
-      inputResources:
-        - name: utilRepo
-    execution:
-      onExecute:
-        - echo "run the script"
-        - pushd
+    steps:
+      - name: exports
+        type: Bash
+        configuration:
+          inputResources:
+            - name: utilRepo
+        execution:
+          onExecute:
+            - echo "run the script"
+            - pushd
