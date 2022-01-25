@@ -1,0 +1,19 @@
+resources:
+  - name: utilRepo
+    type: GitRepo
+    configuration:
+      path: trriplejay/step_samples
+      gitProvider: github
+      branches:
+        include: ^master$
+
+pipelines:
+  - name: test_exports
+    type: Bash
+    configuration:
+      inputResources:
+        - name: utilRepo
+    execution:
+      onExecute:
+        - echo "run the script"
+        - pushd
