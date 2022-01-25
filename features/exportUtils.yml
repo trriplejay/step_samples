@@ -18,4 +18,6 @@ pipelines:
         execution:
           onExecute:
             - echo "run the script"
-            - pushd
+            - pushd $res_utilRepo_resourcePath
+            - cat testscript.sh
+            - ./testscript.sh
