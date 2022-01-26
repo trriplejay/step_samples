@@ -8,6 +8,9 @@ resources:
         include: ^master$
   - name: settings_bag
     type: PropertyBag
+    configuration:
+      date: ""
+      run_id: ""
 
 pipelines:
   - name: test_exports
