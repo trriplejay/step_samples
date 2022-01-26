@@ -6,6 +6,8 @@ resources:
       gitProvider: github
       branches:
         include: ^master$
+  - name: settings_bag
+    type: PropertyBag
 
 pipelines:
   - name: test_exports
@@ -15,6 +17,8 @@ pipelines:
         configuration:
           inputResources:
             - name: utilRepo
+          outputResources:
+            - name: settings_bag
         execution:
           onExecute:
             - echo "run the script"
