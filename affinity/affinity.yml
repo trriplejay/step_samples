@@ -62,7 +62,7 @@ pipelines:
             - name: myImage
         execution:
           onStart:
-            - echo "here we go!!!"
+            - echo "here we go!!"
           onExecute:
             - echo "Hello world!"
             - echo "stepId is $step_id"
