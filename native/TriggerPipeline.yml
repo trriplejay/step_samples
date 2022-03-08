@@ -1,13 +1,15 @@
 pipelines:
   - name: test_trigger_pipe
-    type: TriggerPipeline
-    configuration:
-      integrations:
-        - name: testToken
-      pipelineName: myTestConditionalPipe
-      stepName: first
-    execution:
-      onStart:
-        - echo "set up variables"
-      onComplete:
-        - echo "we made it!"
+    steps:
+      - name: test_trigger_step
+        type: TriggerPipeline
+        configuration:
+          integrations:
+            - name: testToken
+          pipelineName: myTestConditionalPipe
+          stepName: first
+        execution:
+          onStart:
+            - echo "set up variables"
+          onComplete:
+            - echo "we made it!"
