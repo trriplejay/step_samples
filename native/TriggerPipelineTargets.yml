@@ -52,6 +52,6 @@ pipelines:
         execution:
           onStart:
             - set_trigger_payload stepVariables "phrase=${phrase}"
-            - set_trigger_payload pipelineVariables injected_phrase="Stay awhile and listen"
+            - set_trigger_payload pipelineVariables "injected_phrase='Stay awhile and listen'"
           onComplete:
             - printenv | grep nested_
