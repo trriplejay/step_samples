@@ -24,6 +24,8 @@ pipelines:
       - name: triggerItStep
         type: TriggerPipeline
         configuration:
+          pipelineName: steptarget
+          stepName: phrasetarget_step
           integrations:
             - name: testplattoken
           environmentVariables:
