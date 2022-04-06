@@ -1,0 +1,44 @@
+pipelines:
+  - name: steptarget
+    steps:
+      - name: phrasetarget_step
+        type: Bash
+        configuration:
+          environmentVariables:
+            phrase: ""
+        execution:
+          onExecute:
+            - |
+                export response=""
+                if [ "$phrase" == "hello" ]; then
+                  response="Hello to you to!"
+                elif [ "$phrase" == "goodbye" ]; then
+                  response="see ya later"
+                else
+                  response="I dont know how to respond to that"
+                fi
+            - echo "$response"
+            - if [ -n "$injected_phrase" ]; then echo "$injected_phrase"; fi
+  - name: triggerIt
+    steps:
+      - name: triggerItStep
+        type: TriggerPipeline
+        configuration:
+          integrations:
+            - name: testplattoken
+          environmentVariables:
+            phrase:
+              default: "hello"
+              values:
+                - "hello"
+                - "goodbye"
+                - "yalla!"
+            injected_phrase:
+              allow_custom: true
+              default: ""
+        execution:
+          onStart:
+            - set_trigger_payload stepVariables "phrase=${phrase}"
+            - set_trigger_payload pipelineVariables injected_phrase="Stay awhile and listen"
+          onComplete:
+            - printenv | grep nested_
