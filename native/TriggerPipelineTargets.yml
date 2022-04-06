@@ -10,7 +10,9 @@ pipelines:
           onExecute:
             - |
                 export response=""
-                if [ "$phrase" == "hello" ]; then
+                if [ -z "$phrase" ]; then
+                  response="Please supply a phrase"
+                elif [ "$phrase" == "hello" ]; then
                   response="Hello to you to!"
                 elif [ "$phrase" == "goodbye" ]; then
                   response="see ya later"
@@ -19,6 +21,15 @@ pipelines:
                 fi
             - echo "$response"
             - if [ -n "$injected_phrase" ]; then echo "$injected_phrase"; fi
+      - name: downstream
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: phrasetarget_step
+        execution:
+          onExecute:
+            - if [ -n "$injected_phrase" ]; then echo "$injected_phrase"; fi
+
   - name: triggerIt
     steps:
       - name: triggerItStep
