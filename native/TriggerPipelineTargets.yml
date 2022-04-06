@@ -28,6 +28,7 @@ pipelines:
             - name: phrasetarget_step
         execution:
           onExecute:
+            - if [ -n "$phrase" ]; then echo "$phrase"; fi
             - if [ -n "$injected_phrase" ]; then echo "$injected_phrase"; fi
 
   - name: triggerIt
