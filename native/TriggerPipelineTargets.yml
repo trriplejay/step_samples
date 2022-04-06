@@ -13,7 +13,7 @@ pipelines:
                 if [ -z "$phrase" ]; then
                   response="Please supply a phrase"
                 elif [ "$phrase" == "hello" ]; then
-                  response="Hello to you to!"
+                  response="Hello to you too!"
                 elif [ "$phrase" == "goodbye" ]; then
                   response="see ya later"
                 else
