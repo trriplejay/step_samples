@@ -48,10 +48,10 @@ pipelines:
                 - "yalla!"
             injected_phrase:
               allow_custom: true
-              default: ""
+              default: "stay awhile and listen"
         execution:
           onStart:
             - set_trigger_payload stepVariables "phrase=${phrase}"
-            - set_trigger_payload pipelineVariables "injected_phrase='Stay awhile and listen'"
+            - set_trigger_payload pipelineVariables "injected_phrase=${injected_phrase}"
           onComplete:
             - printenv | grep nested_
