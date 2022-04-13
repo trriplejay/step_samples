@@ -1,0 +1,269 @@
+resources:
+  - name: johns_aql
+    type: Aql
+    configuration:
+      sourceArtifactory: art
+      query: items.find({"$and":[{"@build.name":{"$eq":"pipelines-dind"}},{"@build.number":{"$eq":"${build_version}"}}]})
+      mappings:
+        - name: pipelines-docker_release
+          input: pipelines-docker-release-local/(.*)
+          output: reg2/$1
+  - name: johns_buildinfo_0
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: art
+      buildName: test_bundle
+      buildNumber: 0
+  - name: johns_buildinfo_1
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: art
+      buildName: test_bundle
+      buildNumber: 0
+  - name: johns_buildinfo_2
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: art
+      buildName: test_bundle
+      buildNumber: 0
+  - name: johns_buildinfo_3
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: art
+      buildName: test_bundle
+      buildNumber: 0
+  - name: johns_buildinfo_4
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: art
+      buildName: test_bundle
+      buildNumber: 0
+  - name: johns_buildinfo_5
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: art
+      buildName: test_bundle
+      buildNumber: 0
+
+  - name: johns_release_bundle
+    type: ReleaseBundle
+    configuration:
+      sourceDistribution: dist
+      name: johns_test_bundle
+      version: 1.0.0
+      isSigned: false
+
+  - name: johns_signed_bundle
+    type: ReleaseBundle
+    configuration:
+      sourceDistribution: dist
+      name: johns_signed_bundle
+      version: 1.0.0
+      isSigned: true
+
+  - name: johns_dist_rule
+    type: DistributionRule
+    configuration:
+      sourceDistribution: dist
+      serviceName: "rt-edge-sea-1"
+      siteName: "SeattleEdge"
+      cityName: "*"
+      countryCodes:
+        - "*"
+
+pipelines:
+  - name: johns_release_pipe
+    steps:
+      - name: build_all
+        type: Bash
+        execution:
+          onExecute:
+            - echo "kick it off!"
+
+      - name: app_0
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: build_all
+          outputResources:
+            - name: johns_buildinfo0
+          integrations:
+            - name: art
+        execution:
+          onExecute:
+            - export package=package_${step_name}_${run_number}.txt
+            - echo "hello world. Package arrived from step ${step_name} and run ${run_number}." > $package
+            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example_repo_local/johns/$package
+            - jfrog rt bce ${step_name} ${run_number}
+            - jfrog rt bp ${step_name} ${run_number}
+          onSuccess:
+            - write_output johns_buildinfo0 "buildName=${step_name}" "buildNumber=${run_number}"
+      - name: app_1
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: build_all
+          outputResources:
+            - name: johns_buildinfo1
+          integrations:
+            - name: art
+        execution:
+          onExecute:
+            - export package=package_${step_name}_${run_number}.txt
+            - echo "hello world. Package arrived from step ${step_name} and run ${run_number}." > $package
+            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example_repo_local/johns/$package
+            - jfrog rt bce ${step_name} ${run_number}
+            - jfrog rt bp ${step_name} ${run_number}
+          onSuccess:
+            - write_output johns_buildinfo1 "buildName=${step_name}" "buildNumber=${run_number}"
+      - name: app_2
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: build_all
+          outputResources:
+            - name: johns_buildinfo2
+          integrations:
+            - name: art
+        execution:
+          onExecute:
+            - export package=package_${step_name}_${run_number}.txt
+            - echo "hello world. Package arrived from step ${step_name} and run ${run_number}." > $package
+            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example_repo_local/johns/$package
+            - jfrog rt bce ${step_name} ${run_number}
+            - jfrog rt bp ${step_name} ${run_number}
+          onSuccess:
+            - write_output johns_buildinfo2 "buildName=${step_name}" "buildNumber=${run_number}"
+      - name: app_3
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: build_all
+          outputResources:
+            - name: johns_buildinfo3
+          integrations:
+            - name: art
+        execution:
+          onExecute:
+            - export package=package_${step_name}_${run_number}.txt
+            - echo "hello world. Package arrived from step ${step_name} and run ${run_number}." > $package
+            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example_repo_local/johns/$package
+            - jfrog rt bce ${step_name} ${run_number}
+            - jfrog rt bp ${step_name} ${run_number}
+          onSuccess:
+            - write_output johns_buildinfo3 "buildName=${step_name}" "buildNumber=${run_number}"
+      - name: app_4
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: build_all
+          outputResources:
+            - name: johns_buildinfo4
+          integrations:
+            - name: art
+        execution:
+          onExecute:
+            - export package=package_${step_name}_${run_number}.txt
+            - echo "hello world. Package arrived from step ${step_name} and run ${run_number}." > $package
+            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example_repo_local/johns/$package
+            - jfrog rt bce ${step_name} ${run_number}
+            - jfrog rt bp ${step_name} ${run_number}
+          onSuccess:
+            - write_output johns_buildinfo4 "buildName=${step_name}" "buildNumber=${run_number}"
+      - name: app_5
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: build_all
+          outputResources:
+            - name: johns_buildinfo5
+          integrations:
+            - name: art
+        execution:
+          onExecute:
+            - export package=package_${step_name}_${run_number}.txt
+            - echo "hello world. Package arrived from step ${step_name} and run ${run_number}." > $package
+            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example_repo_local/johns/$package
+            - jfrog rt bce ${step_name} ${run_number}
+            - jfrog rt bp ${step_name} ${run_number}
+          onSuccess:
+            - write_output johns_buildinfo5 "buildName=${step_name}" "buildNumber=${run_number}"
+
+      - name: create_bundle
+        type: CreateReleaseBundle
+        configuration:
+          releaseBundleName: johns_bash_bundle
+          releaseBundleVersion: ${run_number}
+          sign: true
+          dryRun: true
+          storeAtSourceArtifactory: "true"
+          description: "my bundle ready for release"
+          inputResources:
+            - name: johns_buildinfo0
+            - name: johns_buildinfo1
+            - name: johns_buildinfo2
+            - name: johns_buildinfo3
+            - name: johns_buildinfo4
+            - name: johns_buildinfo5
+          outputResources:
+            - name: johns_release_bundle
+      - name: create_bundle_windows
+        type: CreateReleaseBundle
+        configuration:
+          nodePool: win_2019
+          releaseBundleName: johns_win_bundle
+          releaseBundleVersion: ${run_number}
+          sign: true
+          dryRun: true
+          storeAtSourceArtifactory: "true"
+          description: "my bundle ready for release"
+          inputResources:
+            - name: johns_buildinfo0
+            - name: johns_buildinfo1
+            - name: johns_buildinfo2
+            - name: johns_buildinfo3
+            - name: johns_buildinfo4
+            - name: johns_buildinfo5
+          outputResources:
+            - name: johns_release_bundle
+
+      - name: create_aql_bundle
+        type: CreateReleaseBundle
+        configuration:
+          releaseBundleName: johns_bash_aql_bundle
+          releaseBundleVersion: ${run_number}
+          sign: true
+          dryRun: true
+          storeAtSourceArtifactory: "true"
+          description: "my bundle ready for release"
+          inputResources:
+            - name: johns_aql
+            - name: johns_buildinfo0
+            - name: johns_buildinfo1
+            - name: johns_buildinfo2
+            - name: johns_buildinfo3
+            - name: johns_buildinfo4
+            - name: johns_buildinfo5
+          outputResources:
+            - name: johns_release_bundle
+      - name: create_aql_bundle_windows
+        type: CreateReleaseBundle
+        configuration:
+          nodePool: win_2019
+          releaseBundleName: johns_win_aql_bundle
+          releaseBundleVersion: ${run_number}
+          sign: true
+          dryRun: true
+          storeAtSourceArtifactory: "true"
+          description: "my bundle ready for release"
+          inputResources:
+            - name: johns_aql
+            - name: johns_buildinfo0
+            - name: johns_buildinfo1
+            - name: johns_buildinfo2
+            - name: johns_buildinfo3
+            - name: johns_buildinfo4
+            - name: johns_buildinfo5
+          outputResources:
+            - name: johns_release_bundle
+
