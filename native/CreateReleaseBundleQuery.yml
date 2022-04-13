@@ -3,7 +3,7 @@ resources:
     type: Aql
     configuration:
       sourceArtifactory: art
-      query: items.find({"path":{"$eq":"example_repo_local/johns*"}})
+      query: items.find({"path":{"$eq":"example-repo-local/johns*"}})
       mappings:
         - name: pipelines-docker_release
           input: pipelines-docker-release-local/(.*)
@@ -93,7 +93,7 @@ pipelines:
           onExecute:
             - export package=package_${step_name}_${run_number}.txt
             - echo "hello world. Package arrived from step ${step_name} and run ${run_number}." > $package
-            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example_repo_local/johns/$package
+            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example-repo-local/johns/$package
             - jfrog rt bce ${step_name} ${run_number}
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
@@ -111,7 +111,7 @@ pipelines:
           onExecute:
             - export package=package_${step_name}_${run_number}.txt
             - echo "hello world. Package arrived from step ${step_name} and run ${run_number}." > $package
-            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example_repo_local/johns/$package
+            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example-repo-local/johns/$package
             - jfrog rt bce ${step_name} ${run_number}
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
@@ -129,7 +129,7 @@ pipelines:
           onExecute:
             - export package=package_${step_name}_${run_number}.txt
             - echo "hello world. Package arrived from step ${step_name} and run ${run_number}." > $package
-            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example_repo_local/johns/$package
+            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example-repo-local/johns/$package
             - jfrog rt bce ${step_name} ${run_number}
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
@@ -147,7 +147,7 @@ pipelines:
           onExecute:
             - export package=package_${step_name}_${run_number}.txt
             - echo "hello world. Package arrived from step ${step_name} and run ${run_number}." > $package
-            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example_repo_local/johns/$package
+            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example-repo-local/johns/$package
             - jfrog rt bce ${step_name} ${run_number}
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
@@ -165,7 +165,7 @@ pipelines:
           onExecute:
             - export package=package_${step_name}_${run_number}.txt
             - echo "hello world. Package arrived from step ${step_name} and run ${run_number}." > $package
-            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example_repo_local/johns/$package
+            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example-repo-local/johns/$package
             - jfrog rt bce ${step_name} ${run_number}
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
@@ -183,7 +183,7 @@ pipelines:
           onExecute:
             - export package=package_${step_name}_${run_number}.txt
             - echo "hello world. Package arrived from step ${step_name} and run ${run_number}." > $package
-            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example_repo_local/johns/$package
+            - jfrog rt u --build-name ${step_name} --build-number ${run_number} $package example-repo-local/johns/$package
             - jfrog rt bce ${step_name} ${run_number}
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
