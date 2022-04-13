@@ -194,8 +194,8 @@ pipelines:
         configuration:
           releaseBundleName: johns_bash_bundle
           releaseBundleVersion: ${run_number}
-          sign: true
-          dryRun: true
+          sign: false
+          dryRun: false
           storeAtSourceArtifactory: "true"
           description: "my bundle ready for release"
           inputResources:
@@ -213,8 +213,8 @@ pipelines:
           nodePool: win_2019
           releaseBundleName: johns_win_bundle
           releaseBundleVersion: ${run_number}
-          sign: true
-          dryRun: true
+          sign: false
+          dryRun: false
           storeAtSourceArtifactory: "true"
           description: "my bundle ready for release"
           inputResources:
@@ -232,8 +232,8 @@ pipelines:
         configuration:
           releaseBundleName: johns_bash_aql_bundle
           releaseBundleVersion: ${run_number}
-          sign: true
-          dryRun: true
+          sign: false
+          dryRun: false
           storeAtSourceArtifactory: "true"
           description: "my bundle ready for release"
           inputResources:
@@ -247,7 +247,7 @@ pipelines:
           releaseBundleName: johns_win_aql_bundle
           releaseBundleVersion: ${run_number}
           sign: true
-          dryRun: true
+          dryRun: false
           storeAtSourceArtifactory: "true"
           description: "my bundle ready for release"
           inputResources:
