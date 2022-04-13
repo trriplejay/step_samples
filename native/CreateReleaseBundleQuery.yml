@@ -3,7 +3,7 @@ resources:
     type: Aql
     configuration:
       sourceArtifactory: art
-      query: items.find({"$and":[{"@build.name":{"$eq":"pipelines-dind"}},{"@build.number":{"$eq":"${build_version}"}}]})
+      query: items.find({"path":{"$eq":"example_repo_local/johns*"}})
       mappings:
         - name: pipelines-docker_release
           input: pipelines-docker-release-local/(.*)
@@ -238,12 +238,6 @@ pipelines:
           description: "my bundle ready for release"
           inputResources:
             - name: johns_aql
-            - name: johns_buildinfo_0
-            - name: johns_buildinfo_1
-            - name: johns_buildinfo_2
-            - name: johns_buildinfo_3
-            - name: johns_buildinfo_4
-            - name: johns_buildinfo_5
           outputResources:
             - name: johns_release_bundle
       - name: create_aql_bundle_windows
@@ -258,12 +252,6 @@ pipelines:
           description: "my bundle ready for release"
           inputResources:
             - name: johns_aql
-            - name: johns_buildinfo_0
-            - name: johns_buildinfo_1
-            - name: johns_buildinfo_2
-            - name: johns_buildinfo_3
-            - name: johns_buildinfo_4
-            - name: johns_buildinfo_5
           outputResources:
             - name: johns_release_bundle
 
