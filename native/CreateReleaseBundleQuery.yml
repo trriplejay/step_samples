@@ -86,7 +86,7 @@ pipelines:
           inputSteps:
             - name: build_all
           outputResources:
-            - name: johns_buildinfo0
+            - name: johns_buildinfo_0
           integrations:
             - name: art
         execution:
@@ -97,14 +97,14 @@ pipelines:
             - jfrog rt bce ${step_name} ${run_number}
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
-            - write_output johns_buildinfo0 "buildName=${step_name}" "buildNumber=${run_number}"
+            - write_output johns_buildinfo_0 "buildName=${step_name}" "buildNumber=${run_number}"
       - name: app_1
         type: Bash
         configuration:
           inputSteps:
             - name: build_all
           outputResources:
-            - name: johns_buildinfo1
+            - name: johns_buildinfo_1
           integrations:
             - name: art
         execution:
@@ -115,14 +115,14 @@ pipelines:
             - jfrog rt bce ${step_name} ${run_number}
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
-            - write_output johns_buildinfo1 "buildName=${step_name}" "buildNumber=${run_number}"
+            - write_output johns_buildinfo_1 "buildName=${step_name}" "buildNumber=${run_number}"
       - name: app_2
         type: Bash
         configuration:
           inputSteps:
             - name: build_all
           outputResources:
-            - name: johns_buildinfo2
+            - name: johns_buildinfo_2
           integrations:
             - name: art
         execution:
@@ -133,14 +133,14 @@ pipelines:
             - jfrog rt bce ${step_name} ${run_number}
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
-            - write_output johns_buildinfo2 "buildName=${step_name}" "buildNumber=${run_number}"
+            - write_output johns_buildinfo_2 "buildName=${step_name}" "buildNumber=${run_number}"
       - name: app_3
         type: Bash
         configuration:
           inputSteps:
             - name: build_all
           outputResources:
-            - name: johns_buildinfo3
+            - name: johns_buildinfo_3
           integrations:
             - name: art
         execution:
@@ -151,14 +151,14 @@ pipelines:
             - jfrog rt bce ${step_name} ${run_number}
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
-            - write_output johns_buildinfo3 "buildName=${step_name}" "buildNumber=${run_number}"
+            - write_output johns_buildinfo_3 "buildName=${step_name}" "buildNumber=${run_number}"
       - name: app_4
         type: Bash
         configuration:
           inputSteps:
             - name: build_all
           outputResources:
-            - name: johns_buildinfo4
+            - name: johns_buildinfo_4
           integrations:
             - name: art
         execution:
@@ -169,14 +169,14 @@ pipelines:
             - jfrog rt bce ${step_name} ${run_number}
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
-            - write_output johns_buildinfo4 "buildName=${step_name}" "buildNumber=${run_number}"
+            - write_output johns_buildinfo_4 "buildName=${step_name}" "buildNumber=${run_number}"
       - name: app_5
         type: Bash
         configuration:
           inputSteps:
             - name: build_all
           outputResources:
-            - name: johns_buildinfo5
+            - name: johns_buildinfo_5
           integrations:
             - name: art
         execution:
@@ -187,7 +187,7 @@ pipelines:
             - jfrog rt bce ${step_name} ${run_number}
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
-            - write_output johns_buildinfo5 "buildName=${step_name}" "buildNumber=${run_number}"
+            - write_output johns_buildinfo_5 "buildName=${step_name}" "buildNumber=${run_number}"
 
       - name: create_bundle
         type: CreateReleaseBundle
@@ -199,12 +199,12 @@ pipelines:
           storeAtSourceArtifactory: "true"
           description: "my bundle ready for release"
           inputResources:
-            - name: johns_buildinfo0
-            - name: johns_buildinfo1
-            - name: johns_buildinfo2
-            - name: johns_buildinfo3
-            - name: johns_buildinfo4
-            - name: johns_buildinfo5
+            - name: johns_buildinfo_0
+            - name: johns_buildinfo_1
+            - name: johns_buildinfo_2
+            - name: johns_buildinfo_3
+            - name: johns_buildinfo_4
+            - name: johns_buildinfo_5
           outputResources:
             - name: johns_release_bundle
       - name: create_bundle_windows
@@ -218,12 +218,12 @@ pipelines:
           storeAtSourceArtifactory: "true"
           description: "my bundle ready for release"
           inputResources:
-            - name: johns_buildinfo0
-            - name: johns_buildinfo1
-            - name: johns_buildinfo2
-            - name: johns_buildinfo3
-            - name: johns_buildinfo4
-            - name: johns_buildinfo5
+            - name: johns_buildinfo_0
+            - name: johns_buildinfo_1
+            - name: johns_buildinfo_2
+            - name: johns_buildinfo_3
+            - name: johns_buildinfo_4
+            - name: johns_buildinfo_5
           outputResources:
             - name: johns_release_bundle
 
@@ -238,12 +238,12 @@ pipelines:
           description: "my bundle ready for release"
           inputResources:
             - name: johns_aql
-            - name: johns_buildinfo0
-            - name: johns_buildinfo1
-            - name: johns_buildinfo2
-            - name: johns_buildinfo3
-            - name: johns_buildinfo4
-            - name: johns_buildinfo5
+            - name: johns_buildinfo_0
+            - name: johns_buildinfo_1
+            - name: johns_buildinfo_2
+            - name: johns_buildinfo_3
+            - name: johns_buildinfo_4
+            - name: johns_buildinfo_5
           outputResources:
             - name: johns_release_bundle
       - name: create_aql_bundle_windows
@@ -258,12 +258,12 @@ pipelines:
           description: "my bundle ready for release"
           inputResources:
             - name: johns_aql
-            - name: johns_buildinfo0
-            - name: johns_buildinfo1
-            - name: johns_buildinfo2
-            - name: johns_buildinfo3
-            - name: johns_buildinfo4
-            - name: johns_buildinfo5
+            - name: johns_buildinfo_0
+            - name: johns_buildinfo_1
+            - name: johns_buildinfo_2
+            - name: johns_buildinfo_3
+            - name: johns_buildinfo_4
+            - name: johns_buildinfo_5
           outputResources:
             - name: johns_release_bundle
 
