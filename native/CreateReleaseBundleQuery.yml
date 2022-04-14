@@ -40,6 +40,18 @@ resources:
       sourceArtifactory: art
       buildName: test_bundle
       buildNumber: 0
+  - name: johns_buildinfo_4_promoted
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: art
+      buildName: test_bundle
+      buildNumber: 0
+  - name: johns_buildinfo_5_promoted
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: art
+      buildName: test_bundle
+      buildNumber: 0
 
   - name: johns_release_bundle
     type: ReleaseBundle
@@ -166,6 +178,14 @@ pipelines:
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
             - write_output johns_buildinfo_4 "buildName=${step_name}" "buildNumber=${run_number}"
+      - name: app_4_promote
+        type: PromoteBuild
+        configuration:
+          targetRepository: example-repo-prod
+          inputResources:
+            - name: johns_buildinfo_4
+          outputResources:
+            - name: johns_buildinfo_4_promoted
       - name: app_5
         type: Bash
         configuration:
@@ -184,6 +204,14 @@ pipelines:
             - jfrog rt bp ${step_name} ${run_number}
           onSuccess:
             - write_output johns_buildinfo_5 "buildName=${step_name}" "buildNumber=${run_number}"
+      - name: app_5_promote
+        type: PromoteBuild
+        configuration:
+          targetRepository: example-repo-prod
+          inputResources:
+            - name: johns_buildinfo_5
+          outputResources:
+            - name: johns_buildinfo_5_promoted
 
       - name: create_bundle
         type: CreateReleaseBundle
@@ -199,8 +227,8 @@ pipelines:
             - name: johns_buildinfo_1
             - name: johns_buildinfo_2
             - name: johns_buildinfo_3
-            - name: johns_buildinfo_4
-            - name: johns_buildinfo_5
+            - name: johns_buildinfo_4_promoted
+            - name: johns_buildinfo_5_promoted
           outputResources:
             - name: johns_release_bundle
       - name: create_bundle_windows
@@ -218,8 +246,8 @@ pipelines:
             - name: johns_buildinfo_1
             - name: johns_buildinfo_2
             - name: johns_buildinfo_3
-            - name: johns_buildinfo_4
-            - name: johns_buildinfo_5
+            - name: johns_buildinfo_4_promoted
+            - name: johns_buildinfo_5_promoted
           outputResources:
             - name: johns_release_bundle
 
