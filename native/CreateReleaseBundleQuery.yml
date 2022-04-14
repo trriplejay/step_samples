@@ -3,7 +3,7 @@ resources:
     type: Aql
     configuration:
       sourceArtifactory: art
-      query: items.find({"path":{"$eq":"example-repo-local/johns*"}})
+      query: items.find({"repo":"example-repo-local"})
   - name: johns_buildinfo_0
     type: BuildInfo
     configuration:
