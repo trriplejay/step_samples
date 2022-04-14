@@ -4,10 +4,6 @@ resources:
     configuration:
       sourceArtifactory: art
       query: items.find({"path":{"$eq":"example-repo-local/johns*"}})
-      mappings:
-        - name: pipelines-docker_release
-          input: pipelines-docker-release-local/(.*)
-          output: reg2/$1
   - name: johns_buildinfo_0
     type: BuildInfo
     configuration:
