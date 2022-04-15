@@ -234,7 +234,7 @@ pipelines:
       - name: create_bundle_windows
         type: CreateReleaseBundle
         configuration:
-          nodePool: win_2019
+          nodePool: john_win_2019
           releaseBundleName: johns_win_bundle
           releaseBundleVersion: ${run_number}
           sign: false
@@ -267,7 +267,7 @@ pipelines:
       - name: create_aql_bundle_windows
         type: CreateReleaseBundle
         configuration:
-          nodePool: win_2019
+          nodePool: john_win_2019
           releaseBundleName: johns_win_aql_bundle
           releaseBundleVersion: ${run_number}
           sign: true
