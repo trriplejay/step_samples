@@ -38,7 +38,7 @@ pipelines:
             - Set-Variable -Name "JFROG_CLI_BUILD_NAME" -Scope Global -Value "S_PS_CreateReleaseBundle_6237_008_1"
             - Set-Content -Path S_PS_CreateReleaseBundle_6237_008_1.txt -Value ${run_id}
             - jfrog rt upload S_PS_CreateReleaseBundle_6237_008_1.txt test-automation-generic-local --insecure-tls=$no_verify_ssl
-            - jfrog rt build-publish --insecure-tls=${no_verify_ssl} ${JFROG_CLI_BUILD_NAME} ${JFROG_CLI_BUILD_NUMBER}
+            - jfrog rt build-publish --insecure-tls=${no_verify_ssl} ${JFROG_CLI_BUILD_NAME} ${JFROG_CLI_BUILD_NUMBER} --build-name S_PS_CreateReleaseBundle_6237_008_1 --build-number ${run_id}
             - write_output S_PS_CreateReleaseBundle_6237_008_BuildInfo_1 buildName="${JFROG_CLI_BUILD_NAME}" buildNumber="${JFROG_CLI_BUILD_NUMBER}"
 
       - name: S_PS_CreateReleaseBundle_6237_008_2
