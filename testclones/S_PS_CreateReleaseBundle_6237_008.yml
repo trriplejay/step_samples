@@ -36,7 +36,7 @@ pipelines:
           onExecute:
             - Set-Content -Path S_PS_CreateReleaseBundle_6237_008_1.txt -Value ${run_id}
             - jfrog rt upload S_PS_CreateReleaseBundle_6237_008_1.txt test-automation-generic-local --insecure-tls=$no_verify_ssl --build-name S_PS_CreateReleaseBundle_6237_008_1 --build-number ${run_id}
-            - jfrog rt build-publish --insecure-tls=${no_verify_ssl} ${JFROG_CLI_BUILD_NAME} ${JFROG_CLI_BUILD_NUMBER}
+            - jfrog rt build-publish --insecure-tls=${no_verify_ssl} S_PS_CreateReleaseBundle_6237_008_1 ${run_id}
             - write_output S_PS_CreateReleaseBundle_6237_008_BuildInfo_1 buildName="S_PS_CreateReleaseBundle_6237_008_1" buildNumber="${run_id}"
 
       - name: S_PS_CreateReleaseBundle_6237_008_2
@@ -52,7 +52,7 @@ pipelines:
           onExecute:
             - Set-Content -Path S_PS_CreateReleaseBundle_6237_008_2.txt -Value ${run_id}
             - jfrog rt upload S_PS_CreateReleaseBundle_6237_008_2.txt test-automation-generic-local --insecure-tls=$no_verify_ssl --build-name S_PS_CreateReleaseBundle_6237_008_2 --build-number ${run_id}
-            - jfrog rt build-publish --insecure-tls=${no_verify_ssl} ${JFROG_CLI_BUILD_NAME} ${JFROG_CLI_BUILD_NUMBER}
+            - jfrog rt build-publish --insecure-tls=${no_verify_ssl} ${S_PS_CreateReleaseBundle_6237_008_2} ${run_id}
             - write_output S_PS_CreateReleaseBundle_6237_008_BuildInfo_2 buildName="S_PS_CreateReleaseBundle_6237_008_2" buildNumber="${run_id}"
 
       - name: S_PS_CreateReleaseBundle_6237_008_3
