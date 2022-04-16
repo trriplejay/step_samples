@@ -23,7 +23,7 @@ resources:
 pipelines:
   - name: pipeline_S_PS_CreateReleaseBundle_6237_008
     configuration:
-      nodePool: win_2019
+      nodePool: john_win_2019
     steps:
       - name: S_PS_CreateReleaseBundle_6237_008_1
         type: PowerShell
