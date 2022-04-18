@@ -8,6 +8,7 @@ pipelines:
         execution:
           onStart:
             - echo "Setting everything up"
+            - echo "is the function there? $on_early_exit_request"
           onExecute:
             - echo "lets loop for a bit"
             - |
