@@ -1,0 +1,24 @@
+pipelines:
+  - name: john_basic_sigterm
+    steps:
+      - name: step_sigterm
+        type: Bash
+        configuration:
+          timeoutSeconds: 5
+        execution:
+          onStart:
+            - echo "Setting everything up"
+          onExecute:
+            - echo "lets loop for a bit"
+            - |
+                while (i=0;i<1000;i+=1); do
+                  echo "total wait time: $i seconds";
+                  sleep 1
+                done
+            - echo "waiting complete. moving to success"
+          onSuccess:
+            - echo "we made it to success"
+          onFailure:
+            - echo "darn, we failed"
+          onComplete:
+            - echo "doing some cleanup in the onComplete section"
