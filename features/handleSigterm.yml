@@ -7,6 +7,7 @@ pipelines:
           timeoutSeconds: 5
         execution:
           onStart:
+            - set -x
             - echo "Setting everything up"
             - echo "is the function there? $on_early_exit_request"
           onExecute:
