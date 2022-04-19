@@ -13,7 +13,6 @@ pipelines:
             - name: dummy
         execution:
           onStart:
-            - set -x
             - echo "Setting everything up"
             - printenv | grep handle_sigterm
           onExecute:
@@ -40,7 +39,6 @@ pipelines:
             - name: dummy
         execution:
           onStart:
-            - set -x
             - echo "Setting everything up"
             - printenv | grep handle_sigterm
           onExecute:
