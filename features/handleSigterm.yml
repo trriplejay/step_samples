@@ -9,7 +9,7 @@ pipelines:
           onStart:
             - set -x
             - echo "Setting everything up"
-            - printenv | grep early_exit
+            - printenv | grep handle_sigterm
           onExecute:
             - echo "lets loop for a bit"
             - |
