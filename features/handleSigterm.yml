@@ -3,8 +3,6 @@ pipelines:
     steps:
       - name: step_sigterm
         type: Bash
-        configuration:
-          timeoutSeconds: 5
         execution:
           onStart:
             - set -x
