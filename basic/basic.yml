@@ -2,7 +2,8 @@ resources:
   - name: myImage_basic
     type: Image
     configuration:
-      registry: johns_docker
+      registry: art
+      sourceRepository: docker-local
       imageName: trriplejay/simpleserver
       imageTag: faketag
       autoPull: true
