@@ -125,11 +125,14 @@ pipelines:
                 done
           onFailure:
             - echo "doing some cleanup in the onFailure section"
+  - name: john_host_bash_sigterm
+    configuration:
+      runtime:
+        type: host
+    steps:
       - name: host_cancel_sigterm
         type: Bash
         configuration:
-          runtime:
-            type: host
           inputResources:
             - name: dummy
         execution:
@@ -155,8 +158,6 @@ pipelines:
       - name: host_timeout_step_sigterm
         type: Bash
         configuration:
-          runtime:
-            type: host
           timeoutSeconds: 5
           inputResources:
             - name: dummy
@@ -184,8 +185,6 @@ pipelines:
       - name: host_failure_step_sigterm
         type: Bash
         configuration:
-          runtime:
-            type: host
           timeoutSeconds: 5
           inputResources:
             - name: dummy
@@ -220,8 +219,6 @@ pipelines:
       - name: host_complete_step_sigterm
         type: Bash
         configuration:
-          runtime:
-            type: host
           timeoutSeconds: 5
           inputResources:
             - name: dummy
