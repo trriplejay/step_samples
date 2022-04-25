@@ -212,6 +212,14 @@ pipelines:
             - echo "we continue after failure"
           onCancel:
             - echo "Someone cancelled the job"
+      - name: skipped_step
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: fail_in_oncomp
+        execution:
+          onExecute:
+            - echo "never gonna see this"
 
   # - name: tr_pipeline_bad
   #   steps:
