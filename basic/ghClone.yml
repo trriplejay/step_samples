@@ -1,4 +1,8 @@
 resources:
+  - name: dummy
+    type: PropertyBag
+    configuration:
+      foo: bar
   - name: johns_gh_repo
     type: GitRepo
     configuration:
@@ -19,6 +23,7 @@ pipelines:
                 tag: "14"
                 autoPull: true
           inputResources:
+            - name: dummy
             - name: johns_gh_repo
         execution:
           onExecute:
@@ -29,6 +34,29 @@ pipelines:
             # - pushd dependencyState
             # - git clone https://github.com/trriplejay/simpleserver.git "../dependencyState"
             # - ls -latrR
+      - name: long_clone
+        type: Bash
+        configuration:
+          inputResources:
+            - name: dummy
+        execution:
+          onExecute:
+            - |
+                mkdir dependencyState
+                pushd dependencyState
+                gitCloneCmd="git clone https://github.com/trriplejay/simpleserver.git ../dependencyState"
+                echo "about to clone"
+                retry_command $gitCloneCmd
+                echo "about to config user.name"
+                git config --get user.name || git config user.name 'JFrog Pipelines Step'
+                echo "about to config user.email"
+                git config --get user.email || git config user.email 'build@pipelines.jfrog.com'
+                echo "about to checkout"
+                git checkout HEAD^
+                echo "done checking out"
+
+
+
 
 
 
