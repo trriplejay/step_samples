@@ -10,12 +10,12 @@ pipelines:
     steps:
       - name: johns_gh_clone_step
         type: Bash
-        configuration:
-          inputResources:
-            - name: johns_gh_repo
+        # configuration:
+        #   inputResources:
+        #     - name: johns_gh_repo
         execution:
           onExecute:
-            - cd $res_johns_gh_repo_resourcePath
+            # - cd $res_johns_gh_repo_resourcePath
             - ls -latr
             - docker ps -a
             - docker inspect step-$step_id-$steplet_id || true
