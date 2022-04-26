@@ -1,0 +1,19 @@
+resources:
+  - name: johns_gh_repo
+    type: GitRepo
+    configuration:
+       gitProvider: johns_gh
+       path: trriplejay/simpleserver
+
+pipelines:
+  - name: johns_gh_clone_test
+    steps:
+      - name: johns_gh_clone_step
+        type: Bash
+        configuration:
+          inputResources:
+            - name: johns_gh_repo
+        execution:
+          onExecute:
+            - cd $res_johns_gh_repo_resourcePath
+            - ls -latr
