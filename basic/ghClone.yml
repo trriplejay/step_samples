@@ -28,6 +28,7 @@ pipelines:
         execution:
           onExecute:
             - pushd $res_johns_gh_repo_resourcePath
+            - git version
             - ls -latrR
             - docker ps -a
             - docker inspect step-$step_id-$steplet_id || true
