@@ -20,7 +20,7 @@ pipelines:
             image:
               custom:
                 name: releases-docker.jfrog.io/jfrog/pipelines-u18node
-                tag: "14"
+                tag: "12.18.2"
                 autoPull: true
           inputResources:
             - name: dummy
