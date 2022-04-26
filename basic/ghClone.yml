@@ -16,7 +16,7 @@ pipelines:
             image:
               custom:
                 name: releases-docker.jfrog.io/jfrog/pipelines-u18node
-                tag: 14
+                tag: "14"
                 autoPull: true
           inputResources:
             - name: johns_gh_repo
