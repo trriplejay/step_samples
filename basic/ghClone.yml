@@ -17,3 +17,7 @@ pipelines:
           onExecute:
             - cd $res_johns_gh_repo_resourcePath
             - ls -latr
+            - docker ps -a
+            - docker inspect step-$step_id-$steplet_id || true
+            - git clone git@github.com:trriplejay/simpleserver.git
+
