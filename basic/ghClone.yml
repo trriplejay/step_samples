@@ -19,5 +19,12 @@ pipelines:
             - ls -latrR
             - docker ps -a
             - docker inspect step-$step_id-$steplet_id || true
-            - git clone https://github.com/trriplejay/simpleserver.git
+            - git clone https://github.com/trriplejay/simpleserver.git "$(pwd)/dependencyState"
+            - ls -latrR
+            - rm -rf dependencyState/*
+            - cd dependencyState
+            - git clone https://github.com/trriplejay/simpleserver.git "../dependencyState"
+            - ls -latrR
+
+
 
