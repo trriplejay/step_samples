@@ -10,18 +10,25 @@ pipelines:
     steps:
       - name: johns_gh_clone_step
         type: Bash
-        # configuration:
-        #   inputResources:
-        #     - name: johns_gh_repo
+        configuration:
+          runtime:
+            type: image
+            image:
+              custom:
+                name: releases-docker.jfrog.io/jfrog/pipelines-u18node
+                tag: 14
+                autoPull: true
+          inputResources:
+            - name: johns_gh_repo
         execution:
           onExecute:
-            # - cd $res_johns_gh_repo_resourcePath
+            - pushd $res_johns_gh_repo_resourcePath
             - ls -latrR
             - docker ps -a
             - docker inspect step-$step_id-$steplet_id || true
-            - pushd dependencyState
-            - git clone https://github.com/trriplejay/simpleserver.git "../dependencyState"
-            - ls -latrR
+            # - pushd dependencyState
+            # - git clone https://github.com/trriplejay/simpleserver.git "../dependencyState"
+            # - ls -latrR
 
 
 
