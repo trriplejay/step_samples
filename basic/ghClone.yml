@@ -43,9 +43,10 @@ pipelines:
         execution:
           onExecute:
             - |
-                mkdir dependencyState
-                pushd dependencyState
-                gitCloneCmd="git clone https://github.com/trriplejay/simpleserver.git ../dependencyState"
+                mydir="test${step_id}"
+                mkdir $mydir
+                pushd $mydir
+                gitCloneCmd="git clone https://github.com/trriplejay/simpleserver.git ../$mydir"
                 echo "about to clone"
                 retry_command $gitCloneCmd
                 echo "about to config user.name"
