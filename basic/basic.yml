@@ -216,7 +216,7 @@ pipelines:
         type: Bash
         configuration:
           inputSteps:
-            - name: fail_in_oncomp
+            - name: fail_in_start
         execution:
           onExecute:
             - echo "never gonna see this"
