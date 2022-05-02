@@ -25,12 +25,13 @@ pipelines:
   - name: test_workflow_johns
     configuration:
       environmentVariables:
-        SETTING:
-          default: "0"
-          values:
-            - "1"
-            - "2"
-            - "3"
+        readOnly:
+          SETTING:
+            default: "0"
+            values:
+              - "1"
+              - "2"
+              - "3"
     steps:
       - name: step_1_prep_env
         type: Bash
