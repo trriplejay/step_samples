@@ -29,9 +29,9 @@ pipelines:
           SETTING:
             default: "0"
             values:
+              - "0"
               - "1"
               - "2"
-              - "3"
     steps:
       - name: step_1_prep_env
         type: Bash
