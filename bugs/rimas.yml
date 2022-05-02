@@ -148,6 +148,10 @@ pipelines:
               status:
                 - skipped
                 - success
+            - name: step_3_deploy_helm_values_build
+              status:
+                - skipped
+                - success
           inputResources:
             - name: dev_environments_pipelines
               trigger: false
