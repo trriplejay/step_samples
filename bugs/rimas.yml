@@ -1,0 +1,154 @@
+resources:
+  - name: dev_environments_pipelines
+    type: PropertyBag
+    configuration:
+      foo: bar
+  - name: env_deploy_validate_yamls
+    type: PropertyBag
+    configuration:
+      foo: bar
+  - name: env_deploy_test_region
+    type: PropertyBag
+    configuration:
+      foo: bar
+  - name: env_deploy_server
+    type: PropertyBag
+    configuration:
+      foo: bar
+  - name: env_deploy_helm_values_build
+    type: PropertyBag
+    configuration:
+      foo: bar
+
+
+pipelines:
+  - name: test_workflow_johns
+    configuration:
+      environmentVariables:
+        SETTING:
+          default: "0"
+          values:
+            - "1"
+            - "2"
+            - "3"
+    steps:
+      - name: step_1_prep_env
+        type: Bash
+        configuration:
+          inputResources:
+            - name: dev_environments_pipelines
+              trigger: false
+          integrations:
+            - name: johns_gh
+          outputResources:
+            - name: env_deploy_validate_yamls
+            - name: env_deploy_test_region
+            - name: env_deploy_server
+        execution:
+          onExecute:
+            - echo "Started prep step"
+          onSuccess:
+            - echo "Successfully finished"
+            - |
+              if [[ "${SETTING}" == "0" ]]; then
+                echo "Triggering step_2_deploy_validate_yamls"
+                write_output env_deploy_validate_yamls startStep="$(head /dev/urandom | tr -dc a-z0-9 | head -c 10)"
+              elif [[ "${SETTING}" == "1" ]]; then
+                echo "Triggering step_4_deploy_test_region"
+                write_output env_deploy_test_region startStep="$(head /dev/urandom | tr -dc a-z0-9 | head -c 10)"
+              else
+                echo "Triggering step_5_deploy_server"
+                write_output env_deploy_server startStep="$(head /dev/urandom | tr -dc a-z0-9 | head -c 10)"
+              fi
+          onFailure:
+            - echo "Failed"
+      - name: step_2_deploy_validate_yamls
+        type: Bash
+        configuration:
+          inputResources:
+            - name: dev_environments_pipelines
+              trigger: false
+            - name: env_deploy_validate_yamls
+              newVersionOnly: true
+              trigger: true
+          integrations:
+            - name: johns_gh
+          outputResources:
+            - name: env_deploy_helm_values_build
+        execution:
+          onExecute:
+            - echo "Started yamls validation"
+          onSuccess:
+            - echo "Successfully finished"
+            - write_output env_deploy_helm_values_build startStep="$(head /dev/urandom | tr -dc a-z0-9 | head -c 10)"
+          onFailure:
+            - echo "Failed"
+      - name: step_3_deploy_helm_values_build
+        type: Bash
+        configuration:
+          inputResources:
+            - name: dev_environments_pipelines
+              trigger: false
+            - name: env_deploy_helm_values_build
+              newVersionOnly: true
+              trigger: true
+          integrations:
+            - name: johns_gh
+          outputResources:
+            - name: env_deploy_test_region
+            - name: env_deploy_server
+        execution:
+
+          onExecute:
+            - echo "Started saas_helm_values build"
+          onSuccess:
+            - echo "Successfully finished"
+            - |
+              if [[ "${SETTING}" == "2" ]]; then
+                echo "Triggering step_4_deploy_test_region"
+                write_output env_deploy_test_region startStep="$(head /dev/urandom | tr -dc a-z0-9 | head -c 10)"
+              else
+                echo "Triggering step_5_deploy_server"
+                write_output env_deploy_server startStep="$(head /dev/urandom | tr -dc a-z0-9 | head -c 10)"
+              fi
+          onFailure:
+            - echo "Failed"
+      - name: step_4_deploy_test_region
+        type: Bash
+        configuration:
+          inputResources:
+            - name: dev_environments_pipelines
+              trigger: false
+            - name: env_deploy_test_region
+              newVersionOnly: true
+              trigger: true
+          integrations:
+            - name: johns_gh
+          outputResources:
+            - name: env_deploy_server
+        execution:
+          onExecute:
+            - echo "deploying test region"
+          onSuccess:
+            - echo "Successfully finished"
+            - write_output env_deploy_server startStep="$(head /dev/urandom | tr -dc a-z0-9 | head -c 10)"
+          onFailure:
+            - echo "Failed"
+      - name: step_5_deploy_server
+        type: Bash
+        configuration:
+          inputResources:
+            - name: dev_environments_pipelines
+              trigger: false
+            - name: env_deploy_server
+              newVersionOnly: true
+              trigger: true
+          integrations:
+            - name: johns_gh
+        execution:
+          onExecute:
+            - echo "deploying server"
+          onSuccess:
+            - echo "Successfully finished"
+          onFailure:
+            - echo "Failed"
