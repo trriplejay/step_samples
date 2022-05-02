@@ -138,6 +138,11 @@ pipelines:
       - name: step_5_deploy_server
         type: Bash
         configuration:
+          inputSteps:
+            - name: step_4_deploy_test_region
+              status:
+                - skipped
+                - success
           inputResources:
             - name: dev_environments_pipelines
               trigger: false
