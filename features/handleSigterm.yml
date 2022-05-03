@@ -252,12 +252,13 @@ pipelines:
 
   - name: john_win_sigterm
     configuration:
-      inputResources:
-        - name: dummy
       nodePool: john_win_2019
     steps:
       - name: cancel_sigterm
         type: PowerShell
+        configuration:
+          inputResources:
+            - name: dummy
         execution:
           onStart:
             - echo "Setting everything up"
@@ -282,6 +283,8 @@ pipelines:
         type: PowerShell
         configuration:
           timeoutSeconds: 5
+          inputResources:
+            - name: dummy
         execution:
           onStart:
             - echo "Setting everything up"
@@ -307,6 +310,8 @@ pipelines:
         type: PowerShell
         configuration:
           timeoutSeconds: 5
+          inputResources:
+            - name: dummy
         execution:
           onStart:
             - echo "Setting everything up"
@@ -339,6 +344,8 @@ pipelines:
         type: PowerShell
         configuration:
           timeoutSeconds: 5
+          inputResources:
+            - name: dummy
         execution:
           onStart:
             - echo "Setting everything up"
@@ -371,11 +378,12 @@ pipelines:
       runtime:
         type: host
       nodePool: john_win_2019
-      inputResources:
-        - name: dummy
     steps:
       - name: host_cancel_sigterm
         type: PowerShell
+        configuration:
+          inputResources:
+            - name: dummy
         execution:
           onStart:
             - echo "Setting everything up"
@@ -400,6 +408,8 @@ pipelines:
         type: PowerShell
         configuration:
           timeoutSeconds: 5
+          inputResources:
+            - name: dummy
         execution:
           onStart:
             - echo "Setting everything up"
@@ -425,6 +435,8 @@ pipelines:
         type: PowerShell
         configuration:
           timeoutSeconds: 5
+          inputResources:
+            - name: dummy
         execution:
           onStart:
             - echo "Setting everything up"
@@ -457,6 +469,8 @@ pipelines:
         type: PowerShell
         configuration:
           timeoutSeconds: 5
+          inputResources:
+            - name: dummy
         execution:
           onStart:
             - echo "Setting everything up"
