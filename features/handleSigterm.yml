@@ -250,3 +250,237 @@ pipelines:
           onFailure:
             - echo "doing some cleanup in the onFailure section"
 
+  - name: john_win_sigterm
+    configuration:
+      inputResources:
+        - name: dummy
+      nodePool: john_win_2019
+    steps:
+      - name: cancel_sigterm
+        type: PowerShell
+        execution:
+          onStart:
+            - echo "Setting everything up"
+            - printenv | grep handle_sigterm
+          onExecute:
+            - echo "lets loop for a bit"
+            - |
+                local i=0
+                while [[ $i -lt 1000 ]]; do
+                  echo "total wait time: $i seconds";
+                  sleep 1
+                  i=$(($i + 1))
+                done
+            - echo "waiting complete. moving to success"
+          onSuccess:
+            - echo "we made it to success"
+          onFailure:
+            - echo "darn, we failed"
+          onComplete:
+            - echo "doing some cleanup in the onComplete section"
+      - name: timeout_step_sigterm
+        type: PowerShell
+        configuration:
+          timeoutSeconds: 5
+        execution:
+          onStart:
+            - echo "Setting everything up"
+            - printenv | grep handle_sigterm
+          onExecute:
+            - echo "lets loop for a bit"
+            - |
+                local i=0
+                while [[ $i -lt 1000 ]]; do
+                  echo "total wait time: $i seconds";
+                  sleep 1
+                  i=$(($i + 1))
+                done
+            - echo "waiting complete. moving to success"
+          onSuccess:
+            - echo "we made it to success"
+          onFailure:
+            - echo "darn, we failed"
+          onComplete:
+            - echo "doing some cleanup in the onComplete section"
+
+      - name: slow_failure_step_sigterm
+        type: PowerShell
+        configuration:
+          timeoutSeconds: 5
+        execution:
+          onStart:
+            - echo "Setting everything up"
+            - printenv | grep handle_sigterm
+          onExecute:
+            - echo "lets loop for a bit"
+            - |
+                local i=0
+                while [[ $i -lt 1000 ]]; do
+                  echo "total wait time: $i seconds";
+                  sleep 1
+                  i=$(($i + 1))
+                done
+            - echo "waiting complete. moving to success"
+          onSuccess:
+            - echo "we made it to success"
+          onFailure:
+            - echo "darn, we failed"
+            - |
+                local i=0
+                while [[ $i -lt 1000 ]]; do
+                  echo "total wait time: $i seconds";
+                  sleep 1
+                  i=$(($i + 1))
+                done
+          onComplete:
+            - echo "doing some cleanup in the onComplete section"
+
+      - name: slow_complete_step_sigterm
+        type: PowerShell
+        configuration:
+          timeoutSeconds: 5
+        execution:
+          onStart:
+            - echo "Setting everything up"
+            - printenv | grep handle_sigterm
+          onExecute:
+            - echo "lets loop for a bit"
+            - |
+                local i=0
+                while [[ $i -lt 1000 ]]; do
+                  echo "total wait time: $i seconds";
+                  sleep 1
+                  i=$(($i + 1))
+                done
+            - echo "waiting complete. moving to success"
+          onSuccess:
+            - echo "we made it to success"
+          onComplete:
+            - echo "cleanup time in onComplete"
+            - |
+                local i=0
+                while [[ $i -lt 1000 ]]; do
+                  echo "total wait time: $i seconds";
+                  sleep 1
+                  i=$(($i + 1))
+                done
+          onFailure:
+            - echo "doing some cleanup in the onFailure section"
+  - name: john_win_host_bash_sigterm
+    configuration:
+      runtime:
+        type: host
+      nodePool: john_win_2019
+      inputResources:
+        - name: dummy
+    steps:
+      - name: host_cancel_sigterm
+        type: PowerShell
+        execution:
+          onStart:
+            - echo "Setting everything up"
+            - printenv | grep handle_sigterm
+          onExecute:
+            - echo "lets loop for a bit"
+            - |
+                local i=0
+                while [[ $i -lt 1000 ]]; do
+                  echo "total wait time: $i seconds";
+                  sleep 1
+                  i=$(($i + 1))
+                done
+            - echo "waiting complete. moving to success"
+          onSuccess:
+            - echo "we made it to success"
+          onFailure:
+            - echo "darn, we failed"
+          onComplete:
+            - echo "doing some cleanup in the onComplete section"
+      - name: host_timeout_step_sigterm
+        type: PowerShell
+        configuration:
+          timeoutSeconds: 5
+        execution:
+          onStart:
+            - echo "Setting everything up"
+            - printenv | grep handle_sigterm
+          onExecute:
+            - echo "lets loop for a bit"
+            - |
+                local i=0
+                while [[ $i -lt 1000 ]]; do
+                  echo "total wait time: $i seconds";
+                  sleep 1
+                  i=$(($i + 1))
+                done
+            - echo "waiting complete. moving to success"
+          onSuccess:
+            - echo "we made it to success"
+          onFailure:
+            - echo "darn, we failed"
+          onComplete:
+            - echo "doing some cleanup in the onComplete section"
+
+      - name: host_failure_step_sigterm
+        type: PowerShell
+        configuration:
+          timeoutSeconds: 5
+        execution:
+          onStart:
+            - echo "Setting everything up"
+            - printenv | grep handle_sigterm
+          onExecute:
+            - echo "lets loop for a bit"
+            - |
+                local i=0
+                while [[ $i -lt 1000 ]]; do
+                  echo "total wait time: $i seconds";
+                  sleep 1
+                  i=$(($i + 1))
+                done
+            - echo "waiting complete. moving to success"
+          onSuccess:
+            - echo "we made it to success"
+          onFailure:
+            - echo "darn, we failed"
+            - |
+                local i=0
+                while [[ $i -lt 1000 ]]; do
+                  echo "total wait time: $i seconds";
+                  sleep 1
+                  i=$(($i + 1))
+                done
+          onComplete:
+            - echo "doing some cleanup in the onComplete section"
+
+      - name: host_complete_step_sigterm
+        type: PowerShell
+        configuration:
+          timeoutSeconds: 5
+        execution:
+          onStart:
+            - echo "Setting everything up"
+            - printenv | grep handle_sigterm
+          onExecute:
+            - echo "lets loop for a bit"
+            - |
+                local i=0
+                while [[ $i -lt 1000 ]]; do
+                  echo "total wait time: $i seconds";
+                  sleep 1
+                  i=$(($i + 1))
+                done
+            - echo "waiting complete. moving to success"
+          onSuccess:
+            - echo "we made it to success"
+          onComplete:
+            - echo "cleanup time in onComplete"
+            - |
+                local i=0
+                while [[ $i -lt 1000 ]]; do
+                  echo "total wait time: $i seconds";
+                  sleep 1
+                  i=$(($i + 1))
+                done
+          onFailure:
+            - echo "doing some cleanup in the onFailure section"
