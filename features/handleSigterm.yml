@@ -254,7 +254,6 @@ pipelines:
         execution:
           onStart:
             - echo "Setting everything up"
-            -
           onExecute:
             - echo "lets loop for a bit"
             - |
