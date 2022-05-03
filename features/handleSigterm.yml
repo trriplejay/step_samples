@@ -256,13 +256,32 @@ pipelines:
             - echo "Setting everything up"
           onExecute:
             - echo "lets loop for a bit"
-            - |
-                $i = 0
-                while ($i -lt 1000) {
-                  echo "total wait time: $i seconds";
-                  start-sleep 1
-                  $i += 1
-                }
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
             - echo "waiting complete. moving to success"
           onSuccess:
             - echo "we made it to success"
@@ -281,13 +300,32 @@ pipelines:
             - echo "Setting everything up"
           onExecute:
             - echo "lets loop for a bit"
-            - |
-                $i = 0
-                while ($i -lt 1000) {
-                  echo "total wait time: $i seconds";
-                  start-sleep 1
-                  $i += 1
-                }
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
             - echo "waiting complete. moving to success"
           onSuccess:
             - echo "we made it to success"
@@ -307,25 +345,63 @@ pipelines:
             - echo "Setting everything up"
           onExecute:
             - echo "lets loop for a bit"
-            - |
-                $i = 0
-                while ($i -lt 1000) {
-                  echo "total wait time: $i seconds";
-                  start-sleep 1
-                  $i += 1
-                }
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
             - echo "waiting complete. moving to success"
           onSuccess:
             - echo "we made it to success"
           onFailure:
             - echo "darn, we failed"
-            - |
-                $i = 0
-                while ($i -lt 1000) {
-                  echo "total wait time: $i seconds";
-                  start-sleep 1
-                  $i += 1
-                }
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
           onComplete:
             - echo "doing some cleanup in the onComplete section"
 
@@ -352,13 +428,32 @@ pipelines:
             - echo "we made it to success"
           onComplete:
             - echo "cleanup time in onComplete"
-            - |
-                $i = 0
-                while ($i -lt 1000) {
-                  echo "total wait time: $i seconds";
-                  start-sleep 1
-                  $i += 1
-                }
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
           onFailure:
             - echo "doing some cleanup in the onFailure section"
   - name: john_win_host_bash_sigterm
@@ -377,13 +472,32 @@ pipelines:
             - echo "Setting everything up"
           onExecute:
             - echo "lets loop for a bit"
-            - |
-                $i = 0
-                while ($i -lt 1000) {
-                  echo "total wait time: $i seconds";
-                  start-sleep 1
-                  $i += 1
-                }
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
             - echo "waiting complete. moving to success"
           onSuccess:
             - echo "we made it to success"
@@ -402,13 +516,32 @@ pipelines:
             - echo "Setting everything up"
           onExecute:
             - echo "lets loop for a bit"
-            - |
-                $i = 0
-                while ($i -lt 1000) {
-                  echo "total wait time: $i seconds";
-                  start-sleep 1
-                  $i += 1
-                }
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
             - echo "waiting complete. moving to success"
           onSuccess:
             - echo "we made it to success"
@@ -428,25 +561,63 @@ pipelines:
             - echo "Setting everything up"
           onExecute:
             - echo "lets loop for a bit"
-            - |
-                $i = 0
-                while ($i -lt 1000) {
-                  echo "total wait time: $i seconds";
-                  start-sleep 1
-                  $i += 1
-                }
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
             - echo "waiting complete. moving to success"
           onSuccess:
             - echo "we made it to success"
           onFailure:
             - echo "darn, we failed"
-            - |
-                $i = 0
-                while ($i -lt 1000) {
-                  echo "total wait time: $i seconds";
-                  start-sleep 1
-                  $i += 1
-                }
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
           onComplete:
             - echo "doing some cleanup in the onComplete section"
 
@@ -461,24 +632,63 @@ pipelines:
             - echo "Setting everything up"
           onExecute:
             - echo "lets loop for a bit"
-            - |
-                $i = 0
-                while ($i -lt 1000) {
-                  echo "total wait time: $i seconds";
-                  start-sleep 1
-                  $i += 1
-                }
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
             - echo "waiting complete. moving to success"
           onSuccess:
             - echo "we made it to success"
           onComplete:
             - echo "cleanup time in onComplete"
-            - |
-                $i = 0
-                while ($i -lt 1000) {
-                  echo "total wait time: $i seconds";
-                  start-sleep 1
-                  $i += 1
-                }
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+
           onFailure:
             - echo "doing some cleanup in the onFailure section"
