@@ -683,7 +683,8 @@ pipelines:
           onExecute:
             - write-output onExecute
             - |
-                $new_timeoutAt_date = date "+%F %T"
+                $new_timeoutAt_date = $(date "+%F %T")
+                write-output $new_timeoutAt_date
                 $body = (@{timeoutAt = $new_timeoutAt_date} | ConvertTo-Json)
                 $body
                 $auth = @{ Authorization = "Bearer $builder_api_token" }
