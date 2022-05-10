@@ -437,7 +437,7 @@ pipelines:
             - start-sleep 10
           onFailure:
             - echo "doing some cleanup in the onFailure section"
-  - name: john_win_host_bash_sigterm
+  - name: john_win_host_sigterm
     configuration:
       runtime:
         type: host
@@ -673,3 +673,24 @@ pipelines:
 
           onFailure:
             - echo "doing some cleanup in the onFailure section"
+
+      - name: slow_success_step_sigterm
+        type: PowerShell
+        configuration:
+          nodePool: win_2019
+          inputResources:
+            - name: dummy
+        execution:
+          onStart:
+            - write-output onStart
+          onSuccess:
+            - |
+                $body = (@{statusCode = 4013} | ConvertTo-Json) # cancel itself
+                $auth = @{ Authorization = "Bearer $builder_api_token" }
+                $full_url = "${pipelines_api_url}/steps/${step_id}
+                Invoke-RestMethod -Method Put -Body $body  -ContentType 'application/json' -Headers $auth -Uri $full_url
+            - write-output onSuccess
+            - start-sleep 200
+            - write-output finished # this should never show up in console
+          onComplete:
+            - write-output finished # this should never show up in console
