@@ -680,9 +680,33 @@ pipelines:
           inputResources:
             - name: dummy
         execution:
-          onStart:
-            - write-output onStart
-          onSuccess:
-            - badcommand
+          onExecute:
+            - write-output onExecute
+            - |
+                $new_timeoutAt_date = date "+%F %T"
+                $body = (@{timeoutAt = $new_timeoutAt_date} | ConvertTo-Json)
+                $auth = @{ Authorization = "Bearer $builder_api_token" }
+                $full_url = "${pipelines_api_url}/steps/${step_id}"
+                Invoke-RestMethod -Method Put -Body $body  -ContentType 'application/json' -Headers $auth -Uri $full_url
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+          onFailure:
+            - write-output onFailure
           onComplete:
-            - write-output finished # this should never show up in console
+            - write-output onComplete
