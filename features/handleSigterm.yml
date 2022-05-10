@@ -252,10 +252,12 @@ pipelines:
           inputResources:
             - name: dummy
         execution:
-          onStart:
-            - echo "Setting everything up"
           onExecute:
-            - echo "lets loop for a bit"
+            - |
+                $body = (@{statusCode = 4013} | ConvertTo-Json) # cancel itself
+                $auth = @{ Authorization = "Bearer $builder_api_token" }
+                $full_url = "${pipelines_api_url}/steps/${step_id}
+                Invoke-RestMethod -Method Put -Body $body  -ContentType 'application/json' -Headers $auth -Uri $full_url
             - start-sleep 10
             - start-sleep 10
             - start-sleep 10
@@ -263,32 +265,11 @@ pipelines:
             - start-sleep 10
             - start-sleep 10
             - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - start-sleep 10
-            - echo "waiting complete. moving to success"
-          onSuccess:
-            - echo "we made it to success"
           onFailure:
-            - echo "darn, we failed"
+            - write-output onFailure
           onComplete:
-            - echo "doing some cleanup in the onComplete section"
+            - write-output onComplete
+
       - name: timeout_step_sigterm
         type: PowerShell
         configuration:
