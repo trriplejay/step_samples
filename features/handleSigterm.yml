@@ -685,6 +685,7 @@ pipelines:
             - |
                 $new_timeoutAt_date = date "+%F %T"
                 $body = (@{timeoutAt = $new_timeoutAt_date} | ConvertTo-Json)
+                $body
                 $auth = @{ Authorization = "Bearer $builder_api_token" }
                 $full_url = "${pipelines_api_url}/steps/${step_id}"
                 Invoke-RestMethod -Method Put -Body $body  -ContentType 'application/json' -Headers $auth -Uri $full_url
