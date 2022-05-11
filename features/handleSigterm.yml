@@ -687,7 +687,9 @@ pipelines:
       - name: S_PS_8610_004_step
         type: PowerShell
         configuration:
-          nodePool: win_2019
+          nodePool: john_win_2019
+          inputResources:
+            - name: dummy
         execution:
           onStart:
             - write-output onExecute
