@@ -684,3 +684,39 @@ pipelines:
             - write-output onExecute
           onSuccess:
             - badcommand
+      - name: S_PS_8610_004_step
+        type: PowerShell
+        configuration:
+          nodePool: win_2019
+        execution:
+          onStart:
+            - write-output onExecute
+            - |
+                $new_timeoutAt_date = get-date -format "yyyy-MM-dd HH:mm:ss"
+                $body = (@{timeoutAt = $new_timeoutAt_date} | ConvertTo-Json)
+                $auth = @{ Authorization = "Bearer $builder_api_token" }
+                $full_url = "${pipelines_api_url}/steps/${step_id}"
+                Invoke-RestMethod -Method Put -Body $body  -ContentType 'application/json' -Headers $auth -Uri $full_url
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+            - start-sleep 10
+          onFailure:
+            - write-output onFailure
+          onComplete:
+            - write-output onComplete
+
