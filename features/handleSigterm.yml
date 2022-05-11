@@ -244,7 +244,7 @@ pipelines:
 
   - name: john_win_sigterm
     configuration:
-      nodePool: john_win_2019
+      nodePool: win_2019
     steps:
       - name: cancel_sigterm
         type: PowerShell
@@ -441,7 +441,7 @@ pipelines:
     configuration:
       runtime:
         type: host
-      nodePool: john_win_2019
+      nodePool: win_2019
     steps:
       - name: host_cancel_sigterm
         type: PowerShell
@@ -687,7 +687,7 @@ pipelines:
       - name: S_PS_8610_004_step
         type: PowerShell
         configuration:
-          nodePool: john_win_2019
+          nodePool: win_2019
           inputResources:
             - name: dummy
         execution:
