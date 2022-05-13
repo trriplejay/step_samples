@@ -1,0 +1,230 @@
+resources:
+  - name: myImage_basic
+    type: Image
+    configuration:
+      registry: art
+      sourceRepository: docker-local
+      imageName: trriplejay/simpleserver
+      imageTag: faketag
+      autoPull: true
+
+
+  # - name: myOtherImage_basic_2
+  #   type: Image
+  #   configuration:
+  #     registry: tr_docker
+  #     imageName: trriplejay/simpleserver
+  #     imageTag: latest
+  #     autoPull: false
+
+  # - name: myRepo_basic
+  #   type: GitRepo
+  #   configuration:
+  #     path: ~johns/simpleserver
+  #     gitProvider: johns_bbs
+  #     branches:
+  #       include: ^dev.*$
+  #       exclude: ^dev-9$
+
+pipelines:
+  - name: tr_test_pipeline_1
+    configuration:
+      environmentVariables:
+        readOnly:
+          testReadOnly: "successful!"
+    steps:
+      - name: basic_step
+        type: Bash
+        configuration:
+          affinityGroup: test_group
+          # inputResources:
+          #   - name: appRepo
+          #   - name: myRepo_basic
+          #   - name: myImage_basic
+          #     trigger: false
+          # outputResources:
+          #   - name: myOtherImage_basic_2
+        execution:
+          onStart:
+            - retry_command echo "here we go!!!"
+            - echo "what is this"
+          onExecute:
+            - echo "read only value issssss $testReadOnly"
+            - echo "$step_url"
+            - docker ps -a
+            - echo "Hello world!"
+            - echo "step json at $STEP_JSON_PATH"
+            - cat $STEP_JSON_PATH |  jq '.'
+            - for item in ${!open_group_info[@]}; do echo "$item --- ${open_group_info[$item]}"; done
+          onSuccess:
+            - echo "yay success"
+            # - printenv | grep myRepo_basic
+            # - printenv | grep myImage_basic
+            - printenv | sort
+          onFailure:
+            - echo "boo failure"
+          onComplete:
+            - echo "done"
+
+      - name: fail_in_start
+        type: Bash
+        configuration:
+          integrations:
+            - name: johns_bbs
+          inputSteps:
+            - name: basic_step
+        execution:
+          onStart:
+            - echo "Prepping build environment"
+            - echo "attempting to set readOnly variable"
+            - export testReadOnly="foobar"
+            - cat badfile
+            - echo "we continue after failure"
+          onExecute:
+            - echo "executing task command 1"
+            - echo "executing task command 2"
+          onSuccess:
+            - echo "Job well done!"
+          onFailure:
+            - echo "uh oh, something went wrong"
+          onComplete: #always
+            - echo "Cleaning up some stuff"
+          onCancel:
+            - echo "Someone cancelled the job"
+
+      - name: fail_in_exec
+        type: Bash
+        configuration:
+          integrations:
+            - name: johns_bbs
+          inputSteps:
+            - name: basic_step
+        execution:
+          onStart:
+            - echo "Prepping build environment"
+          onExecute:
+            - echo "executing task command 1"
+            - echo "executing task command 2"
+            - cat badfile
+            - echo "we continue after failure"
+          onSuccess:
+            - echo "Job well done!"
+          onFailure:
+            - echo "uh oh, something went wrong"
+          onComplete: #always
+            - echo "Cleaning up some stuff"
+          onCancel:
+            - echo "Someone cancelled the job"
+
+      - name: fail_in_onsucc
+        type: Bash
+        configuration:
+          affinityGroup: test_group
+          integrations:
+            - name: johns_bbs
+          inputSteps:
+            - name: basic_step
+          # inputResources:
+          #   - name: myOtherImage_basic_2
+        execution:
+          onStart:
+            - echo "Prepping build environment"
+          onExecute:
+            - echo "executing task command 1"
+            - echo "executing task command 2"
+          onSuccess:
+            - echo "Job well done!"
+            - cat badfile
+            - echo "we continue after failure"
+          onFailure:
+            - echo "uh oh, something went wrong"
+          onComplete: #always
+            - echo "Cleaning up some stuff"
+          onCancel:
+            - echo "Someone cancelled the job"
+
+      - name: fail_in_onfail
+        type: Bash
+        configuration:
+          integrations:
+            - name: johns_bbs
+          inputSteps:
+            - name: basic_step
+        execution:
+          onStart:
+            - echo "Prepping build environment"
+          onExecute:
+            - echo "executing task command 1"
+            - echo "executing task command 2"
+            - cat badfile
+          onSuccess:
+            - echo "Job well done!"
+          onFailure:
+            - echo "uh oh, something went wrong"
+            - cat badfile
+            - echo "we continue after failure"
+          onComplete: #always
+            - echo "Cleaning up some stuff"
+          onCancel:
+            - echo "Someone cancelled the job"
+      - name: fail_in_resources
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: basic_step
+          inputResources:
+            - name: myImage_basic
+        execution:
+          onStart:
+            - echo "Prepping build environment"
+          onExecute:
+            - echo "executing task command 1"
+            - echo "executing task command 2"
+          onSuccess:
+            - echo "Job well done!"
+          onFailure:
+            - echo "uh oh, something went wrong"
+          onComplete:
+            - echo "Cleaning up some stuff"
+          onCancel:
+            - echo "Someone cancelled the job"
+
+      - name: fail_in_oncomp
+        type: Bash
+        configuration:
+          integrations:
+            - name: johns_bbs
+          inputSteps:
+            - name: basic_step
+        execution:
+          onStart:
+            - echo "Prepping build environment"
+          onExecute:
+            - echo "executing task command 1"
+            - echo "executing task command 2"
+          onSuccess:
+            - echo "Job well done!"
+          onFailure:
+            - echo "uh oh, something went wrong"
+          onComplete:
+            - echo "Cleaning up some stuff"
+            - cat badfile
+            - echo "we continue after failure"
+          onCancel:
+            - echo "Someone cancelled the job"
+      - name: skipped_step
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: fail_in_start
+        execution:
+          onExecute:
+            - echo "never gonna see this"
+
+  # - name: tr_pipeline_bad
+  #   steps:
+  #     - name: bad_step
+  #       type: Bash
+  #       requires:
+  #         integrations:
+  #           - name: not_real
