@@ -1,0 +1,31 @@
+resources:
+  - name: johns_npm_git
+    type: GitRepo
+    configuration:
+      gitProvider: johns_gh
+      path: trriplejay/simpleserver
+      branches:
+        include: master
+
+
+pipelines:
+  - name: johns_npm_test
+    steps:
+      - name: build_it
+        type: NpmBuild
+        configuration:
+          resolverRepo: npm-remote
+          integrations:
+            - name: art
+          inputResources:
+            - name: johns_npm_git
+      - name: publish_it
+        type: NpmPublish
+        configuration:
+          integrations:
+            - name: art
+          inputSteps:
+            - name: build_it
+          deployerRepo: npm-dev-local
+
+
