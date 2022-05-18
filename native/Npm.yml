@@ -14,6 +14,7 @@ pipelines:
       - name: build_it
         type: NpmBuild
         configuration:
+          affinityGroup: build_and_push
           resolverRepo: npm-remote
           integrations:
             - name: art
@@ -22,6 +23,7 @@ pipelines:
       - name: publish_it
         type: NpmPublish
         configuration:
+          affinityGroup: build_and_push
           integrations:
             - name: art
           inputSteps:
