@@ -20,6 +20,11 @@ pipelines:
             - name: art
           inputResources:
             - name: johns_npm_git
+        execution:
+          onComplete:
+            - mkdir -p $shared_workspace/npmBuildInputGitRepo
+            - cp -r $steplet_run_state_dir/npmBuildInputGitRepo/ $shared_workspace/npmBuildInputGitRepo/
+
       - name: publish_it
         type: NpmPublish
         configuration:
@@ -29,5 +34,9 @@ pipelines:
           inputSteps:
             - name: build_it
           deployerRepo: npm-dev-local
+        execution:
+          onStart:
+            - mkdir -p $steplet_run_state_dir/npmBuildInputGitRepo
+            - cp -r $shared_workspace/npmBuildInputGitRepo/ $steplet_run_state_dir/npmBuildInputGitRepo/
 
 

@@ -6,8 +6,13 @@ resources:
   - name: johns_gh_repo
     type: GitRepo
     configuration:
-       gitProvider: johns_gh
-       path: trriplejay/simpleserver
+      gitProvider: johns_gh
+      path: trriplejay/simpleserver
+      branches:
+        include: ^master$
+      files:
+        include: .*
+
 
 pipelines:
   - name: johns_gh_clone_test
@@ -15,13 +20,6 @@ pipelines:
       - name: johns_gh_clone_step
         type: Bash
         configuration:
-          runtime:
-            type: image
-            image:
-              custom:
-                name: releases-docker.jfrog.io/jfrog/pipelines-u18node
-                tag: "12.18.2"
-                autoPull: true
           inputResources:
             - name: dummy
             - name: johns_gh_repo
@@ -30,11 +28,11 @@ pipelines:
             - pushd $res_johns_gh_repo_resourcePath
             - git version
             - ls -latrR
-            - docker ps -a
-            - docker inspect step-$step_id-$steplet_id || true
-            # - pushd dependencyState
-            # - git clone https://github.com/trriplejay/simpleserver.git "../dependencyState"
-            # - ls -latrR
+            - printenv | grep res_johns_gh
+            - echo "$(get_resource_names --type GitRepo)"
+            - echo "$(get_resource_name --type GitRepo)"
+            - echo "$(get_resource_variable johns_gh_repo branches_include"
+
       - name: long_clone
         type: Bash
         configuration:
