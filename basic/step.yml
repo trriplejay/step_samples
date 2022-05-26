@@ -1,6 +1,8 @@
 pipelines:
-  - name: johns_single_step
-    type: Bash
-    execution:
-      onExecute:
-        - echo "hello world"
+  - name: johns_single_pipe
+    steps:
+      - name: johns_single_step
+        type: Bash
+        execution:
+          onExecute:
+            - echo "hello world"
