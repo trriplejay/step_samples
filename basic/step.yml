@@ -1,0 +1,6 @@
+pipelines:
+  - name: johns_single_step
+    type: Bash
+    execution:
+      onExecute:
+        - echo "hello world"
