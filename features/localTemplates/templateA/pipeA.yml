@@ -1,5 +1,5 @@
 template: true
-valuesFilePath: ../templateA/values.yml
+valuesFilePath: ../valuesA/values.yml
 
 resources:
   - name: johns_{{ .Values.name }}_repo

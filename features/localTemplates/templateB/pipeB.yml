@@ -1,0 +1,18 @@
+template: true
+valuesFilePath: ../valuesB/values.yml
+
+resources:
+  - name: johns_{{ .Values.name }}_repo
+    type: PropertyBag
+    configuration:
+      foo: bar
+
+
+pipelines:
+  - name: johns_{{ .Values.name }}_pipe
+    steps:
+      - name: johns_{{ .Values.name }}_step
+        type: Bash
+        execution:
+          onExecute:
+            - echo "hello world from {{ .Values.name }}"
