@@ -15,6 +15,8 @@ pipelines:
           onStart:
             - echo "Setting everything up"
           onExecute:
+            - export payload="{\"statusCode\":\"4013\"}" # cancel itself
+            - curl -XPUT -H "Authorization:Bearer $builder_api_token" -H "Content-type:application/json" $pipelines_api_url/steps/$step_id -d "$payload"
             - echo "lets loop for a bit"
             - |
                 local i=0
@@ -135,6 +137,8 @@ pipelines:
           onStart:
             - echo "Setting everything up"
           onExecute:
+            - export payload="{\"statusCode\":\"4013\"}" # cancel itself
+            - curl -XPUT -H "Authorization:Bearer $builder_api_token" -H "Content-type:application/json" $pipelines_api_url/steps/$step_id -d "$payload"
             - echo "lets loop for a bit"
             - |
                 local i=0
