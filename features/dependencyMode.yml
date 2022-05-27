@@ -93,8 +93,8 @@ pipelines:
         type: Bash
         configuration:
           inputSteps:
-            - name: johns_P_WF_0020_2_step1
-            - name: johns_P_WF_0020_2_step2
+            - name: P_WF_0020_2_step1
+            - name: P_WF_0020_2_step2
         execution:
           onExecute:
             - echo "executing step..."
