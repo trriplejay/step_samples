@@ -39,7 +39,6 @@ pipelines:
         configuration:
           inputResources:
             - name: johns_P_WF_0017_resource1
-              trigger: false
         execution:
           onExecute:
             - echo "executing step..."
@@ -52,7 +51,6 @@ pipelines:
         configuration:
           inputResources:
             - name: johns_P_WF_0017_resource2
-              trigger: false
         execution:
           onExecute:
             - echo "executing step..."
@@ -81,7 +79,6 @@ pipelines:
         configuration:
           inputResources:
             - name: johns_P_WF_0020_resource
-              trigger: false
         execution:
           onExecute:
             - echo "executing step..."
