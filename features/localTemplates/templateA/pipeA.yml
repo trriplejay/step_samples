@@ -10,9 +10,14 @@ resources:
 
 pipelines:
   - name: johns_{{ .Values.name }}_pipe
+    configuration:
+      jfrogCliVersion: 2
     steps:
       - name: johns_{{ .Values.name }}_step
         type: Bash
         execution:
           onExecute:
             - echo "hello world from {{ .Values.name }}"
+            - jfrog --version
+            - jf --version
+            - $jfrog_cli_path --version
