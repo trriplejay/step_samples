@@ -10,7 +10,6 @@ resources:
 
 pipelines:
   - name: johns_{{ .Values.name }}_pipe
-    configuration:
     steps:
       - name: johns_{{ .Values.name }}_step
         type: Bash
