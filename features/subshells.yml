@@ -1,0 +1,69 @@
+resources:
+  - name: dummy_bag
+    type: PropertyBag
+    configuration:
+      hello: world
+
+pipelines:
+  - name: johns_subshells
+    steps:
+      - name: johns_comp_1
+        type: Bash
+        configuration:
+          inputResources:
+            - name: dummy_bag
+        execution:
+          onExecute:
+            - echo hello world
+          onSuccess:
+            - exit 1
+      - name: johns_fail_1
+        type: Bash
+        configuration:
+          inputResources:
+            - name: dummy_bag
+        execution:
+          onExecute:
+            - echo hello world
+          onSuccess:
+            - exit 1
+      - name: johns_suc_1
+        type: Bash
+        configuration:
+          inputResources:
+            - name: dummy_bag
+        execution:
+          onExecute:
+            - echo hello world
+          onSuccess:
+            - exit 1
+      - name: johns_comp_0
+        type: Bash
+        configuration:
+          inputResources:
+            - name: dummy_bag
+        execution:
+          onExecute:
+            - echo hello world
+          onSuccess:
+            - exit 0
+      - name: johns_fail_0
+        type: Bash
+        configuration:
+          inputResources:
+            - name: dummy_bag
+        execution:
+          onExecute:
+            - echo hello world
+          onSuccess:
+            - exit 0
+      - name: johns_suc_0
+        type: Bash
+        configuration:
+          inputResources:
+            - name: dummy_bag
+        execution:
+          onExecute:
+            - echo hello world
+          onSuccess:
+            - exit 0
