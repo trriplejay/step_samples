@@ -27,6 +27,8 @@ pipelines:
       - name: {{ .Values.prefix }}_build
         type: DockerBuild
         configuration:
+          inputResources:
+            - name: {{ .Values.prefix }}_repo
           affinityGroup: docker
           dockerImageName: johnsdemo.jfrogdev.org/docker-dev-local/simpleserver
           dockerImageTag: "$run_id"
