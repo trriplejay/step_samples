@@ -14,7 +14,7 @@ resources:
     type: GitRepo
     configuration:
       gitProvider: {{ .Values.ghInt }}
-      path: ~johns/simpleserver
+      path: trriplejay/simpleserver
 
 
 pipelines:
