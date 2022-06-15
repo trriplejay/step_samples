@@ -1,0 +1,42 @@
+template: true
+valuesFilePath: ../values.yml
+
+resources:
+  - name: {{ .Values.prefix }}_image
+    type: Image
+    configuration:
+      registry: {{ .Values.rtInt }}
+      imageName: trriplejay/simpleserver
+      imageTag: latest
+  - name: {{ .Values.prefix }}_repo
+    type: GitRepo
+    configuration:
+      gitProvider: {{ .Values.gitInt }}
+      path: ~johns/simpleserver
+
+
+pipelines:
+  - name: {{ .Values.prefix }}_cliv2_pipe
+    configuration:
+      jfrogCliVersion: 2
+      integrations:
+        - name: {{ .Values.rtInt }}
+    steps:
+      # - name: {{ .Values.prefix }}_build
+      #   type: DockerBuild
+      #   configuration:
+      #     affinityGroup: docker
+      #     dockerImageName: /simpleserver
+      #     dockerImageTag: native.$run_number
+      #     dockerOptions: --pull --no-cache
+      - name: {{ .Values.prefix }}_test
+        type: Bash
+        configuration:
+          affinityGroup: docker
+        execution:
+          onExecute:
+            - jfrog --version
+      # - name: {{ .Values.prefix }}_push
+      #   type: DockerPush
+      #   configuration:
+      #     affinityGroup: docker
