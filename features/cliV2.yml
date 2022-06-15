@@ -33,15 +33,23 @@ pipelines:
           dockerImageName: johnsdemo.jfrogdev.org/docker-dev-local/simpleserver
           dockerImageTag: "$run_id"
           dockerOptions: --pull --no-cache
+
       - name: {{ .Values.prefix }}_test
         type: Bash
         configuration:
           affinityGroup: docker
+          inputSteps:
+            - name: {{ .Values.prefix }}_build
         execution:
           onExecute:
             - jfrog --version
             - docker images
-      # - name: {{ .Values.prefix }}_push
-      #   type: DockerPush
-      #   configuration:
-      #     affinityGroup: docker
+
+      - name: {{ .Values.prefix }}_push
+        type: DockerPush
+        configuration:
+          affinityGroup: docker
+          inputSteps:
+            - name: {{ .Values.prefix }}_test
+          outputResources:
+            - name: {{ .Values.prefix }}_image
