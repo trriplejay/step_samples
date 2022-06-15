@@ -24,13 +24,13 @@ pipelines:
       integrations:
         - name: {{ .Values.rtInt }}
     steps:
-      # - name: {{ .Values.prefix }}_build
-      #   type: DockerBuild
-      #   configuration:
-      #     affinityGroup: docker
-      #     dockerImageName: /simpleserver
-      #     dockerImageTag: native.$run_number
-      #     dockerOptions: --pull --no-cache
+      - name: {{ .Values.prefix }}_build
+        type: DockerBuild
+        configuration:
+          affinityGroup: docker
+          dockerImageName: johnsdemo.jfrogdev.org/docker-dev-local/simpleserver
+          dockerImageTag: "$run_id"
+          dockerOptions: --pull --no-cache
       - name: {{ .Values.prefix }}_test
         type: Bash
         configuration:
@@ -38,6 +38,7 @@ pipelines:
         execution:
           onExecute:
             - jfrog --version
+            - docker images
       # - name: {{ .Values.prefix }}_push
       #   type: DockerPush
       #   configuration:
