@@ -6,12 +6,14 @@ resources:
     type: Image
     configuration:
       registry: {{ .Values.rtInt }}
-      imageName: trriplejay/simpleserver
-      imageTag: latest
+      imageName: johnsdemo.jfrogdev.org/docker-dev-local/simpleserver
+      sourceRepository: docker-dev-local
+      imageTag: ${run_id}
+
   - name: {{ .Values.prefix }}_repo
     type: GitRepo
     configuration:
-      gitProvider: {{ .Values.gitInt }}
+      gitProvider: {{ .Values.ghInt }}
       path: ~johns/simpleserver
 
 
