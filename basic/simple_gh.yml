@@ -4,8 +4,6 @@ pipelines:
     steps:
       - name: first_step_simple
         type: Bash
-        configuration:
-          nodePool: test_disk_size
         execution:
           onStart:
             - echo "test"
