@@ -2,6 +2,10 @@ template: true
 valuesFilePath: ./values.yml
 
 resources:
+  - name: {{ .Values.prefix }}_cert_dummy
+    type: PropertyBag
+    configuration:
+      hello: world
 
   - name: {{ .Values.prefix }}_cert_repo
     type: GitRepo
@@ -18,6 +22,22 @@ pipelines:
         configuration:
           inputResources:
             - name: {{ .Values.prefix }}_cert_repo
+            - name: {{ .Values.prefix }}_cert_dummy
+          integrations:
+            - name: {{ .Values.rtInt }}
+
+        execution:
+          onExecute:
+            - echo "Hello World"
+            - jfrog rt s 'pipe*'
+      - name: {{ .Values.prefix }}_host_cert_step
+        type: Bash
+        configuration:
+          runtime:
+            type: host
+          inputResources:
+            - name: {{ .Values.prefix }}_cert_repo
+            - name: {{ .Values.prefix }}_cert_dummy
           integrations:
             - name: {{ .Values.rtInt }}
 
