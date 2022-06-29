@@ -2,5 +2,5 @@ prefix: johns
 scmInt: gitlab
 rtInt: art
 ghInt: johns_github
-repoPathPrefix: Administrator
+repoPathPrefix: root
 repoName: step_samples
