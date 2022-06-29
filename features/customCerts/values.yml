@@ -1,0 +1,6 @@
+prefix: johns
+scmInt: gitlab
+rtInt: art
+ghInt: johns_github
+repoPathPrefix: Administrator
+repoName: step_samples

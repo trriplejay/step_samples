@@ -1,0 +1,24 @@
+resources:
+
+  - name: {{ .Values.prefix }}_cert_repo
+    type: GitRepo
+    configuration:
+      gitProvider: {{ .Values.scmInt }}
+      path: {{ .Values.repoPathPrefix }}/{{ .Values.repoName }}
+
+
+pipelines:
+  - name: {{ .Values.prefix }}_cert_stuff
+    steps:
+      - name: {{ .Values.prefix }}_cert_step
+        type: Bash
+        configuration:
+          inputResources:
+            - name: {{ .Values.prefix }}_cert_repo
+          integrations:
+            - name: {{ .Values.rtInt }}
+
+        execution:
+          onExecute:
+            - echo "Hello World"
+            - jfrog rt s 'pipe*'
