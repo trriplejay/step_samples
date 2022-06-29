@@ -43,5 +43,5 @@ pipelines:
 
         execution:
           onExecute:
-            - echo "Hello World"
+            - echo "Hello World!"
             - jfrog rt s 'pipe*'
