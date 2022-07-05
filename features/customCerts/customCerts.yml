@@ -22,6 +22,7 @@ pipelines:
         configuration:
           inputResources:
             - name: {{ .Values.prefix }}_cert_repo
+              trigger: false
             - name: {{ .Values.prefix }}_cert_dummy
           integrations:
             - name: {{ .Values.rtInt }}
@@ -37,6 +38,7 @@ pipelines:
             type: host
           inputResources:
             - name: {{ .Values.prefix }}_cert_repo
+              trigger: false
             - name: {{ .Values.prefix }}_cert_dummy
           integrations:
             - name: {{ .Values.rtInt }}
@@ -52,6 +54,7 @@ pipelines:
           nodePool: win_2019
           inputResources:
             - name: {{ .Values.prefix }}_cert_repo
+              trigger: false
             - name: {{ .Values.prefix }}_cert_dummy
           integrations:
             - name: {{ .Values.rtInt }}
@@ -69,6 +72,7 @@ pipelines:
             type: host
           inputResources:
             - name: {{ .Values.prefix }}_cert_repo
+              trigger: false
             - name: {{ .Values.prefix }}_cert_dummy
           integrations:
             - name: {{ .Values.rtInt }}
