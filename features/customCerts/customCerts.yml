@@ -49,6 +49,7 @@ pipelines:
       - name: {{ .Values.prefix }}_win_cert_step
         type: PowerShell
         configuration:
+          nodePool: win_2019
           inputResources:
             - name: {{ .Values.prefix }}_cert_repo
             - name: {{ .Values.prefix }}_cert_dummy
@@ -63,6 +64,7 @@ pipelines:
       - name: {{ .Values.prefix }}_win_host_cert_step
         type: Bash
         configuration:
+          nodePool: win_2019
           runtime:
             type: host
           inputResources:
