@@ -45,3 +45,34 @@ pipelines:
           onExecute:
             - echo "Hello World!"
             - jfrog rt s 'pipe*'
+
+      - name: {{ .Values.prefix }}_win_cert_step
+        type: PowerShell
+        configuration:
+          inputResources:
+            - name: {{ .Values.prefix }}_cert_repo
+            - name: {{ .Values.prefix }}_cert_dummy
+          integrations:
+            - name: {{ .Values.rtInt }}
+
+        execution:
+          onExecute:
+            - echo "Hello World"
+            - jfrog rt s 'pipe*'
+
+      - name: {{ .Values.prefix }}_win_host_cert_step
+        type: Bash
+        configuration:
+          runtime:
+            type: host
+          inputResources:
+            - name: {{ .Values.prefix }}_cert_repo
+            - name: {{ .Values.prefix }}_cert_dummy
+          integrations:
+            - name: {{ .Values.rtInt }}
+
+        execution:
+          onExecute:
+            - echo "Hello World!"
+            - jfrog rt s 'pipe*'
+
