@@ -36,6 +36,7 @@ mavenConfig:
   deployerSnapshotRepo: maven-snapshot-local
   deployerReleaseRepo: maven-release-local
 
+##### docker configuration
 dockerConfig:
   imageName: "192.168.56.2:8082/docker-local/simpleserver"
   imageTag: "${run_id}"

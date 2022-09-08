@@ -72,12 +72,10 @@ pipelines:
         {{ if .Values.mavenConfig.deployerReleaseRepo }}
           deployerReleaseRepo: {{ .Values.mavenConfig.deployerReleaseRepo }}
         {{ end }}
-      {{ if .Values.publishBuild }}
         execution:
           onSuccess:
             - write_output {{ .Values.namePrefix }}_spec buildName="${JFROG_CLI_BUILD_NAME}"
             - write_output {{ .Values.namePrefix }}_spec buildNumber="${JFROG_CLI_BUILD_NUMBER}"
-      {{ end }}
 
       - name: dbuild
         type: DockerBuild
