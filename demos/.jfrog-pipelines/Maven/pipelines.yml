@@ -33,11 +33,11 @@ resources:
 
 
 pipelines:
-  - name: {{ .Values.namePrefix }}_maven_ci_docker
+  - name: {{ .Values.namePrefix }}_buildapp
     configuration:
       jfrogCliVersion: 2
     steps:
-      - name: build
+      - name: mbuild
         type: MvnBuild
         configuration:
           environmentVariables:
@@ -79,9 +79,12 @@ pipelines:
             - write_output {{ .Values.namePrefix }}_spec buildNumber="${JFROG_CLI_BUILD_NUMBER}"
       {{ end }}
 
-      - name: build
+      - name: dbuild
         type: DockerBuild
         configuration:
+          environmentVariables:
+            JFROG_CLI_BUILD_NAME: ${pipeline_name}_docker
+            JFROG_CLI_BUILD_NUMBER: ${run_id}
           affinityGroup: docker
           dockerFileLocation: "."
           dockerFileName: Dockerfile
@@ -97,6 +100,9 @@ pipelines:
       - name: push
         type: DockerPush
         configuration:
+          environmentVariables:
+            JFROG_CLI_BUILD_NAME: ${pipeline_name}_docker
+            JFROG_CLI_BUILD_NUMBER: ${run_id}
           affinityGroup: docker
           inputSteps:
             - name: build
