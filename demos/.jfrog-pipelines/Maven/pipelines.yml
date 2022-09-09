@@ -1,16 +1,14 @@
-template: true
-valuesFilePath: ./values.yml
 
 resources:
-  - name: {{ .Values.namePrefix }}_repo
+  - name: sample_repo
     type: GitRepo
     configuration:
-      path: {{ .Values.repo.path }}
-      gitProvider: {{ .Values.repo.gitIntegration }}
+      path: trriplejay/step_samples
+      gitProvider: github
       branches:
-        include: {{ .Values.repo.branchPattern | default "main" }}
+        include: ^master$
 
-  - name: {{ .Values.namePrefix }}_simpleserver
+  - name: sample_simpleserver
     type: GitRepo
     configuration:
       gitProvider: github
@@ -18,22 +16,22 @@ resources:
       branches:
         include: "^master$"
 
-  - name: {{ .Values.namePrefix }}_info
+  - name: sample_info
     type: BuildInfo
     configuration:
-      sourceArtifactory: {{ .Values.artIntegration }}
+      sourceArtifactory: art
 
-  - name: {{ .Values.namePrefix }}_spec
+  - name: sample_spec
     type: FileSpec
     configuration:
-      sourceArtifactory: {{ .Values.artIntegration }}
-      pattern: '{{ .Values.buildSpecPattern | default "*" }}'
+      sourceArtifactory: art
+      pattern: '*'
       buildName: ${JFROG_CLI_BUILD_NAME}
       buildNumber: ${JFROG_CLI_BUILD_NUMBER}
 
 
 pipelines:
-  - name: {{ .Values.namePrefix }}_buildapp
+  - name: sample_buildapp
     configuration:
       jfrogCliVersion: 2
     steps:
@@ -44,38 +42,36 @@ pipelines:
             JFROG_CLI_BUILD_NAME: ${pipeline_name}_maven
             JFROG_CLI_BUILD_NUMBER: ${run_id}
           integrations:
-            - name: {{ .Values.artIntegration }}
+            - name: art
           inputResources:
-            - name: {{ .Values.namePrefix }}_repo
+            - name: sample_repo
           outputResources:
-            - name: {{ .Values.namePrefix }}_info
-            - name: {{ .Values.namePrefix }}_spec
+            - name: sample_info
+            - name: sample_spec
           autoPublishBuildInfo: true
-        {{ if .Values.scanBuild }}
-          forceXrayScan: true
-        {{ end }}
-        {{ if .Values.mavenConfig.command }}
-          mvnCommand: {{ .Values.mavenConfig.command }}
-        {{ end }}
-        {{ if .Values.mavenConfig.sourceLocation }}
-          sourceLocation: {{ .Values.mavenConfig.sourceLocation }}
-        {{ end }}
-        {{ if .Values.mavenConfig.resolverSnapshotRepo }}
-          resolverSnapshotRepo: {{ .Values.mavenConfig.resolverSnapshotRepo }}
-        {{ end }}
-        {{ if .Values.mavenConfig.deployerSnapshotRepo }}
-          deployerSnapshotRepo: {{ .Values.mavenConfig.deployerSnapshotRepo }}
-        {{ end }}
-        {{ if .Values.mavenConfig.resolverReleaseRepo }}
-          resolverReleaseRepo: {{ .Values.mavenConfig.resolverReleaseRepo }}
-        {{ end }}
-        {{ if .Values.mavenConfig.deployerReleaseRepo }}
-          deployerReleaseRepo: {{ .Values.mavenConfig.deployerReleaseRepo }}
-        {{ end }}
+
+
+          mvnCommand: clean install
+
+
+          sourceLocation: demos/Maven/sample-project
+
+
+          resolverSnapshotRepo: maven-snapshot-remote
+
+
+          deployerSnapshotRepo: maven-snapshot-local
+
+
+          resolverReleaseRepo: maven-release-remote
+
+
+          deployerReleaseRepo: maven-release-local
+
         execution:
           onSuccess:
-            - write_output {{ .Values.namePrefix }}_spec buildName="${JFROG_CLI_BUILD_NAME}"
-            - write_output {{ .Values.namePrefix }}_spec buildNumber="${JFROG_CLI_BUILD_NUMBER}"
+            - write_output sample_spec buildName="${JFROG_CLI_BUILD_NAME}"
+            - write_output sample_spec buildNumber="${JFROG_CLI_BUILD_NUMBER}"
 
       - name: dbuild
         type: DockerBuild
@@ -86,14 +82,14 @@ pipelines:
           affinityGroup: docker
           dockerFileLocation: "."
           dockerFileName: Dockerfile
-          dockerImageName: {{ .Values.dockerConfig.imageName }}
-          dockerImageTag: {{ .Values.dockerConfig.imageTag }}
+          dockerImageName: 192.168.56.2:8082/docker-local/simpleserver
+          dockerImageTag: ${run_id}
           inputResources:
-            - name: {{ .Values.namePrefix }}_simpleserver
-            - name: {{ .Values.namePrefix }}_spec
+            - name: sample_simpleserver
+            - name: sample_spec
               trigger: false
           integrations:
-            - name: {{ .Values.artIntegration }}
+            - name: art
 
       - name: push
         type: DockerPush
@@ -105,4 +101,6 @@ pipelines:
           inputSteps:
             - name: build
           integrations:
-            - name: {{ .Values.artIntegration }}
+            - name: art
+
+
