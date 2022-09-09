@@ -99,7 +99,7 @@ pipelines:
             JFROG_CLI_BUILD_NUMBER: ${run_id}
           affinityGroup: docker
           inputSteps:
-            - name: build
+            - name: dbuild
           integrations:
             - name: art
 
