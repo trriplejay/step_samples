@@ -38,6 +38,13 @@ pipelines:
       - name: mbuild
         type: MvnBuild
         configuration:
+          runtime:
+            type: image
+            image:
+              auto:
+                language: java
+                version: 17
+
           environmentVariables:
             JFROG_CLI_BUILD_NAME: ${pipeline_name}_maven
             JFROG_CLI_BUILD_NUMBER: ${run_id}
