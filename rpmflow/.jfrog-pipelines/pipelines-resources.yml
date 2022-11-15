@@ -1,5 +1,5 @@
 resources:
-  - name: {{ .Values.webhookIntegrationName }}_res
+  - name: {{ default "" .Values.webhookIntegrationName }}_res
     type: IncomingWebhook
     configuration:
       webhookName: {{ .Values.webhookIntegrationName }}
