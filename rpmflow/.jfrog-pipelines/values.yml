@@ -1,7 +1,9 @@
 
 
 artifactoryIntegrationName: art
-distributionIntegrationName: dist
+distributionIntegrationName: int_distribution
+
+# https://pipdemo-pipelines-api.jfrog.io/v1/projectIntegrations/34/hook
 webhookIntegrationName: rpm_dev_local_hook
 
 devRepoName: rpm-dev-local
