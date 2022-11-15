@@ -11,7 +11,7 @@ resources:
     type: BuildInfo
     configuration:
       sourceArtifactory: {{ .Values.artifactoryIntegrationName }}
-  - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}__buildInfo
+  - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}_buildInfo
     type: BuildInfo
     configuration:
       sourceArtifactory: {{ .Values.artifactoryIntegrationName }}

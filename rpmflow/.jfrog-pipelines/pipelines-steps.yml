@@ -28,16 +28,19 @@ pipelines:
         execution:
           onExecute:
             - if [ -n "$FILE_NAME" ]; then echo "creating build for artifact named $FILE_NAME"; fi
+          onComplete:
+            - write_output {{ default "" .Values.devRepoName | replace "-" "_" }}_buildInfo "buildName=${JFROG_CLI_BUILD_NAME}" "buildNumber=${JFROG_CLI_BUILD_NUMBER}"
+
       - name: promote_build
         type: PromoteBuild
         configuration:
           requiresApproval: true
           copy: true
-          targetRepository: {{ default "" .Values.prodRepoName | replace "-" "_" }}
+          targetRepository: {{ .Values.prodRepoName }}
           inputResources:
-            - name: {{ default "" .Values.devRepoName | replace "-" "_" }}_buildInfo
+            - name: '{{ default "" .Values.devRepoName | replace "-" "_" }}_buildInfo'
           outputResources:
-            - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}_buildInfo
+            - name: '{{ default "" .Values.prodRepoName | replace "-" "_" }}_buildInfo'
       - name: create_bundle
         type: CreateReleaseBundle
         configuration:
@@ -46,9 +49,9 @@ pipelines:
           releaseBundleVersion: ${run_id}
           dryRun: false
           inputResources:
-            - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}_buildInfo
+            - name: '{{ default "" .Values.prodRepoName | replace "-" "_" }}_buildInfo'
           outputResources:
-            - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}_bundle
+            - name: '{{ default "" .Values.prodRepoName | replace "-" "_" }}_bundle'
       - name: distribute_site_a
         type: DistributeBundle
         configuration:
