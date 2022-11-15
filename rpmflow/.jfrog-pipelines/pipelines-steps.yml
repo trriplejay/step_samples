@@ -2,7 +2,7 @@ template: true
 valuesFilePath: ./values.yml
 
 pipelines:
-  - name: {{ .Values.devRepoName | replace "-" "_" }}_promote_and_publish
+  - name: {{ default "" .Values.devRepoName | replace "-" "_" }}_promote_and_publish
     configuration:
       jfrogCliVersion: 2
       environmentVariables:
@@ -22,7 +22,7 @@ pipelines:
           inputResources:
             - name: artifactHook
           outputResources:
-            - {{ .Values.devRepoName | replace "-" "_" }}_buildInfo
+            - {{ default "" .Values.devRepoName | replace "-" "_" }}_buildInfo
         execution:
           onExecute:
             - if [ -n "$FILE_NAME" ]; then echo "creating build for artifact named $FILE_NAME"; fi
@@ -51,11 +51,11 @@ pipelines:
         type: PromoteBuild
         configuration:
           requiresApproval: true
-          targetRepository: {{ .Values.prodRepoName | replace "-" "_" }}
+          targetRepository: {{ default "" .Values.prodRepoName | replace "-" "_" }}
           inputResources:
-            - name: {{ .Values.devRepoName | replace "-" "_" }}_buildInfo
+            - name: {{ default "" .Values.devRepoName | replace "-" "_" }}_buildInfo
           outputResources:
-            - name: {{ .Values.prodRepoName | replace "-" "_" }}_buildInfo
+            - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}_buildInfo
       - name: create_bundle
         type: CreateReleaseBundle
         configuration:
@@ -64,20 +64,20 @@ pipelines:
           releaseBundleVersion: ${run_id}
           dryRun: false
           inputResources:
-            - name: {{ .Values.prodRepoName | replace "-" "_" }}_buildInfo
+            - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}_buildInfo
           outputResources:
-            - name: {{ .Values.prodRepoName | replace "-" "_" }}_bundle
+            - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}_bundle
       - name: distribute_site_a
         type: DistributeBundle
         configuration:
           dryRun: false
           inputResources:
             - name:
-            - name: {{ .Values.prodRepoName | replace "-" "_" }}_bundle
+            - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}_bundle
       - name: distribute_site_b
         type: DistributeBundle
         configuration:
           dryRun: false
           inputResources:
-            - name: {{ .Values.prodRepoName | replace "-" "_" }}_bundle
+            - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}_bundle
 
