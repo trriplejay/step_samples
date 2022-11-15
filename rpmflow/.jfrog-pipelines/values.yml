@@ -3,7 +3,7 @@
 artifactoryIntegrationName: art
 distributionIntegrationName: int_distribution
 
-# https://pipdemo-pipelines-api.jfrog.io/v1/projectIntegrations/34/hook
+# https://pipdemo-pipelines-api.jfrog.io/v1/projectIntegrations/37/hook
 webhookIntegrationName: rpm_dev_local_hook
 
 devRepoName: rpm-dev-local

@@ -28,7 +28,7 @@ resources:
       cityName: "*"
       countryCodes:
         - "*"
-  - name: { { .Values.siteBName | replace "-" "_" } }_rule
+  - name: {{ .Values.siteBName | replace "-" "_" }}_rule
     type: DistributionRule
     configuration:
       sourceDistribution: { { .Values.distributionIntegrationName } }
