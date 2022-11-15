@@ -1,5 +1,7 @@
+valuesFilePath: ./values.yml
+
 resources:
-  - name: {{ default "" .Values.webhookIntegrationName }}_res
+  - name: {{ .Values.webhookIntegrationName }}_res
     type: IncomingWebhook
     configuration:
       webhookName: {{ .Values.webhookIntegrationName }}
