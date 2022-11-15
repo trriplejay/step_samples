@@ -24,7 +24,7 @@ pipelines:
           outputResources:
             - {{ default "" .Values.devRepoName | replace "-" "_" }}_buildInfo
           integrations:
-            - name: { { .Values.artifactoryIntegrationName } }
+            - name: {{ .Values.artifactoryIntegrationName }}
         execution:
           onExecute:
             - if [ -n "$FILE_NAME" ]; then echo "creating build for artifact named $FILE_NAME"; fi

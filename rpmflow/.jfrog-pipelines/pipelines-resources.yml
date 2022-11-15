@@ -31,7 +31,7 @@ resources:
   - name: {{ default "" .Values.siteBName | replace "-" "_" }}_rule
     type: DistributionRule
     configuration:
-      sourceDistribution: {{ .Values.distributionIntegrationName } }
+      sourceDistribution: {{ .Values.distributionIntegrationName }}
       siteName: "{{ .Values.siteBName }}"
       cityName: "*"
       countryCodes:
