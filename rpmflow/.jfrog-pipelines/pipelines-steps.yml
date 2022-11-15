@@ -1,0 +1,57 @@
+template: true
+valuesFilePath: ./values.yml
+
+pipelines:
+  - name: {{ .Values.devRepoName | replace "-" "_" }}_promote_and_publish
+    configuration:
+      jfrogCliVersion: 2
+    steps:
+      - name: create_dev_build
+        type: Bash
+        configuration:
+          environmentVariables:
+            FILE_NAME:
+              description: Name of the file to include in the build
+              default: test.rpm
+              allowCustom: true
+          inputResources:
+            - name: artifactHook
+          outputResources:
+            - {{ .Values.devRepoName | replace "-" "_" }}_buildInfo
+        execution:
+          onExecute:
+            - if [ -n "$FILE_NAME" ]; then echo "creating build for artifact named $FILE_NAME"; fi
+      - name: promote_build
+        type: PromoteBuild
+        configuration:
+          requiresApproval: true
+          targetRepository: {{ .Values.prodRepoName | replace "-" "_" }}
+          inputResources:
+            - name: {{ .Values.devRepoName | replace "-" "_" }}_buildInfo
+          outputResources:
+            - name: {{ .Values.prodRepoName | replace "-" "_" }}_buildInfo
+      - name: create_bundle
+        type: CreateReleaseBundle
+        configuration:
+          sign: true
+          releaseBundleName: {{ .Values.prodRepoName }}
+          releaseBundleVersion: ${run_id}
+          dryRun: false
+          inputResources:
+            - name: {{ .Values.prodRepoName | replace "-" "_" }}_buildInfo
+          outputResources:
+            - name: {{ .Values.prodRepoName | replace "-" "_" }}_bundle
+      - name: distribute_site_a
+        type: DistributeBundle
+        configuration:
+          dryRun: false
+          inputResources:
+            - name:
+            - name: {{ .Values.prodRepoName | replace "-" "_" }}_bundle
+      - name: distribute_site_b
+        type: DistributeBundle
+        configuration:
+          dryRun: false
+          inputResources:
+            - name: { { .Values.prodRepoName | replace "-" "_" } }_bundle
+

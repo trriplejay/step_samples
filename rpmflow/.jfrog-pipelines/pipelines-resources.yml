@@ -1,0 +1,38 @@
+resources:
+  - name: {{ .Values.webhookIntegrationName }}_res
+    type: IncomingWebhook
+    configuration:
+      webhookName: {{ .Values.webhookIntegrationName }}
+
+  - name: {{ .Values.devRepoName | replace "-" "_" }}_buildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: {{ .Values.artifactoryIntegrationName }}
+  - name: {{ .Values.prodRepoName | replace "-" "_" }}__buildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: {{ .Values.artifactoryIntegrationName }}
+
+  - name: {{ .Values.prodRepoName | replace "-" "_" }}_bundle
+    type: ReleaseBundle
+    configuration:
+      sourceDistribution: {{ .Values.distributionIntegrationName }}
+      name: {{ .Values.prodRepoName | replace "-" "_" }}_bundle
+      version: 1.0.${run_id}
+
+  - name: {{ .Values.siteAName | replace "-" "_" }}_rule
+    type: DistributionRule
+    configuration:
+      sourceDistribution: {{ .Values.distributionIntegrationName }}
+      siteName: "{{ .Values.siteAName }}"
+      cityName: "*"
+      countryCodes:
+        - "*"
+  - name: { { .Values.siteBName | replace "-" "_" } }_rule
+    type: DistributionRule
+    configuration:
+      sourceDistribution: { { .Values.distributionIntegrationName } }
+      siteName: "{{ .Values.siteBName }}"
+      cityName: "*"
+      countryCodes:
+        - "*"

@@ -1,0 +1,10 @@
+
+
+artifactoryIntegrationName: art
+distributionIntegrationName: dist
+webhookIntegrationName: rpm_dev_local_hook
+
+devRepoName: rpm-dev-local
+prodRepoName: rpm-prod-local
+siteAName: siteA
+siteBName: siteB
