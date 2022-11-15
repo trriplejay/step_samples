@@ -1,69 +1,167 @@
-template: true
-valuesFilePath: ./values.yml
+
+pipelinesDetails:
+  # a name for the pipeline. Must be unique in the system
+  name: &pipelineName 'rpm_promote_and_publish'
+
+# integrations must be created from the pipelines UI before adding this pipeline
+integrationDetails:
+  # Artifactory
+  artifactoryIntegrationName: &artIntName '{{ .Values.artifactoryIntegrationName }}'
+  # Distribution
+  distributionIntegrationName: &distIntName '{{ .Values.distributionIntegrationName }}'
+  # IncomingWebhook
+  webhookIntegrationName:  &whIntName 'rpm_dev_local_hook'
+  # webhook URL for the demo instance:
+  # https://pipdemo-pipelines-api.jfrog.io/v1/projectIntegrations/37/hook
+
+# Artifactory repositories should also be created in the Artifactory UI before adding this pipeline
+artifactoryRepos:
+  # the repo that is caching from a public RPM repository
+  remoteRPMRepoName: &remoteRepoName 'pip-rpm-remote'
+  # the first level repository holding a mirror of the remote
+  devRPMRepoName: &devRepoName 'pip-rpm-dev-local'
+  # the "production" repository to hold packages promoted from dev repo
+  prodRPMRepoName: &prodRepoName 'pip-rpm-prod-local'
+
+# resources hold information for use in pipeline steps
+resourceDetails:
+  # this is for an IncomingWehbook resource.
+  webhookResourceName: &whResName 'package_hook'
+
+promotion:
+  # the name of the BuildInfo resource to hold build information from the dev repository
+  devRepoBuildInfoName: &devRepoBuildInfoName 'dev_repo_buildinfo'
+  # the name of the BuildInfo resource to hold information after the dev build is promoted to production
+  prodRepoBuildInfoName: &prodRepoBuildInfoName 'prod_repo_buildinfo'
+  buildName: &buildName 'rpm_build'
+
+
+releaseBundle:
+  # The name of your release. This will appear in the distribution UI
+  releaseName: &releaseName 'pip_rpm_prod_bundle'
+  # This will hold information on the release bundle being created from the production repository
+  prodRepoBundleName: &prodRepoBundle 'prod_repo_bundle'
+
+distribution:
+  primarySiteName: &siteAName 'siteA'
+  primarySiteDistRuleName: &siteARuleName 'site_A_rule'
+  secondarySiteName: &siteBName 'siteB'
+  secondarySiteDistRuleName: &siteBRuleName 'site_B_rule'
+
+
+resources:
+  - name: *whResName
+    type: IncomingWebhook
+    configuration:
+      webhookName: *whIntName
+
+  - name: *devRepoBuildInfoName
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: *artIntName
+  - name: *prodRepoBuildInfoName
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: *artIntName
+
+  - name: prodRepoBundle
+    type: ReleaseBundle
+    configuration:
+      sourceDistribution: *distIntName
+      name: *releaseName
+      version: 1.0.${run_id}
+
+  - name: *siteARuleName
+    type: DistributionRule
+    configuration:
+      sourceDistribution: *distIntName
+      siteName: *siteAName
+      cityName: "*"
+      countryCodes:
+        - "*"
+  - name: *siteBRuleName
+    type: DistributionRule
+    configuration:
+      sourceDistribution: *distIntName
+      siteName: *siteBName
+      cityName: "*"
+      countryCodes:
+        - "*"
 
 pipelines:
-  - name: {{ default "" .Values.devRepoName | replace "-" "_" }}_promote_and_publish
+  - name: *pipelineName
     configuration:
       jfrogCliVersion: 2
       environmentVariables:
         readOnly:
-          JFROG_CLI_BUILD_NAME: {{ .Values.devRepoName }}
+          JFROG_CLI_BUILD_NAME: *buildName
           JFROG_CLI_BUILD_NUMBER: ${run_id}
     steps:
+      - name: cache_dependency
+        type: Bash
+        configuration:
+          environmentVariables:
+            whResName: *whResName
+          integrations:
+            - name: *artIntName
+        execution:
+          onExecute:
+            - echo "hello world"
+
       - name: create_dev_build
         type: Bash
         configuration:
           environmentVariables:
-
-            FILE_NAME:
-              description: Name of the file to include in the build
-              default: test.rpm
-              allowCustom: true
-          inputResources:
-            - name: {{ .Values.webhookIntegrationName }}_res
+            BIResName: *devRepoBuildInfoName
+          inputSteps:
+            - name: cache_dependency
           outputResources:
-            - {{ default "" .Values.devRepoName | replace "-" "_" }}_buildInfo
+            - *devRepoBuildInfoName
           integrations:
-            - name: {{ .Values.artifactoryIntegrationName }}
+            - name: *artIntName
         execution:
           onExecute:
             - if [ -n "$FILE_NAME" ]; then echo "creating build for artifact named $FILE_NAME"; fi
           onComplete:
-            - write_output {{ default "" .Values.devRepoName | replace "-" "_" }}_buildInfo "buildName=${JFROG_CLI_BUILD_NAME}" "buildNumber=${JFROG_CLI_BUILD_NUMBER}"
+            - write_output ${BIResName} "buildName=${JFROG_CLI_BUILD_NAME}" "buildNumber=${JFROG_CLI_BUILD_NUMBER}"
 
       - name: promote_build
         type: PromoteBuild
         configuration:
           requiresApproval: true
           copy: true
-          targetRepository: {{ .Values.prodRepoName }}
+          targetRepository: *prodRepoName
           inputResources:
-            - name: '{{ default "" .Values.devRepoName | replace "-" "_" }}_buildInfo'
+            - name: *devRepoBuildInfoName
           outputResources:
-            - name: '{{ default "" .Values.prodRepoName | replace "-" "_" }}_buildInfo'
+            - name: *prodRepoBuildInfoName
       - name: create_bundle
         type: CreateReleaseBundle
         configuration:
           sign: true
-          releaseBundleName: {{ .Values.prodRepoName }}
+          releaseBundleName: *prodRepoBundle
           releaseBundleVersion: ${run_id}
           dryRun: false
           inputResources:
-            - name: '{{ default "" .Values.prodRepoName | replace "-" "_" }}_buildInfo'
+            - name: *prodRepoBuildInfoName
           outputResources:
-            - name: '{{ default "" .Values.prodRepoName | replace "-" "_" }}_bundle'
+            - name: *prodRepoBundle
+
       - name: distribute_site_a
         type: DistributeBundle
         configuration:
           dryRun: false
           inputResources:
-            - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}_bundle
+            - name: *siteARuleName
+            - name: *prodRepoBundle
               trigger: false
+
       - name: distribute_site_b
         type: DistributeBundle
         configuration:
           dryRun: false
           inputResources:
-            - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}_bundle
+            - name: *siteBRuleName
+            - name: *prodRepoBundle
               trigger: false
 
