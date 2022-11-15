@@ -6,9 +6,9 @@ pipelinesDetails:
 # integrations must be created from the pipelines UI before adding this pipeline
 integrationDetails:
   # Artifactory
-  artifactoryIntegrationName: &artIntName '{{ .Values.artifactoryIntegrationName }}'
+  artifactoryIntegrationName: &artIntName 'art'
   # Distribution
-  distributionIntegrationName: &distIntName '{{ .Values.distributionIntegrationName }}'
+  distributionIntegrationName: &distIntName 'int_distribution'
   # IncomingWebhook
   webhookIntegrationName:  &whIntName 'rpm_dev_local_hook'
   # webhook URL for the demo instance:
