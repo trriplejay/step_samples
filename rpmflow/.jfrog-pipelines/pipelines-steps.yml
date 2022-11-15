@@ -32,6 +32,7 @@ pipelines:
         type: PromoteBuild
         configuration:
           requiresApproval: true
+          copy: true
           targetRepository: {{ default "" .Values.prodRepoName | replace "-" "_" }}
           inputResources:
             - name: {{ default "" .Values.devRepoName | replace "-" "_" }}_buildInfo
@@ -53,12 +54,13 @@ pipelines:
         configuration:
           dryRun: false
           inputResources:
-            - name:
             - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}_bundle
+              trigger: false
       - name: distribute_site_b
         type: DistributeBundle
         configuration:
           dryRun: false
           inputResources:
             - name: {{ default "" .Values.prodRepoName | replace "-" "_" }}_bundle
+              trigger: false
 
