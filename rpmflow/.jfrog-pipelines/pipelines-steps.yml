@@ -65,7 +65,7 @@ pipelines:
             - echo "$(find_resource_variable package_hook payload)" | jq '.' > payload.json
             - export file_list=$(read_json payload.json "files")
             - echo "$file_list"
-            # jf rt curl -I /
+            # jf rt curl -I
             # rt curl a head request to cache in the remote
             # rt copy to copy from remote to local
             # write files to bag to be used by next step to create buildInfo
@@ -73,8 +73,6 @@ pipelines:
           onSuccess:
             - echo "writing to cache_files_bag"
             - write_output dev_repo_buildinfo "buildName=${JFROG_CLI_BUILD_NAME}" "buildNumber=${JFROG_CLI_BUILD_NUMBER}"
-          onComplete:
-
 
       - name: promote_build
         type: PromoteBuild
