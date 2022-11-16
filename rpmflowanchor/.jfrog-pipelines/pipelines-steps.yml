@@ -43,9 +43,9 @@ promotion:
 
 releaseBundle:
   # The name of your release. This will appear in the distribution UI
-  releaseName: &releaseName 'pip_rpm_prod_bundle'
+  releaseName: &releaseName 'test_pip_rpm_prod_bundle'
   # This will hold information on the release bundle being created from the production repository
-  prodRepoBundleName: &prodRepoBundle 'prod_repo_bundle'
+  prodRepoBundleName: &prodRepoBundle 'test_prod_repo_bundle'
 
 distribution:
   primarySiteName: &siteAName 'siteA'
