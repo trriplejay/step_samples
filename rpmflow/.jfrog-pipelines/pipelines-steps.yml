@@ -1,11 +1,5 @@
 
 resources:
-  - name: cache_files_bag
-    type: PropertyBag
-    configuration:
-      cache_files:
-        - test1
-        - test2
   - name: package_hook
     type: IncomingWebhook
     configuration:
@@ -55,47 +49,32 @@ pipelines:
           JFROG_CLI_BUILD_NAME: rpm_build
           JFROG_CLI_BUILD_NUMBER: ${run_id}
     steps:
-      - name: cache_dependency
-        type: Bash
-        configuration:
-          environmentVariables:
-            remoteRepoName: pip-rpm-remote
-            devRepoName: pip-rpm-dev-local
-            cacheBagName: cache_files_bag
-          integrations:
-            - name: art
-          inputResources:
-            - name: package_hook
-          outputResources:
-            - name: cache_files_bag
-        execution:
-          onExecute:
-            - echo "hello world"
-            - echo "$(find_resource_variable package_hook payload)" | jq '.' > payload.json
-            - export file_list=$(read_json payload.json "files")
-            - echo "caching from ${remoteRepoName} to ${devRepoName}
-          onSuccess:
-            - echo "writing to cache_files_bag"
-            - write_output cache_files_bag "files=${file_list}"
 
       - name: create_dev_build
         type: Bash
         configuration:
-          environmentVariables:
-            BIResName: dev_repo_buildinfo
-          inputSteps:
-            - name: cache_dependency
           inputResources:
-            - name: cache_files_bag
+            - name: package_hook
           outputResources:
             - name: dev_repo_buildinfo
           integrations:
             - name: art
         execution:
           onExecute:
-            - if [ -n "$FILE_NAME" ]; then echo "creating build for artifact named $FILE_NAME"; fi
+            - echo "hello world"
+            - echo "$(find_resource_variable package_hook payload)" | jq '.' > payload.json
+            - export file_list=$(read_json payload.json "files")
+            - echo "$file_list"
+            # jf rt curl -I /
+            # rt curl a head request to cache in the remote
+            # rt copy to copy from remote to local
+            # write files to bag to be used by next step to create buildInfo
+            - echo "caching from ${remoteRepoName} to ${devRepoName}"
+          onSuccess:
+            - echo "writing to cache_files_bag"
+            - write_output dev_repo_buildinfo "buildName=${JFROG_CLI_BUILD_NAME}" "buildNumber=${JFROG_CLI_BUILD_NUMBER}"
           onComplete:
-            - write_output ${BIResName} "buildName=${JFROG_CLI_BUILD_NAME}" "buildNumber=${JFROG_CLI_BUILD_NUMBER}"
+
 
       - name: promote_build
         type: PromoteBuild
