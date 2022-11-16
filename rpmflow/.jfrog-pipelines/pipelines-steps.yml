@@ -1,7 +1,15 @@
-
+__globals:
 pipelinesDetails:
   # a name for the pipeline. Must be unique in the system
   name: &pipelineName 'rpm_promote_and_publish'
+
+# This is the entrypoint of the pipeline
+inputDetails:
+  # this is for an IncomingWehbook resource.
+  # this expects a payload that contains an array of strings called "files"
+  # each file should be a full artifactory path in the remote repository that user
+  # wants to cache in the dev repo and then potentially promote to prod and distribute
+  webhookResourceName: &whResName 'package_hook'
 
 # integrations must be created from the pipelines UI before adding this pipeline
 integrationDetails:
@@ -23,12 +31,9 @@ artifactoryRepos:
   # the "production" repository to hold packages promoted from dev repo
   prodRPMRepoName: &prodRepoName 'pip-rpm-prod-local'
 
-# resources hold information for use in pipeline steps
-resourceDetails:
-  # this is for an IncomingWehbook resource.
-  webhookResourceName: &whResName 'package_hook'
-
 promotion:
+  # the name of the propertyBag resource used to pass the filename list along the pipeline
+  cacheBag: &cacheBag 'cache_files_bag'
   # the name of the BuildInfo resource to hold build information from the dev repository
   devRepoBuildInfoName: &devRepoBuildInfoName 'dev_repo_buildinfo'
   # the name of the BuildInfo resource to hold information after the dev build is promoted to production
@@ -50,6 +55,12 @@ distribution:
 
 
 resources:
+  - name: *cacheBag
+    type: PropertyBag
+    configuration:
+      cache_files:
+        - test1
+        - test2
   - name: *whResName
     type: IncomingWebhook
     configuration:
@@ -102,11 +113,22 @@ pipelines:
         configuration:
           environmentVariables:
             whResName: *whResName
+            remoteRepoName: *remoteRepoName
+            devRepoName: *devRepoName
+            cacheBagName: *cacheBag
           integrations:
             - name: *artIntName
+          inputResources:
+            - name: *whResName
         execution:
           onExecute:
             - echo "hello world"
+            - echo "$(find_resource_variable $whResName payload)" | jq '.' > payload.json
+            - export file_list=$(read_json payload.json "files"
+            - echo "caching from ${remoteRepoName} to ${devRepoName}
+          onSuccess:
+            - echo "writing to ${cacheBagName}"
+            - myBag=$(read_json
 
       - name: create_dev_build
         type: Bash
@@ -115,6 +137,8 @@ pipelines:
             BIResName: *devRepoBuildInfoName
           inputSteps:
             - name: cache_dependency
+          inputResources:
+            - name: *whResName
           outputResources:
             - *devRepoBuildInfoName
           integrations:
@@ -135,6 +159,7 @@ pipelines:
             - name: *devRepoBuildInfoName
           outputResources:
             - name: *prodRepoBuildInfoName
+
       - name: create_bundle
         type: CreateReleaseBundle
         configuration:
