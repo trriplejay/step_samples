@@ -96,7 +96,7 @@ pipelines:
                   IPATH=$(dirname "$newPath" | cut -d "/" -f 2-)
                   INAME=$(basename "$newPath")
                   AQL2="${AQL2}\"\$and\":[{\"repo\":\"${IREPO}\",\"path\":\"${IPATH}\", \"name\":\"${INAME}\"}],"
-                  jf rt sp $i "build.name=${JFROG_CLI_BUILD_NAME};build.number=${JFROG_CLI_BUILD_NUMBER}"
+                  jf rt sp $newPath "build.name=${JFROG_CLI_BUILD_NAME};build.number=${JFROG_CLI_BUILD_NUMBER}"
                 done
             - |               
                 AQL2=`echo ${AQL2} | rev | cut -c2- | rev`
