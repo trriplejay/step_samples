@@ -31,6 +31,7 @@ resources:
     type: DistributionRule
     configuration:
       sourceDistribution: int_distribution
+      serviceName: "*"
       siteName: siteA
       cityName: "*"
       countryCodes:
@@ -39,6 +40,7 @@ resources:
     type: DistributionRule
     configuration:
       sourceDistribution: int_distribution
+      serviceName: "*"
       siteName: siteB
       cityName: "*"
       countryCodes:
