@@ -175,7 +175,7 @@ pipelines:
             - name: *prodRepoBundle
 
       - name: distribute_site_a
-        type: DistributeBundle
+        type: DistributeReleaseBundle
         configuration:
           dryRun: false
           inputResources:
@@ -184,7 +184,7 @@ pipelines:
               trigger: false
 
       - name: distribute_site_b
-        type: DistributeBundle
+        type: DistributeReleaseBundle
         configuration:
           dryRun: false
           inputResources:
