@@ -1,148 +1,94 @@
-__globals:
-pipelinesDetails:
-  # a name for the pipeline. Must be unique in the system
-  name: &pipelineName 'rpm_promote_and_publish'
-
-# This is the entrypoint of the pipeline
-inputDetails:
-  # this is for an IncomingWehbook resource.
-  # this expects a payload that contains an array of strings called "files"
-  # each file should be a full artifactory path in the remote repository that user
-  # wants to cache in the dev repo and then potentially promote to prod and distribute
-  webhookResourceName: &whResName 'package_hook'
-
-# integrations must be created from the pipelines UI before adding this pipeline
-integrationDetails:
-  # Artifactory
-  artifactoryIntegrationName: &artIntName 'art'
-  # Distribution
-  distributionIntegrationName: &distIntName 'int_distribution'
-  # IncomingWebhook
-  webhookIntegrationName:  &whIntName 'rpm_dev_local_hook'
-  # webhook URL for the demo instance:
-  # https://pipdemo-pipelines-api.jfrog.io/v1/projectIntegrations/37/hook
-
-# Artifactory repositories should also be created in the Artifactory UI before adding this pipeline
-artifactoryRepos:
-  # the repo that is caching from a public RPM repository
-  remoteRPMRepoName: &remoteRepoName 'pip-rpm-remote'
-  # the first level repository holding a mirror of the remote
-  devRPMRepoName: &devRepoName 'pip-rpm-dev-local'
-  # the "production" repository to hold packages promoted from dev repo
-  prodRPMRepoName: &prodRepoName 'pip-rpm-prod-local'
-
-promotion:
-  # the name of the propertyBag resource used to pass the filename list along the pipeline
-  cacheBag: &cacheBag 'cache_files_bag'
-  # the name of the BuildInfo resource to hold build information from the dev repository
-  devRepoBuildInfoName: &devRepoBuildInfoName 'dev_repo_buildinfo'
-  # the name of the BuildInfo resource to hold information after the dev build is promoted to production
-  prodRepoBuildInfoName: &prodRepoBuildInfoName 'prod_repo_buildinfo'
-  buildName: &buildName 'rpm_build'
-
-
-releaseBundle:
-  # The name of your release. This will appear in the distribution UI
-  releaseName: &releaseName 'pip_rpm_prod_bundle'
-  # This will hold information on the release bundle being created from the production repository
-  prodRepoBundleName: &prodRepoBundle 'prod_repo_bundle'
-
-distribution:
-  primarySiteName: &siteAName 'siteA'
-  primarySiteDistRuleName: &siteARuleName 'site_A_rule'
-  secondarySiteName: &siteBName 'siteB'
-  secondarySiteDistRuleName: &siteBRuleName 'site_B_rule'
-
 
 resources:
-  - name: *cacheBag
+  - name: cache_files_bag
     type: PropertyBag
     configuration:
       cache_files:
         - test1
         - test2
-  - name: *whResName
+  - name: package_hook
     type: IncomingWebhook
     configuration:
-      webhookName: *whIntName
+      webhookName: rpm_dev_local_hook
 
-  - name: *devRepoBuildInfoName
+  - name: dev_repo_buildinfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: *artIntName
-  - name: *prodRepoBuildInfoName
+      sourceArtifactory: art
+  - name: prod_repo_buildinfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: *artIntName
+      sourceArtifactory: art
 
-  - name: *prodRepoBundle
+  - name: prod_repo_bundle
     type: ReleaseBundle
     configuration:
-      sourceDistribution: *distIntName
-      name: *releaseName
+      sourceDistribution: int_distribution
+      name: pip_rpm_prod_bundle
       version: 1.0.${run_id}
 
-  - name: *siteARuleName
+  - name: site_A_rule
     type: DistributionRule
     configuration:
-      sourceDistribution: *distIntName
-      siteName: *siteAName
+      sourceDistribution: int_distribution
+      siteName: siteA
       cityName: "*"
       countryCodes:
         - "*"
-  - name: *siteBRuleName
+  - name: site_B_rule
     type: DistributionRule
     configuration:
-      sourceDistribution: *distIntName
-      siteName: *siteBName
+      sourceDistribution: int_distribution
+      siteName: siteB
       cityName: "*"
       countryCodes:
         - "*"
 
 pipelines:
-  - name: *pipelineName
+  - name: rpm_promote_and_publish
     configuration:
       jfrogCliVersion: 2
       environmentVariables:
         readOnly:
-          JFROG_CLI_BUILD_NAME: *buildName
+          JFROG_CLI_BUILD_NAME: rpm_build
           JFROG_CLI_BUILD_NUMBER: ${run_id}
     steps:
       - name: cache_dependency
         type: Bash
         configuration:
           environmentVariables:
-            whResName: *whResName
-            remoteRepoName: *remoteRepoName
-            devRepoName: *devRepoName
-            cacheBagName: *cacheBag
+            remoteRepoName: pip-rpm-remote
+            devRepoName: pip-rpm-dev-local
+            cacheBagName: cache_files_bag
           integrations:
-            - name: *artIntName
+            - name: art
           inputResources:
-            - name: *whResName
+            - name: package_hook
+          outputResources:
+            - name: cache_files_bag
         execution:
           onExecute:
             - echo "hello world"
-            - echo "$(find_resource_variable $whResName payload)" | jq '.' > payload.json
-            - export file_list=$(read_json payload.json "files"
+            - echo "$(find_resource_variable package_hook payload)" | jq '.' > payload.json
+            - export file_list=$(read_json payload.json "files")
             - echo "caching from ${remoteRepoName} to ${devRepoName}
           onSuccess:
-            - echo "writing to ${cacheBagName}"
-            - myBag=$(read_json
+            - echo "writing to cache_files_bag"
+            - write_output cache_files_bag "files=${file_list}"
 
       - name: create_dev_build
         type: Bash
         configuration:
           environmentVariables:
-            BIResName: *devRepoBuildInfoName
+            BIResName: dev_repo_buildinfo
           inputSteps:
             - name: cache_dependency
           inputResources:
-            - name: *whResName
+            - name: cache_files_bag
           outputResources:
-            - *devRepoBuildInfoName
+            - name: dev_repo_buildinfo
           integrations:
-            - name: *artIntName
+            - name: art
         execution:
           onExecute:
             - if [ -n "$FILE_NAME" ]; then echo "creating build for artifact named $FILE_NAME"; fi
@@ -154,31 +100,31 @@ pipelines:
         configuration:
           requiresApproval: true
           copy: true
-          targetRepository: *prodRepoName
+          targetRepository: pip-rpm-prod-local
           inputResources:
-            - name: *devRepoBuildInfoName
+            - name: dev_repo_buildinfo
           outputResources:
-            - name: *prodRepoBuildInfoName
+            - name: prod_repo_buildinfo
 
       - name: create_bundle
         type: CreateReleaseBundle
         configuration:
           sign: true
-          releaseBundleName: *prodRepoBundle
+          releaseBundleName: prod_repo_bundle
           releaseBundleVersion: ${run_id}
           dryRun: false
           inputResources:
-            - name: *prodRepoBuildInfoName
+            - name: prod_repo_buildinfo
           outputResources:
-            - name: *prodRepoBundle
+            - name: prod_repo_bundle
 
       - name: distribute_site_a
         type: DistributeBundle
         configuration:
           dryRun: false
           inputResources:
-            - name: *siteARuleName
-            - name: *prodRepoBundle
+            - name: site_A_rule
+            - name: prod_repo_bundle
               trigger: false
 
       - name: distribute_site_b
@@ -186,7 +132,7 @@ pipelines:
         configuration:
           dryRun: false
           inputResources:
-            - name: *siteBRuleName
-            - name: *prodRepoBundle
+            - name: site_B_rule
+            - name: prod_repo_bundle
               trigger: false
 
