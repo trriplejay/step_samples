@@ -3,15 +3,7 @@ pipelinesDetails:
   # a name for the pipeline. Must be unique in the system
   name: &pipelineName 'anchored_rpm_promote_and_publish'
 
-# This is the entrypoint of the pipeline
-inputDetails:
-  # this is for an IncomingWehbook resource.
-  # this expects a payload that contains an array of strings called "files"
-  # each file should be a full *artIntNameifactory path in the remote repository that user
-  # wants to cache in the dev repo and then potentially promote to prod and distribute
-  webhookResourceName: &whResName 'test_package_hook'
-
-# integrations must be created from the pipelines UI before creating this pipeline
+# integrations must be created from the pipelines UI BEFORE creating this pipeline
 integrationDetails:
   # Artifactory
   artifactoryIntegrationName: &artIntName 'art'
@@ -20,7 +12,16 @@ integrationDetails:
   # IncomingWebhook
   webhookIntegrationName:  &whIntName 'rpm_dev_local_hook'
   # webhook URL for the demo instance:
-  # https://pipdemo-pipelines-api.jfrog.io/v1/projectIntegrations/37/hook
+
+# This is the entrypoint of the pipeline
+inputDetails:
+  # this is for an IncomingWehbook resource.
+  # this expects a payload that contains an array of strings called "file_list"
+  # each file should be a full artifactory path in the remote repository that the user
+  # wants to cache in the dev repo and then potentially promote to prod and distribute
+  webhookResourceName: &whResName 'package_hook'
+
+
 
 # Artifactory repositories should also be created in the Artifactory UI before adding this pipeline
 artifactoryRepos:
@@ -35,23 +36,23 @@ artifactoryRepos:
 
 promotion:
   # the name of the BuildInfo resource to hold build information from the dev repository
-  devRepoBuildInfoName: &devRepoBuildInfoName 'test_dev_repo_buildinfo'
+  devRepoBuildInfoName: &devRepoBuildInfoName 'dev_repo_buildinfo'
   # the name of the BuildInfo resource to hold information after the dev build is promoted to production
-  prodRepoBuildInfoName: &prodRepoBuildInfoName 'test_prod_repo_buildinfo'
-  buildName: &buildName 'test_rpm_build'
+  prodRepoBuildInfoName: &prodRepoBuildInfoName 'prod_repo_buildinfo'
+  buildName: &buildName 'rpm_build'
 
 
 releaseBundle:
   # The name of your release. This will appear in the distribution UI
-  releaseName: &releaseName 'test_pip_rpm_prod_bundle'
+  releaseName: &releaseName 'pip_rpm_prod_bundle'
   # This will hold information on the release bundle being created from the production repository
-  prodRepoBundleName: &prodRepoBundle 'test_prod_repo_bundle'
+  prodRepoBundleName: &prodRepoBundle 'prod_repo_bundle'
 
 distribution:
   primarySiteName: &siteAName 'siteA'
-  primarySiteDistRuleName: &siteARuleName 'test_site_A_rule'
+  primarySiteDistRuleName: &siteARuleName 'site_A_rule'
   secondarySiteName: &siteBName 'siteB'
-  secondarySiteDistRuleName: &siteBRuleName 'test_site_B_rule'
+  secondarySiteDistRuleName: &siteBRuleName 'site_B_rule'
 
 
 resources:
@@ -123,7 +124,6 @@ pipelines:
             - name: *artIntName
         execution:
           onExecute:
-            - echo "hello world"
             - echo "$(find_resource_variable ${hookName} payload)" | jq '.' > payload.json
             - cat payload.json
             - export file_list=$(read_json payload.json "file_list")
