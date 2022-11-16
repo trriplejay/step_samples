@@ -75,7 +75,7 @@ pipelines:
                   echo "caching in remote"
                   curl -u $int_art_username:$int_art_apikey -I $int_art_url/$item
                   newPath=${item#"$remoteRepoName"}
-                  newPath="${devRepoName}${newPath}
+                  newPath="${devRepoName}${newPath}"
                   echo "copying to local at $newPath"
                   jf rt copy $item $newPath
                   echo "add local to build info"
