@@ -83,20 +83,22 @@ pipelines:
 #                  jf rt dl $newPath --flat
 #                done
             - |
-              
                 AQL1="items.find ({\"\$or\":[{"
                 AQL2=""
                 for item in $(jq -r '.[]' <<< $file_list); do
-                  echo "cache the file from virtual to local dev
+                  echo "cache the file from virtual to local dev"
                   curl -u $int_art_username:$int_art_apikey -I $int_art_url/$item
                   newPath=${item#"$virtualRepoName"}
                   newPath="${devRepoName}${newPath}"
+                  echo "copying to local at $newPath"
+                  jf rt copy $item $devRepoName
                   IREPO=$(echo "$newPath" | cut -d "/" -f1)
                   IPATH=$(dirname "$newPath" | cut -d "/" -f 2-)
                   INAME=$(basename "$newPath")
                   AQL2="${AQL2}\"\$and\":[{\"repo\":\"${IREPO}\",\"path\":\"${IPATH}\", \"name\":\"${INAME}\"}],"
                   jf rt sp $i "build.name=${JFROG_CLI_BUILD_NAME};build.number=${JFROG_CLI_BUILD_NUMBER}"
                 done
+            - |               
                 AQL2=`echo ${AQL2} | rev | cut -c2- | rev`
                 AQL3='}],"type":"file"}).include("actual_md5", "name")'
                 AQL="${AQL1}${AQL2}${AQL3}"
