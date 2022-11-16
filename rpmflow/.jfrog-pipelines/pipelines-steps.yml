@@ -79,7 +79,7 @@ pipelines:
                   echo "copying to local at $newPath"
                   jf rt copy $item $newPath
                   echo "add local to build info"
-                  jf rt build-add-dependencies --from-rt $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
+                  jf rt build-add-dependencies --from-rt $newPath
                 done
             - jf rt bp $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
 
