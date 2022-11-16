@@ -1,17 +1,17 @@
-__globals:
+
 pipelinesDetails:
   # a name for the pipeline. Must be unique in the system
-  name: &pipelineName 'rpm_promote_and_publish'
+  name: &pipelineName 'anchored_rpm_promote_and_publish'
 
 # This is the entrypoint of the pipeline
 inputDetails:
   # this is for an IncomingWehbook resource.
   # this expects a payload that contains an array of strings called "files"
-  # each file should be a full artifactory path in the remote repository that user
+  # each file should be a full *artIntNameifactory path in the remote repository that user
   # wants to cache in the dev repo and then potentially promote to prod and distribute
-  webhookResourceName: &whResName 'package_hook'
+  webhookResourceName: &whResName 'test_package_hook'
 
-# integrations must be created from the pipelines UI before adding this pipeline
+# integrations must be created from the pipelines UI before creating this pipeline
 integrationDetails:
   # Artifactory
   artifactoryIntegrationName: &artIntName 'art'
@@ -26,19 +26,19 @@ integrationDetails:
 artifactoryRepos:
   # the repo that is caching from a public RPM repository
   remoteRPMRepoName: &remoteRepoName 'pip-rpm-remote'
+  # the virtual repo the encompasses the remote
+  virtualRPMRpoName: &virtualRepoName 'pip-rpm-virtual'
   # the first level repository holding a mirror of the remote
   devRPMRepoName: &devRepoName 'pip-rpm-dev-local'
   # the "production" repository to hold packages promoted from dev repo
   prodRPMRepoName: &prodRepoName 'pip-rpm-prod-local'
 
 promotion:
-  # the name of the propertyBag resource used to pass the filename list along the pipeline
-  cacheBag: &cacheBag 'cache_files_bag'
   # the name of the BuildInfo resource to hold build information from the dev repository
-  devRepoBuildInfoName: &devRepoBuildInfoName 'dev_repo_buildinfo'
+  devRepoBuildInfoName: &devRepoBuildInfoName 'test_dev_repo_buildinfo'
   # the name of the BuildInfo resource to hold information after the dev build is promoted to production
-  prodRepoBuildInfoName: &prodRepoBuildInfoName 'prod_repo_buildinfo'
-  buildName: &buildName 'rpm_build'
+  prodRepoBuildInfoName: &prodRepoBuildInfoName 'test_prod_repo_buildinfo'
+  buildName: &buildName 'test_rpm_build'
 
 
 releaseBundle:
@@ -49,18 +49,12 @@ releaseBundle:
 
 distribution:
   primarySiteName: &siteAName 'siteA'
-  primarySiteDistRuleName: &siteARuleName 'site_A_rule'
+  primarySiteDistRuleName: &siteARuleName 'test_site_A_rule'
   secondarySiteName: &siteBName 'siteB'
-  secondarySiteDistRuleName: &siteBRuleName 'site_B_rule'
+  secondarySiteDistRuleName: &siteBRuleName 'test_site_B_rule'
 
 
 resources:
-  - name: *cacheBag
-    type: PropertyBag
-    configuration:
-      cache_files:
-        - test1
-        - test2
   - name: *whResName
     type: IncomingWebhook
     configuration:
@@ -86,8 +80,8 @@ resources:
     type: DistributionRule
     configuration:
       sourceDistribution: *distIntName
-      siteName: *siteAName
       serviceName: "*"
+      siteName: *siteAName
       cityName: "*"
       countryCodes:
         - "*"
@@ -95,8 +89,8 @@ resources:
     type: DistributionRule
     configuration:
       sourceDistribution: *distIntName
-      siteName: *siteBName
       serviceName: "*"
+      siteName: *siteBName
       cityName: "*"
       countryCodes:
         - "*"
@@ -110,35 +104,17 @@ pipelines:
           JFROG_CLI_BUILD_NAME: *buildName
           JFROG_CLI_BUILD_NUMBER: ${run_id}
     steps:
-      - name: cache_dependency
-        type: Bash
-        configuration:
-          environmentVariables:
-            whResName: *whResName
-            remoteRepoName: *remoteRepoName
-            devRepoName: *devRepoName
-            cacheBagName: *cacheBag
-          integrations:
-            - name: *artIntName
-          inputResources:
-            - name: *whResName
-        execution:
-          onExecute:
-            - echo "hello world"
-            - echo "$(find_resource_variable $whResName payload)" | jq '.' > payload.json
-            - export file_list=$(read_json payload.json "files"
-            - echo "caching from ${remoteRepoName} to ${devRepoName}
-          onSuccess:
-            - echo "writing to ${cacheBagName}"
-            - myBag=$(read_json
 
       - name: create_dev_build
         type: Bash
         configuration:
           environmentVariables:
-            BIResName: *devRepoBuildInfoName
-          inputSteps:
-            - name: cache_dependency
+            remoteRepoName: *remoteRepoName
+            devRepoName: *devRepoName
+            virtualRepoName: *virtualRepoName
+            hookName: *whResName
+            artIntName: *artIntName
+            buildInfoName: *devRepoBuildInfoName
           inputResources:
             - name: *whResName
           outputResources:
@@ -147,9 +123,44 @@ pipelines:
             - name: *artIntName
         execution:
           onExecute:
-            - if [ -n "$FILE_NAME" ]; then echo "creating build for artifact named $FILE_NAME"; fi
-          onComplete:
-            - write_output ${BIResName} "buildName=${JFROG_CLI_BUILD_NAME}" "buildNumber=${JFROG_CLI_BUILD_NUMBER}"
+            - echo "hello world"
+            - echo "$(find_resource_variable ${hookName} payload)" | jq '.' > payload.json
+            - cat payload.json
+            - export file_list=$(read_json payload.json "file_list")
+            - echo "$file_list"
+            - art_url="$(eval echo \"\${int_${artIntName}_url}\")"
+            - art_apikey="$(eval echo \"\${int_${artIntName}_apikey}\")"
+            - art_user="$(eval echo \"\${int_${artIntName}_username}\")"
+            - |
+              AQL1="items.find ({\"\$or\":[{"
+              AQL2=""
+              for item in $(jq -r '.[]' <<< $file_list); do
+                echo "cache the file from virtual to local dev"
+                curl -u $art_user:$art_apikey -I $art_url/$item
+                newPath=${item#"$virtualRepoName"}
+                newPath="${devRepoName}${newPath}"
+                echo "copying to local at $newPath"
+                jf rt copy $item $devRepoName
+                IREPO=$(echo "$newPath" | cut -d "/" -f1)
+                IPATH=$(dirname "$newPath" | cut -d "/" -f 2-)
+                INAME=$(basename "$newPath")
+                AQL2="${AQL2}\"\$and\":[{\"repo\":\"${IREPO}\",\"path\":\"${IPATH}\", \"name\":\"${INAME}\"}],"
+                jf rt sp $newPath "build.name=${JFROG_CLI_BUILD_NAME};build.number=${JFROG_CLI_BUILD_NUMBER}"
+              done
+            - |
+              AQL2=`echo ${AQL2} | rev | cut -c2- | rev`
+              AQL3='}],"type":"file"}).include("actual_md5", "name")'
+              AQL="${AQL1}${AQL2}${AQL3}"
+              RES=`jf rt curl -XPOST -H "Content-Type: text/plain" -d "$AQL" api/search/aql --silent | jq '[.results[] | .["md5"] = .actual_md5 | del(.actual_md5)]' `
+              BST=`date +"%Y-%m-%dT%H:%M:%S.000%z"`
+              BUILD_HEADER="{ \"version\":\"1.0.1\", \"name\":\"${JFROG_CLI_BUILD_NAME}\", \"number\":\"${JFROG_CLI_BUILD_NUMBER}\", \"type\":\"GENERIC\", \"started\":\"${BST}\", \"modules\": [{ \"id\":\"rpms\",\"type\":\"generic\", \"artifacts\":"
+              BUILD_FOOTER="}]}"
+              BUILDINFO="${BUILD_HEADER}$RES${BUILD_FOOTER}"
+              echo $BUILDINFO
+              jf rt curl -H 'Content-Type:application/json' -d "$BUILDINFO"  -XPUT /api/build?project=$project_key
+
+          onSuccess:
+            - write_output ${buildInfoName} "buildName=${JFROG_CLI_BUILD_NAME}" "buildNumber=${JFROG_CLI_BUILD_NUMBER}"
 
       - name: promote_build
         type: PromoteBuild
@@ -166,7 +177,7 @@ pipelines:
         type: CreateReleaseBundle
         configuration:
           sign: true
-          releaseBundleName: *prodRepoBundle
+          releaseBundleName: *releaseName
           releaseBundleVersion: ${run_id}
           dryRun: false
           inputResources:

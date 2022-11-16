@@ -70,18 +70,6 @@ pipelines:
             - cat payload.json
             - export file_list=$(read_json payload.json "file_list")
             - echo "$file_list"
-#            - |
-#                for item in
-#                  echo "processing $item"
-#                  echo "caching in remote"
-#                  curl -u $int_art_username:$int_art_apikey -I $int_art_url/$item
-#                  newPath=${item#"$virtualRepoName"}
-#                  newPath="${devRepoName}${newPath}"
-#                  echo "copying to local at $newPath"
-#                  jf rt copy $item $devRepoName
-#                  echo "add local to build info"
-#                  jf rt dl $newPath --flat
-#                done
             - |
                 AQL1="items.find ({\"\$or\":[{"
                 AQL2=""
