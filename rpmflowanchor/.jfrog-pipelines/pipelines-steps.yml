@@ -87,6 +87,7 @@ resources:
     configuration:
       sourceDistribution: *distIntName
       siteName: *siteAName
+      serviceName: "*"
       cityName: "*"
       countryCodes:
         - "*"
@@ -95,6 +96,7 @@ resources:
     configuration:
       sourceDistribution: *distIntName
       siteName: *siteBName
+      serviceName: "*"
       cityName: "*"
       countryCodes:
         - "*"
