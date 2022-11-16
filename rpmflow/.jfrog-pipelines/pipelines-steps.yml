@@ -56,6 +56,7 @@ pipelines:
           environmentVariables:
             remoteRepoName: pip-rpm-remote
             devRepoName: pip-rpm-dev-local
+            virtualRepoName: pip-rpm-virtual
           inputResources:
             - name: package_hook
           outputResources:
@@ -69,22 +70,44 @@ pipelines:
             - cat payload.json
             - export file_list=$(read_json payload.json "file_list")
             - echo "$file_list"
+#            - |
+#                for item in
+#                  echo "processing $item"
+#                  echo "caching in remote"
+#                  curl -u $int_art_username:$int_art_apikey -I $int_art_url/$item
+#                  newPath=${item#"$virtualRepoName"}
+#                  newPath="${devRepoName}${newPath}"
+#                  echo "copying to local at $newPath"
+#                  jf rt copy $item $devRepoName
+#                  echo "add local to build info"
+#                  jf rt dl $newPath --flat
+#                done
             - |
+              
+                AQL1="items.find ({\"\$or\":[{"
+                AQL2=""
                 for item in $(jq -r '.[]' <<< $file_list); do
-                  echo "processing $item"
-                  echo "caching in remote"
+                  echo "cache the file from virtual to local dev
                   curl -u $int_art_username:$int_art_apikey -I $int_art_url/$item
-                  newPath=${item#"$remoteRepoName"}
+                  newPath=${item#"$virtualRepoName"}
                   newPath="${devRepoName}${newPath}"
-                  echo "copying to local at $newPath"
-                  jf rt copy $item $newPath
-                  echo "add local to build info"
-                  jf rt build-add-dependencies --from-rt $newPath
+                  IREPO=$(echo "$newPath" | cut -d "/" -f1)
+                  IPATH=$(dirname "$newPath" | cut -d "/" -f 2-)
+                  INAME=$(basename "$newPath")
+                  AQL2="${AQL2}\"\$and\":[{\"repo\":\"${IREPO}\",\"path\":\"${IPATH}\", \"name\":\"${INAME}\"}],"
+                  jf rt sp $i "build.name=${JFROG_CLI_BUILD_NAME};build.number=${JFROG_CLI_BUILD_NUMBER}"
                 done
-            - jf rt bp $JFROG_CLI_BUILD_NAME $JFROG_CLI_BUILD_NUMBER
+                AQL2=`echo ${AQL2} | rev | cut -c2- | rev`
+                AQL3='}],"type":"file"}).include("actual_md5", "name")'
+                AQL="${AQL1}${AQL2}${AQL3}"
+                RES=`jf rt curl -XPOST -H "Content-Type: text/plain" -d "$AQL" api/search/aql --silent | jq '[.results[] | .["md5"] = .actual_md5 | del(.actual_md5)]' `
+                BST=`date +"%Y-%m-%dT%H:%M:%S.000%z"`
+                BUILD_HEADER="{ \"version\":\"1.0.1\", \"name\":\"${JFROG_CLI_BUILD_NAME}\", \"number\":\"${JFROG_CLI_BUILD_NUMBER}\", \"type\":\"GENERIC\", \"started\":\"${BST}\", \"modules\": [{ \"id\":\"rpms\",\"type\":\"generic\", \"artifacts\":"BUILD_FOOTER="}]}"
+                BUILDINFO="${BUILD_HEADER}$RES${BUILD_FOOTER}"
+                echo $BUILDINFO
+                jf rt curl -H 'Content-Type:application/json' -d "$BUILDINFO"  -XPUT /api/build
 
           onSuccess:
-            - echo "writing to cache_files_bag"
             - write_output dev_repo_buildinfo "buildName=${JFROG_CLI_BUILD_NAME}" "buildNumber=${JFROG_CLI_BUILD_NUMBER}"
 
       - name: promote_build
