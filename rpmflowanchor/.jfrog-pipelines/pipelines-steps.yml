@@ -1,9 +1,4 @@
-
-pipelinesDetails:
-  # a name for the pipeline. Must be unique in the system
-  name: &pipelineName 'rpm_promote_and_publish'
-
-# integrations must be created from the pipelines UI BEFORE creating this pipeline
+# integrations must be created from the pipelines UI BEFORE adding this pipeline
 integrationDetails:
   # Artifactory
   artifactoryIntegrationName: &artIntName 'art'
@@ -11,20 +6,9 @@ integrationDetails:
   distributionIntegrationName: &distIntName 'int_distribution'
   # IncomingWebhook
   webhookIntegrationName:  &whIntName 'rpm_dev_local_hook'
-  # webhook URL for the demo instance:
 
-# This is the entrypoint of the pipeline
-inputDetails:
-  # this is for an IncomingWehbook resource.
-  # this expects a payload that contains an array of strings called "file_list"
-  # each file should be a full artifactory path in the remote repository that the user
-  # wants to cache in the dev repo and then potentially promote to prod and distribute
-  webhookResourceName: &whResName 'package_hook'
-
-
-
-# Artifactory repositories should also be created in the Artifactory UI before adding this pipeline
-artifactoryRepos:
+# Artifactory repositories should also be created in the Artifactory UI before executing this pipeline
+artifactoryRepositories:
   # the repo that is caching from a public RPM repository
   remoteRPMRepoName: &remoteRepoName 'pip-rpm-remote'
   # the virtual repo the encompasses the remote
@@ -34,25 +18,52 @@ artifactoryRepos:
   # the "production" repository to hold packages promoted from dev repo
   prodRPMRepoName: &prodRepoName 'pip-rpm-prod-local'
 
-promotion:
+pipelinesDetails:
+  # a name for the pipeline. Must be unique in the system
+  name: &pipelineName 'rpm_promote_and_publish'
+
+# resources must have unique names across the system, since they can be shared by
+# different pipelines
+resourceDetails:
+  # this is for an IncomingWehbook resource.
+  # this expects a payload that contains an array of strings called "file_list"
+  # each file should be a full artifactory path in the virtual repository that the user
+  # wants to cache in the dev repo and then potentially promote to prod and distribute
+  ### example payload
+  # {"file_list": ["pipe-rpm-virtual/a.rpm","pip-rpm-virtual/b.rpm"]}
+  # The URL to send the payload to can be found on the details page for the webhook integration
+  webhookResourceName: &whResName 'package_hook'
+
   # the name of the BuildInfo resource to hold build information from the dev repository
   devRepoBuildInfoName: &devRepoBuildInfoName 'dev_repo_buildinfo'
+
   # the name of the BuildInfo resource to hold information after the dev build is promoted to production
   prodRepoBuildInfoName: &prodRepoBuildInfoName 'prod_repo_buildinfo'
+
+  # the name of the ReleaseBundle resource that is created to contain the artifacts from file_list
+  prodRepoBundleName: &prodRepoBundle 'prod_repo_bundle'
+
+  # These resources contains the rules for distribution. In this example
+  # distribution is split between 2 sites, so each site has its own "DistributionRule" resource
+  primarySiteDistRuleName: &siteARuleName 'site_A_rule'
+  secondarySiteDistRuleName: &siteBRuleName 'site_B_rule'
+
+
+promotion:
+  # the friendly name of the build getting published to Artifactory
   buildName: &buildName 'rpm_build'
 
 
 releaseBundle:
   # The name of your release. This will appear in the distribution UI
   releaseName: &releaseName 'pip_rpm_prod_bundle'
-  # This will hold information on the release bundle being created from the production repository
-  prodRepoBundleName: &prodRepoBundle 'prod_repo_bundle'
+
 
 distribution:
   primarySiteName: &siteAName 'siteA'
-  primarySiteDistRuleName: &siteARuleName 'site_A_rule'
+
   secondarySiteName: &siteBName 'siteB'
-  secondarySiteDistRuleName: &siteBRuleName 'site_B_rule'
+
 
 
 resources:
