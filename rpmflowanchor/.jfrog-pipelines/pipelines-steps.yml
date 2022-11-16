@@ -9,7 +9,7 @@ integrationDetails:
 
 # Artifactory repositories should also be created in the Artifactory UI before executing this pipeline
 artifactoryRepositories:
-  # the virtual repo the encompasses the remote RPM
+  # the virtual repo the encompasses the remote RPM repository
   virtualRPMRpoName: &virtualRepoName 'pip-rpm-virtual'
   # the first level repository holding a mirror of the remote
   devRPMRepoName: &devRepoName 'pip-rpm-dev-local'
