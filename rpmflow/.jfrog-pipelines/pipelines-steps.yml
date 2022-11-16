@@ -53,6 +53,9 @@ pipelines:
       - name: create_dev_build
         type: Bash
         configuration:
+          environmentVariables:
+            remoteRepoName: pip-rpm-remote
+            devRepoName: pip-rpm-dev-local
           inputResources:
             - name: package_hook
           outputResources:
@@ -64,10 +67,10 @@ pipelines:
             - echo "hello world"
             - echo "$(find_resource_variable package_hook payload)" | jq '.' > payload.json
             - cat payload.json
-            - export file_list=$(read_json payload.json "files")
+            - export file_list=$(read_json payload.json "file_list")
             - echo "$file_list"
             - file="pip-rpm-remote/updates/testing/36/Everything/x86_64/Packages/u/udisks2-bcache-2.9.4-4.fc36.x86_64.rpm"
-            - curl -u $art_username:$art_apikey -I $art_url/$file
+            - curl -u $int_art_username:$int_art_apikey -I $int_art_url/$file
             # jf rt curl -I
             # rt curl a head request to cache in the remote
             # rt copy to copy from remote to local
