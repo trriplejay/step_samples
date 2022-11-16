@@ -130,7 +130,7 @@ pipelines:
             - echo "$file_list"
             - file_count=$(jq '. | length' <<< $file_list)
             - echo "file count is $file_count"
-            - if [ -z "$file_count" ]; end_step failure; fi
+            - if [ -z "$file_count" ]; then end_step failure; fi
             - art_url="$(eval echo \"\${int_${artIntName}_url}\")"
             - art_apikey="$(eval echo \"\${int_${artIntName}_apikey}\")"
             - art_user="$(eval echo \"\${int_${artIntName}_username}\")"
