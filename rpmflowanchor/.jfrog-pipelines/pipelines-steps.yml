@@ -1,7 +1,7 @@
 
 pipelinesDetails:
   # a name for the pipeline. Must be unique in the system
-  name: &pipelineName 'anchored_rpm_promote_and_publish'
+  name: &pipelineName 'rpm_promote_and_publish'
 
 # integrations must be created from the pipelines UI BEFORE creating this pipeline
 integrationDetails:
