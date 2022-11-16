@@ -9,9 +9,7 @@ integrationDetails:
 
 # Artifactory repositories should also be created in the Artifactory UI before executing this pipeline
 artifactoryRepositories:
-  # the repo that is caching from a public RPM repository
-  remoteRPMRepoName: &remoteRepoName 'pip-rpm-remote'
-  # the virtual repo the encompasses the remote
+  # the virtual repo the encompasses the remote RPM
   virtualRPMRpoName: &virtualRepoName 'pip-rpm-virtual'
   # the first level repository holding a mirror of the remote
   devRPMRepoName: &devRepoName 'pip-rpm-dev-local'
@@ -121,7 +119,6 @@ pipelines:
         type: Bash
         configuration:
           environmentVariables:
-            remoteRepoName: *remoteRepoName
             devRepoName: *devRepoName
             virtualRepoName: *virtualRepoName
             hookName: *whResName
