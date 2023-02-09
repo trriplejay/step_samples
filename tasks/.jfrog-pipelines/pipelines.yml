@@ -1,0 +1,14 @@
+pipelines:
+  - name: demo_latest_task
+    steps:
+      - name: latest_setup_go
+        type: Bash
+        configuration:
+          integrations:
+            - name: art
+        execution:
+          onStart:
+            - task: jfrog/setup-go@latest
+              input:
+                version: 1.19.5
+                cacheRepository: tasks-cache-local
